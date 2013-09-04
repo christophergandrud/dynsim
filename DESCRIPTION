@@ -6,3 +6,5 @@ Author: Laron K Williams, Guy D Whitten, and Christopher Gandrud
 Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>
 Description: An R implementation of dynamic simulations of autoregressive relationships
 License: GPL (>= 3)
+Collate:
+  'dynsim.R'
