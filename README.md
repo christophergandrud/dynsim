@@ -3,7 +3,7 @@ dynsim
 
 An R implementation of dynamic simulations of autoregressive relationships
 
-### Laron K Williams, Guy D Whitten, and Christopher Gandrud
+#### Laron K Williams, Guy D Whitten, and Christopher Gandrud
 
 ## About 
 
