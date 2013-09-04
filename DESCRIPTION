@@ -1,9 +1,8 @@
 Package: dynsim
-Type: Package
-Title: What the package does (short line)
-Version: 1.0
+Title: An R implementation of dynamic simulations of autoregressive relationships
+Version: 0.1
 Date: 2013-09-04
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Author: Laron K Williams, Guy D Whitten, and Christopher Gandrud
+Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>
+Description: An R implementation of dynamic simulations of autoregressive relationships
+License: GPL (>= 3)
