@@ -10,3 +10,4 @@ Description: An R implementation of dynamic simulations of autoregressive
 License: GPL (>= 3)
 Collate:
     'dynsim.R'
+    'grunfeld.R'
