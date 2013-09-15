@@ -1,1 +1,4 @@
 export(dynsim)
+importFrom(Zelig,setx)
+importFrom(Zelig,sim)
+importFrom(Zelig,simulation.matrix)

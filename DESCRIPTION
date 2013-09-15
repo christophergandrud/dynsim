@@ -10,9 +10,9 @@ Description: An R implementation of dynamic simulations of autoregressive
     relationships
 License: GPL (>= 3)
 Depends:
-	R (>= 3.0.0)
+    R (>= 3.0.0)
 Imports:
-	Zelig
+    Zelig
 Collate:
     'dynsim.R'
     'grunfeld.R'

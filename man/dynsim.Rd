@@ -2,16 +2,15 @@
 \alias{dynsim}
 \title{Dynamically simulations of autoregressive relationships}
 \usage{
-  dynsim(ldv, scen1, scen2, scen3, scen4, n = 10, shock,
+  dynsim(obj, ldv, scen, n = 10, sig = 0.95, shock,
     shock_num, modify = NULL, inter = NULL)
 }
 \arguments{
   \item{ldv}{character. Names the lagged dependent
   variable}
 
-  \item{scen1}{vector. Specifies the values of the
-  variables used to generate the predicted values when
-  \eqn{t = 0}.}
+  \item{scen}{vector. Specifies the values of the variables
+  used to generate the predicted values when \eqn{t = 0}.}
 
   \item{scen24}{THINK ABOUT}
 
@@ -21,7 +20,8 @@
   10.}
 
   \item{sig}{numeric. Specifies the level of statistical
-  significance of the confidence intervals.}
+  significance of the confidence intervals. Any value
+  allowed be greater than 0 and cannot be greater than 1.}
 
   \item{shock}{character. Allows the user to choose an
   independent variable (and its first \code{n} values) and
