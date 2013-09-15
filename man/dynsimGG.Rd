@@ -31,7 +31,7 @@
 
   \item{legend}{specifies what type of legend to include
   (if applicable). The default is \code{legend = "legend"}.
-  To hide the legend use \code{legend = FALSE}. See the
+  To hide the legend use \code{legend = FALSE}. See
   \code{\link{discrete_scale}} for more details.}
 }
 \description{

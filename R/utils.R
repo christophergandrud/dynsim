@@ -10,7 +10,7 @@
 #' @keywords internals
 #' @noRd
 
-OneScen <- function(obj, ldv, n, scen, sig){
+OneScen <- function(obj, ldv, n, scen, sig, shocks = NULL){
 	# Create lower and upper bounds of the confidence interval
 	Bottom <- (1 - sig)/2
 	Top <- 1 - Bottom	
@@ -18,9 +18,26 @@ OneScen <- function(obj, ldv, n, scen, sig){
 	# Create data frame to fill in with simulation summaries
 	SimSum <- data.frame()
 
+	# Change data frame for shock values
 	for (i in 1:n){
+		if (is.null(shocks)){
+			scenTemp <- scen
+		}
+		else if (!is.null(shocks)){
+			if (i %in% shocks[, "times"]){
+				for (x in names(shocks)[-1]){
+					scenTemp <- scen
+					shocksTemp <- subset(shocks, times == i)
+					scenTemp[, x] <- shocksTemp[1, x]
+				}
+			}
+			else if (!(i %in% shocks)){
+				scenTemp <- scen
+			}
+		}
+
 		# Run simulations
-		SetVales <- setx(obj = obj, data = scen)
+		SetVales <- setx(obj = obj, data = scenTemp)
 		SimValues <- sim(obj = obj, x = SetVales)
 
 		# Create summary data frame

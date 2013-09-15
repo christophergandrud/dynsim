@@ -8,7 +8,7 @@
 #' @param n numeric. Specifies the number of iterations (or time period) over which the program will generate the predicted value of the dependent variable. The default is 10.
 #' @param sig numeric. Specifies the level of statistical significance of the confidence intervals. Any value allowed be greater than 0 and cannot be greater than 1.
 #'
-#' @param shock character. Allows the user to choose an independent variable (and its first \code{n} values) and have the variable (and potentially different values) impact the scenarios at each simulation. The number of values assigned to the shock variable must exceed the number of simulations. If this command is specified, the user must specify the \code{n} shock values with \code{shock_num}. If the shock variable is interacted with another variable in the model, the user must also specify the name of the modifying variable (\code{modify}) and the interaction variable (\code{inter}).
+#' @param shocks data frame. Allows the user to choose independent variables (and its first \code{n} values) and have the variable (and potentially different values) impact the scenarios at each simulation. The number of values assigned to the shock variable must exceed the number of simulations. If this command is specified, the user must specify the \code{n} shock values with \code{shock_num}. If the shock variable is interacted with another variable in the model, the user must also specify the name of the modifying variable (\code{modify}) and the interaction variable (\code{inter}).
 #' @param shock_num numeric vector. Specify the shock values Any numeric vector is acceptable, as long as it contains at least \code{n} values.
 #' @param modify character vector. The name of up to four variables that modify the relationship between the shock variable and the dependent variable. 
 #' @param inter character vector. The name of up to four interaction variables. If \code{modify} is specified, this must also be specified.
@@ -25,7 +25,16 @@
 #'
 #' @export
 
-dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, shock, shock_num, modify = NULL, inter = NULL){
+dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, shocks = NULL, modify = NULL, inter = NULL){
+	# Make sure both shocks is a data frame and the first column of shocks is a variable called times.
+	if (!is.null(shocks)){
+		if (class(shocks) != "data.frame"){
+			stop("Shocks must be a data frame.")
+		}
+		if (names(shocks)[1] != "times"){
+			stop("The first variable of shocks must be called 'times' and contain the shock times.")
+		}
+	}
 	# Make sure both modify and inter are given, if necessary.
 	if (!is.null(modify) & is.null(inter)){
 		stop("You must also specify the inter argument if you specify modify.")
@@ -48,14 +57,15 @@ dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, shock, shock_num, modify 
 
 	# Determine if 1 or more scenarios are desired and simulate scenarios
 	if (class(scen) == "data.frame"){
-		SimOut <- OneScen(obj = obj, ldv = ldv, n = n, scen = scen, sig = sig)
+		SimOut <- OneScen(obj = obj, ldv = ldv, n = n, scen = scen, sig = sig, 
+						  shocks = shocks)
 	}
 	else if (class(scen) == "list"){
 		SimOut <- data.frame()
 		scenNum <- length(scen)
 		for (u in 1:scenNum){
 			ScenTemp <- scen[[u]]
-			SimTemp <- OneScen(obj = obj, ldv = ldv, n = n, scen = ScenTemp, sig = sig)
+			SimTemp <- OneScen(obj = obj, ldv = ldv, n = n, scen = ScenTemp, sig = sig, shocks = shocks)
 			SimTemp$scenNumber <- u
 			SimTemp <- MoveFront(SimTemp, "scenNumber")
 			SimOut <- rbind(SimOut, SimTemp)

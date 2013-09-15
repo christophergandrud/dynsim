@@ -2,8 +2,8 @@
 \alias{dynsim}
 \title{Dynamically simulations of autoregressive relationships}
 \usage{
-  dynsim(obj, ldv, scen, n = 10, sig = 0.95, shock,
-    shock_num, modify = NULL, inter = NULL)
+  dynsim(obj, ldv, scen, n = 10, sig = 0.95, shocks = NULL,
+    modify = NULL, inter = NULL)
 }
 \arguments{
   \item{ldv}{character. Names the lagged dependent
@@ -25,8 +25,8 @@
   significance of the confidence intervals. Any value
   allowed be greater than 0 and cannot be greater than 1.}
 
-  \item{shock}{character. Allows the user to choose an
-  independent variable (and its first \code{n} values) and
+  \item{shocks}{data frame. Allows the user to choose
+  independent variables (and its first \code{n} values) and
   have the variable (and potentially different values)
   impact the scenarios at each simulation. The number of
   values assigned to the shock variable must exceed the
