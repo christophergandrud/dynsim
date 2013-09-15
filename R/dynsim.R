@@ -2,6 +2,7 @@
 #' 
 #' \code{dynsim} dynamic simulations of autoregressive relationships
 #' 
+#' @obj the output object from \code{\link{zelig}}.
 #' @param ldv character. Names the lagged dependent variable
 #' @param scen1 vector. Specifies the values of the variables used to generate the predicted values when \eqn{t = 0}.
 #' @param scen24 THINK ABOUT
@@ -21,9 +22,12 @@
 #' 
 #' Williams, L. K., & Whitten, G. D. (2012). But Wait, There’s More! Maximizing Substantive Inferences from TSCS Models. Journal of International Money and Finance, 74(03), 685-693.
 #' 
+#' @importFrom Zelig setx
+#' @importFrom Zelig sim
+#'
 #' @export
 
-dynsim <- function(ldv, scen1, scen2, scen3, scen4, n = 10, shock, shock_num, modify = NULL, inter = NULL){
+dynsim <- function(obj, ldv, scen1, scen2, scen3, scen4, n = 10, shock, shock_num, modify = NULL, inter = NULL){
 	# Make sure both modify and inter are given, if necessary.
 	if (!is.null(modify) & is.null(inter)){
 		stop("You must also specify the inter argument if you specify modify.")
@@ -39,6 +43,26 @@ dynsim <- function(ldv, scen1, scen2, scen3, scen4, n = 10, shock, shock_num, mo
 	if (n <= 0){
 		stop("You must specify at least 1 iteration with the n argument.")
 	}
-	# Get the number of scenarios specified by the user
+
+	# Predicted values at time t0
+	
+
+	
+
+
+
+
+
+
+
+
+
+
+
 
 }
+
+
+
+
+

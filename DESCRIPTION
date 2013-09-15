@@ -2,12 +2,17 @@ Package: dynsim
 Title: An R implementation of dynamic simulations of autoregressive
     relationships
 Version: 0.1
-Date: 2013-09-04
+Date: 2013-09-14
 Author: Laron K Williams, Guy D Whitten, and Christopher Gandrud
 Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>
+BugReports: https://github.com/christophergandrud/dynsim/issues
 Description: An R implementation of dynamic simulations of autoregressive
     relationships
 License: GPL (>= 3)
+Depends:
+	R (>= 3.0.0)
+Imports:
+	Zelig
 Collate:
     'dynsim.R'
     'grunfeld.R'
