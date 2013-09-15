@@ -10,6 +10,7 @@
 #' @param title the plot's main title.
 #' @param leg.name name of the legend (if applicable).
 #' @param legend specifies what type of legend to include (if applicable). The default is \code{legend = "legend"}. To hide the legend use \code{legend = FALSE}. See \code{\link{discrete_scale}} for more details.
+#' @param leg.labels character vector specifying the labels for each scenario in the legend. 
 #'
 #' @details Plots dynamic simulations of autoregressive relationships from \code{\link{dynsim}}. The central line is the mean of the simulation distributions. The outer ribbon is the furthest extent of the simulation distributions' central intervals found in \code{\link{dynsim}} with the \code{sig} argument. The middle ribbons plot the limits of the simulation distributions' central 50% intervals.
 #'
@@ -17,13 +18,17 @@
 #' @import ggplot2
 #'
 #' @export
-dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime", ylab = "Predicted Value\n", title = NULL, leg.name = "Scenario", legend = "legend"){
+dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime", ylab = "Predicted Value\n", title = NULL, leg.name = "Scenario", leg.labels = NULL, legend = "legend"){
 	# Check if obj is of the dynsim class
 	if (class(obj) != "Dynsim"){
 		stop("obj must be a dynsim class object.")
 	}
 	# Reclass obj as a data frame for ggplot2
 	class(obj) <- "data.frame"
+	# Create legend values if none are specified
+	if (is.null(leg.labels)){
+		leg.labels <- as.character(unique(obj$scenNumber))
+	}
 
 	# Plot for one scenario
 	if (!isTRUE("scenNumber" %in% names(obj))){
@@ -47,8 +52,10 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
 			geom_line(size = lsize) +
 			geom_ribbon(aes(ymin = ldvLower, ymax = ldvUpper), alpha = alpha, linetype = 0) +
 			geom_ribbon(aes(ymin = ldvLower50, ymax = ldvUpper50), alpha = alpha, linetype = 0) +
-	        scale_colour_brewer(palette = color, name = leg.name, guide = legend) +
-	        scale_fill_brewer(palette = color, name = leg.name, guide = legend) +
+	        scale_colour_brewer(palette = color, name = leg.name, guide = legend, 
+	        	labels = leg.labels) +
+	        scale_fill_brewer(palette = color, name = leg.name, guide = legend, 
+	        	labels = leg.labels) +
 	        xlab(xlab) + ylab(ylab) +
 	        ggtitle(title) +
 	        theme_bw(base_size = 15)

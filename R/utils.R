@@ -44,10 +44,10 @@ OneScen <- function(obj, ldv, n, scen, sig, shocks = NULL){
 		PV <- simulation.matrix(SimValues, "Predicted Values: Y|X")
 		time <- i
 		ldvMean <- mean(PV)
-		ldvLower <- quantile(PV, prob = Bottom)
-		ldvUpper <- quantile(PV, prob = Top)
-		ldvLower50 <- quantile(PV, prob = 0.25)
-		ldvUpper50 <-quantile(PV, prob = 0.75)
+		ldvLower <- quantile(PV, prob = Bottom, names = FALSE)
+		ldvUpper <- quantile(PV, prob = Top, names = FALSE)
+		ldvLower50 <- quantile(PV, prob = 0.25, names = FALSE)
+		ldvUpper50 <-quantile(PV, prob = 0.75, names = FALSE)
 
 		TempOut <- cbind(time, ldvMean, ldvLower, ldvUpper, ldvLower50, ldvUpper50)
 		SimSum <- rbind(SimSum, TempOut)

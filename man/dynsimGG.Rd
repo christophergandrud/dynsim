@@ -4,7 +4,8 @@
 \usage{
   dynsimGG(obj, lsize = 1, color = NULL, alpha = 0.5,
     xlab = "\nTime", ylab = "Predicted Value\n",
-    title = NULL, leg.name = "Scenario", legend = "legend")
+    title = NULL, leg.name = "Scenario", leg.labels = NULL,
+    legend = "legend")
 }
 \arguments{
   \item{obj}{a \code{Dynsim} class object.}
@@ -33,6 +34,9 @@
   (if applicable). The default is \code{legend = "legend"}.
   To hide the legend use \code{legend = FALSE}. See
   \code{\link{discrete_scale}} for more details.}
+
+  \item{leg.labels}{character vector specifying the labels
+  for each scenario in the legend.}
 }
 \description{
   \code{dynsimGG} uses \code{\link{ggplot2}} to plot
