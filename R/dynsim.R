@@ -9,10 +9,6 @@
 #' @param sig numeric. Specifies the level of statistical significance of the confidence intervals. Any value allowed be greater than 0 and cannot be greater than 1.
 #'
 #' @param shocks data frame. Allows the user to choose independent variables (and its first \code{n} values) and have the variable (and potentially different values) impact the scenarios at each simulation. The number of values assigned to the shock variable must exceed the number of simulations. If this command is specified, the user must specify the \code{n} shock values with \code{shock_num}. If the shock variable is interacted with another variable in the model, the user must also specify the name of the modifying variable (\code{modify}) and the interaction variable (\code{inter}).
-#' @param shock_num numeric vector. Specify the shock values Any numeric vector is acceptable, as long as it contains at least \code{n} values.
-#' @param modify character vector. The name of up to four variables that modify the relationship between the shock variable and the dependent variable. 
-#' @param inter character vector. The name of up to four interaction variables. If \code{modify} is specified, this must also be specified.
-#' 
 #' 
 #' 
 #' 
@@ -35,17 +31,6 @@ dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, shocks = NULL, modify = N
 			stop("The first variable of shocks must be called 'times' and contain the shock times.")
 		}
 	}
-	# Make sure both modify and inter are given, if necessary.
-	if (!is.null(modify) & is.null(inter)){
-		stop("You must also specify the inter argument if you specify modify.")
-	}
-	if (is.null(modify) & !is.null(inter)){
-		stop("You must also specify the modify argument if you specify inter.")
-	}
-	# Get the number of modify and inter variables; verify that the number is the same.
-	if (length(modify) != length(inter)){
-		stop("The number of modify variables must be the same as the number of inter variables.")
-	}	
 	# Error if number of iterations is <= 0.
 	if (n <= 0){
 		stop("You must specify at least 1 iteration with the n argument.")
