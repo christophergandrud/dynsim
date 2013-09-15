@@ -4,8 +4,7 @@
 #' 
 #' @obj the output object from \code{\link{zelig}}.
 #' @param ldv character. Names the lagged dependent variable
-#' @param scen vector. Specifies the values of the variables used to generate the predicted values when \eqn{t = 0}.
-#' @param scen24 THINK ABOUT
+#' @param scen data frame or list of data frames. Specifies the values of the variables used to generate the predicted values when \eqn{t = 0}. If only one scenario is desired then \code{scen} should be a data frame. If more than one scenario is desired then the \eqn{t = 0} values should be in data frames contained in a list.
 #' @param n numeric. Specifies the number of iterations (or time period) over which the program will generate the predicted value of the dependent variable. The default is 10.
 #' @param sig numeric. Specifies the level of statistical significance of the confidence intervals. Any value allowed be greater than 0 and cannot be greater than 1.
 #'
@@ -22,9 +21,6 @@
 #' 
 #' Williams, L. K., & Whitten, G. D. (2012). But Wait, There’s More! Maximizing Substantive Inferences from TSCS Models. Journal of International Money and Finance, 74(03), 685-693.
 #' 
-#' @importFrom Zelig setx
-#' @importFrom Zelig sim
-#' @importFrom Zelig simulation.matrix
 #'
 #' @export
 
@@ -48,37 +44,16 @@ dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, shock, shock_num, modify 
 	if (sig <= 0 | sig > 1){
 		stop("sig must be greater than 0 and not greater than 1.")
 	}
-	# Create lower and upper bounds of the confidence interval
-	Bottom <- (1 - sig)/2
-	Top <- 1 - Bottom	
 
-	# Create data frame to fill in with simulation summaries
-	SimSum <- data.frame()
-
-	# Predicted values at time t0
-	for (i in 1:n){
-		# Run simulations
-		SetVales <- setx(obj = obj, data = scen)
-		SimValues <- sim(obj = obj, x = SetVales)
-
-		# Create summary data frame
-		PV <- simulation.matrix(SimValues, "Predicted Values: Y|X")
-		time <- i
-		ldvMean <- mean(PV)
-		ldvLower <- quantile(PV, prob = Bottom)
-		ldvUpper <- quantile(PV, prob = Top)
-
-		TempOut <- cbind(time, ldvMean, ldvLower, ldvUpper)
-		SimSum <- rbind(SimSum, TempOut)
-
-		# Change lag variable for the next simulation
-		scen[, ldv] <- ldvMean		
+	# Determine if 1 or more scenarios are desired
+	if (class(scen) == "data.frame"){
+		SimOut <- OneScen(obj = obj, ldv = ldv, n = n, scen = scen, sig = sig)
 	}
 
+	# Function to create predicted values at time t0 for one scenario
 
-
-
-
+	class(SimOut) <- "Dynsim"
+	return(SimOut)
 }
 
 

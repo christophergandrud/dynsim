@@ -9,10 +9,12 @@
   \item{ldv}{character. Names the lagged dependent
   variable}
 
-  \item{scen}{vector. Specifies the values of the variables
-  used to generate the predicted values when \eqn{t = 0}.}
-
-  \item{scen24}{THINK ABOUT}
+  \item{scen}{data frame or list of data frames. Specifies
+  the values of the variables used to generate the
+  predicted values when \eqn{t = 0}. If only one scenario
+  is desired then \code{scen} should be a data frame. If
+  more than one scenario is desired then the \eqn{t = 0}
+  values should be in data frames contained in a list.}
 
   \item{n}{numeric. Specifies the number of iterations (or
   time period) over which the program will generate the
