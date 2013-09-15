@@ -21,6 +21,7 @@
 #' 
 #' Williams, L. K., & Whitten, G. D. (2012). But Wait, There’s More! Maximizing Substantive Inferences from TSCS Models. Journal of International Money and Finance, 74(03), 685-693.
 #' 
+#' @importFrom DataCombine MoveFront
 #'
 #' @export
 
@@ -45,13 +46,23 @@ dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, shock, shock_num, modify 
 		stop("sig must be greater than 0 and not greater than 1.")
 	}
 
-	# Determine if 1 or more scenarios are desired
+	# Determine if 1 or more scenarios are desired and simulate scenarios
 	if (class(scen) == "data.frame"){
 		SimOut <- OneScen(obj = obj, ldv = ldv, n = n, scen = scen, sig = sig)
 	}
+	else if (class(scen) == "list"){
+		SimOut <- data.frame()
+		scenNum <- length(scen)
+		for (u in 1:scenNum){
+			ScenTemp <- scen[[u]]
+			SimTemp <- OneScen(obj = obj, ldv = ldv, n = n, scen = ScenTemp, sig = sig)
+			SimTemp$scenNumber <- u
+			SimTemp <- MoveFront(SimTemp, "scenNumber")
+			SimOut <- rbind(SimOut, SimTemp)
+		}
+	}
 
-	# Function to create predicted values at time t0 for one scenario
-
+	# Ascribe class and return output
 	class(SimOut) <- "Dynsim"
 	return(SimOut)
 }
