@@ -60,7 +60,7 @@
   Journal, 11(4), 577-588.
 
   Williams, L. K., & Whitten, G. D. (2012). But Wait,
-  There’s More! Maximizing Substantive Inferences from TSCS
+  There's More! Maximizing Substantive Inferences from TSCS
   Models. Journal of International Money and Finance,
   74(03), 685-693.
 }

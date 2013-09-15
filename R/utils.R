@@ -29,8 +29,10 @@ OneScen <- function(obj, ldv, n, scen, sig){
 		ldvMean <- mean(PV)
 		ldvLower <- quantile(PV, prob = Bottom)
 		ldvUpper <- quantile(PV, prob = Top)
+		ldvLower50 <- quantile(PV, prob = 0.25)
+		ldvUpper50 <-quantile(PV, prob = 0.75)
 
-		TempOut <- cbind(time, ldvMean, ldvLower, ldvUpper)
+		TempOut <- cbind(time, ldvMean, ldvLower, ldvUpper, ldvLower50, ldvUpper50)
 		SimSum <- rbind(SimSum, TempOut)
 
 		# Change lag variable for the next simulation
