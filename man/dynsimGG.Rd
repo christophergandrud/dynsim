@@ -68,28 +68,24 @@ data(grunfeld, package = "dynsim")
 grunfeld <- slide(grunfeld, Var = "invest", GroupVar = "company",
                NewVar = "InvestLag")
 
-# Keep only variables included in the model
-# NOTE: Addresses weird Zelig issue that needs to be smoothed out.
-grunSub <- grunfeld[, c("invest", "InvestLag", "mvalue", "kstock")]
-
 # Estimate basic model
 M1 <- zelig(invest ~ InvestLag + mvalue + kstock,
             model = "ls", data = grunfeld, cite = FALSE)
 
-# Set up a senario
-attach(grunSub)
+# Set up a scenario
+attach(grunfeld)
 Scen1 <- data.frame(invest = 317, InvestLag = mean(InvestLag, na.rm = TRUE),
                     mvalue = quantile(mvalue, 0.05), kstock = quantile(kstock, 0.05))
 Scen2 <- data.frame(invest = 100, InvestLag = mean(InvestLag, na.rm = TRUE),
                     mvalue = mean(mvalue), kstock = mean(kstock))
 Scen3 <- data.frame(invest = 317, InvestLag = mean(InvestLag, na.rm = TRUE),
                     mvalue = quantile(mvalue, 0.95), kstock = quantile(kstock, 0.95))
-                    detach(grunSub)
+detach(grunfeld)
 
 # Combine into a single list
 ScenComb <- list(Scen1, Scen2, Scen3)
 
-## Run dynamic simulations without shocks and only 1 scenario
+## Run dynamic simulations without shocks
 Sim1 <- dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20)
 
 # Create plot legend label

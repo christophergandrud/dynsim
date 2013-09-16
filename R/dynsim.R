@@ -10,7 +10,7 @@
 #'
 #' @param shocks data frame. Allows the user to choose independent variables, their values, and times to introduce these values. The first column of the data frame must be called \code{times} this will contain the times in \code{n} to use the shock values. The following columns' names must match the names of the variables whose values you wish to alter. You do not need to specify values for variables that you want to remain the same as in \code{scen}. In times \code{n} where shock values are not specified, non-\code{ldv} variable values will revert to those in \code{scen}. If \code{*} is used to create interactions, interaction terms will be fitted appropriately.
 #' 
-#' @details A post-estimation technique for producing dynamic simulations of autoregressive models.
+#' @details A post-estimation technique for producing dynamic simulations of autoregressive models estimated with \code{\link{Zelig}}. 
 #' 
 #' @examples
 #' # Load packages
@@ -22,30 +22,26 @@
 #' 
 #' # Create lag invest variable
 #' grunfeld <- slide(grunfeld, Var = "invest", GroupVar = "company", 
-#'                NewVar = "InvestLag")
-#'                
-#' # Keep only variables included in the model 
-#' # NOTE: Addresses weird Zelig issue that needs to be smoothed out.
-#' grunSub <- grunfeld[, c("invest", "InvestLag", "mvalue", "kstock")]
+#'                NewVar = "InvestLag")               
 #' 
 #' # Estimate basic model 
 #' M1 <- zelig(invest ~ InvestLag + mvalue + kstock, 
 #'             model = "ls", data = grunfeld, cite = FALSE)
 #'             
-#' # Set up a senario
-#' attach(grunSub) 
+#' # Set up a scenario
+#' attach(grunfeld) 
 #' Scen1 <- data.frame(invest = 317, InvestLag = mean(InvestLag, na.rm = TRUE), 
 #'                     mvalue = quantile(mvalue, 0.05), kstock = quantile(kstock, 0.05))
 #' Scen2 <- data.frame(invest = 100, InvestLag = mean(InvestLag, na.rm = TRUE), 
 #'                     mvalue = mean(mvalue), kstock = mean(kstock))
 #' Scen3 <- data.frame(invest = 317, InvestLag = mean(InvestLag, na.rm = TRUE), 
 #'                     mvalue = quantile(mvalue, 0.95), kstock = quantile(kstock, 0.95))
-#'                     detach(grunSub)
+#' detach(grunfeld)
 #'                     
 #' # Combine into a single list
 #' ScenComb <- list(Scen1, Scen2, Scen3)
 #' 
-#' ## Run dynamic simulations without shocks and only 1 scenario
+#' ## Run dynamic simulations without shocks
 #' Sim1 <- dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20)
 #' 
 #' ## Run dynamic simulations with shocks
