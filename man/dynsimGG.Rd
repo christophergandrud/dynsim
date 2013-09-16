@@ -22,6 +22,10 @@
   is set. The default is\code{"Set1"}. See
   \code{\link{scale_colour_brewer}}.}
 
+  \item{alpha}{numeric. Alpha (e.g. transparency) for the
+  points or ribbons. Default is \code{alpha = 0.1}. See
+  \code{\link{ggplot2}}.}
+
   \item{xlab}{a label for the plot's x-axis.}
 
   \item{ylab}{a label of the plot's y-axis.}
@@ -51,5 +55,59 @@
   intervals found in \code{\link{dynsim}} with the
   \code{sig} argument. The middle ribbons plot the limits
   of the simulation distributions' central 50% intervals.
+}
+\examples{
+# Load packages
+library(Zelig)
+library(DataCombine)
+
+# Load Grunfeld data
+data(grunfeld, package = "dynsim")
+
+# Create lag invest variable
+grunfeld <- slide(grunfeld, Var = "invest", GroupVar = "company",
+               NewVar = "InvestLag")
+
+# Keep only variables included in the model
+# NOTE: Addresses weird Zelig issue that needs to be smoothed out.
+grunSub <- grunfeld[, c("invest", "InvestLag", "mvalue", "kstock")]
+
+# Estimate basic model
+M1 <- zelig(invest ~ InvestLag + mvalue + kstock,
+            model = "ls", data = grunfeld, cite = FALSE)
+
+# Set up a senario
+attach(grunSub)
+Scen1 <- data.frame(invest = 317, InvestLag = mean(InvestLag, na.rm = TRUE),
+                    mvalue = quantile(mvalue, 0.05), kstock = quantile(kstock, 0.05))
+Scen2 <- data.frame(invest = 100, InvestLag = mean(InvestLag, na.rm = TRUE),
+                    mvalue = mean(mvalue), kstock = mean(kstock))
+Scen3 <- data.frame(invest = 317, InvestLag = mean(InvestLag, na.rm = TRUE),
+                    mvalue = quantile(mvalue, 0.95), kstock = quantile(kstock, 0.95))
+                    detach(grunSub)
+
+# Combine into a single list
+ScenComb <- list(Scen1, Scen2, Scen3)
+
+## Run dynamic simulations without shocks and only 1 scenario
+Sim1 <- dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20)
+
+# Create plot legend label
+Labels <- c("5th Percentile", "Mean", "95th Percentile")
+
+# Plot
+dynsimGG(Sim1, leg.labels = Labels)
+
+## Run dynamic simulations with shocks
+
+# Create data frame of shock values
+mShocks <- data.frame(times = c(5, 10), kstock = c(100, 1000))
+
+# Run simulations
+Sim2 <- dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20,
+               shocks = mShocks)
+
+# Plot
+dynsimGG(Sim2, leg.labels = Labels)
 }
 

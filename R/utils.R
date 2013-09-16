@@ -11,6 +11,9 @@
 #' @noRd
 
 OneScen <- function(obj, ldv, n, scen, sig, shocks = NULL){
+	# CRAN requirements
+	times <- NULL
+	
 	# Create lower and upper bounds of the confidence interval
 	Bottom <- (1 - sig)/2
 	Top <- 1 - Bottom	

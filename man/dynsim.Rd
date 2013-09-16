@@ -5,6 +5,8 @@
   dynsim(obj, ldv, scen, n = 10, sig = 0.95, shocks = NULL)
 }
 \arguments{
+  \item{obj}{the output object from \code{\link{zelig}}.}
+
   \item{ldv}{character. Names the lagged dependent
   variable}
 
@@ -25,21 +27,26 @@
   allowed be greater than 0 and cannot be greater than 1.}
 
   \item{shocks}{data frame. Allows the user to choose
-  independent variables (and its first \code{n} values) and
-  have the variable (and potentially different values)
-  impact the scenarios at each simulation. The number of
-  values assigned to the shock variable must exceed the
-  number of simulations. If this command is specified, the
-  user must specify the \code{n} shock values with
-  \code{shock_num}. If the shock variable is interacted
-  with another variable in the model, the user must also
-  specify the name of the modifying variable
-  (\code{modify}) and the interaction variable
-  (\code{inter}).}
+  independent variables, their values, and times to
+  introduce these values. The first column of the data
+  frame must be called \code{times} this will contain the
+  times in \code{n} to use the shock values. The following
+  columns' names must match the names of the variables
+  whose values you wish to alter. You do not need to
+  specify values for variables that you want to remain the
+  same as in \code{scen}. In times \code{n} where shock
+  values are not specified, non-\code{ldv} variable values
+  will revert to those in \code{scen}. If \code{*} is used
+  to create interactions, interaction terms will be fitted
+  appropriately.}
 }
 \description{
   \code{dynsim} dynamic simulations of autoregressive
   relationships
+}
+\details{
+  A post-estimation technique for producing dynamic
+  simulations of autoregressive models.
 }
 \examples{
 # Load packages
@@ -77,12 +84,6 @@ ScenComb <- list(Scen1, Scen2, Scen3)
 ## Run dynamic simulations without shocks and only 1 scenario
 Sim1 <- dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20)
 
-# Create plot legend label
-Labels <- c("5th Percentile", "Mean", "95th Percentile")
-
-# Plot
-dynsimGG(Sim1, leg.labels = Labels)
-
 ## Run dynamic simulations with shocks
 
 # Create data frame of shock values
@@ -91,9 +92,6 @@ mShocks <- data.frame(times = c(5, 10), kstock = c(100, 1000))
 # Run simulations
 Sim2 <- dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20,
                shocks = mShocks)
-
-# Plot
-dynsimGG(Sim2, leg.labels = Labels)
 }
 \references{
   Williams, L. K., & Whitten, G. D. (2011). Dynamic
