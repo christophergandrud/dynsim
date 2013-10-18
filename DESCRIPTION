@@ -16,7 +16,7 @@ Imports:
     ggplot2,
     Zelig
 Collate:
-    'dynsim.R'
+    'Dynsim.R'
     'grunfeld.R'
     'utils.R'
     'dynsimGG.R'

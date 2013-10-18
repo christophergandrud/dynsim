@@ -1,6 +1,6 @@
 #' Plot dynamic simulation results
 #'
-#' \code{dynsimGG} uses \code{\link{ggplot2}} to plot dynamic simulation results created by \code{\link{dynsim}}.
+#' \code{dynsimGG} uses \code{\link{ggplot2}} to plot dynamic simulation results created by \code{\link{Dynsim}}.
 #'
 #' @param obj a \code{Dynsim} class object.
 #' @param lsize size of the smoothing line. Default is 1. See \code{\link{ggplot2}}.
@@ -13,7 +13,7 @@
 #' @param legend specifies what type of legend to include (if applicable). The default is \code{legend = "legend"}. To hide the legend use \code{legend = FALSE}. See \code{\link{discrete_scale}} for more details.
 #' @param leg.labels character vector specifying the labels for each scenario in the legend. 
 #'
-#' @details Plots dynamic simulations of autoregressive relationships from \code{\link{dynsim}}. The central line is the mean of the simulation distributions. The outer ribbon is the furthest extent of the simulation distributions' central intervals found in \code{\link{dynsim}} with the \code{sig} argument. The middle ribbons plot the limits of the simulation distributions' central 50% intervals.
+#' @details Plots dynamic simulations of autoregressive relationships from \code{\link{Dynsim}}. The central line is the mean of the simulation distributions. The outer ribbon is the furthest extent of the simulation distributions' central intervals found in \code{\link{Dynsim}} with the \code{sig} argument. The middle ribbons plot the limits of the simulation distributions' central 50% intervals.
 #'
 #' @examples
 #' # Load packages
@@ -45,7 +45,7 @@
 #' ScenComb <- list(Scen1, Scen2, Scen3)
 #' 
 #' ## Run dynamic simulations without shocks
-#' Sim1 <- dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20)
+#' Sim1 <- Dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20)
 #' 
 #' # Create plot legend label
 #' Labels <- c("5th Percentile", "Mean", "95th Percentile")
@@ -59,7 +59,7 @@
 #' mShocks <- data.frame(times = c(5, 10), kstock = c(100, 1000))
 #' 
 #' # Run simulations
-#' Sim2 <- dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20,
+#' Sim2 <- Dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20,
 #'                shocks = mShocks)
 #'                
 #' # Plot
@@ -72,9 +72,9 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
 	# CRAN requirements
 	ldvMean <- ldvLower <- ldvUpper <- ldvLower50 <- ldvUpper50 <- scenNumber <- NULL
 
-	# Check if obj is of the dynsim class
+	# Check if obj is of the Dynsim class
 	if (class(obj) != "Dynsim"){
-		stop("obj must be a dynsim class object.")
+		stop("obj must be a Dynsim class object.")
 	}
 	# Reclass obj as a data frame for ggplot2
 	class(obj) <- "data.frame"

@@ -45,14 +45,14 @@
 \description{
   \code{dynsimGG} uses \code{\link{ggplot2}} to plot
   dynamic simulation results created by
-  \code{\link{dynsim}}.
+  \code{\link{Dynsim}}.
 }
 \details{
   Plots dynamic simulations of autoregressive relationships
-  from \code{\link{dynsim}}. The central line is the mean
+  from \code{\link{Dynsim}}. The central line is the mean
   of the simulation distributions. The outer ribbon is the
   furthest extent of the simulation distributions' central
-  intervals found in \code{\link{dynsim}} with the
+  intervals found in \code{\link{Dynsim}} with the
   \code{sig} argument. The middle ribbons plot the limits
   of the simulation distributions' central 50% intervals.
 }
@@ -86,7 +86,7 @@ detach(grunfeld)
 ScenComb <- list(Scen1, Scen2, Scen3)
 
 ## Run dynamic simulations without shocks
-Sim1 <- dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20)
+Sim1 <- Dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20)
 
 # Create plot legend label
 Labels <- c("5th Percentile", "Mean", "95th Percentile")
@@ -100,7 +100,7 @@ dynsimGG(Sim1, leg.labels = Labels)
 mShocks <- data.frame(times = c(5, 10), kstock = c(100, 1000))
 
 # Run simulations
-Sim2 <- dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20,
+Sim2 <- Dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20,
                shocks = mShocks)
 
 # Plot
