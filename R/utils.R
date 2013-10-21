@@ -30,8 +30,8 @@ OneScen <- function(obj, ldv, n, scen, sig, shocks = NULL){
 		}
 		else if (!is.null(shocks)){
 			if (i %in% shocks[, "times"]){
+			  scenTemp <- scen
 				for (x in names(shocks)[-1]){
-					scenTemp <- scen
 					shocksTemp <- subset(shocks, times == i)
 					scenTemp[, x] <- shocksTemp[1, x]
 				}
