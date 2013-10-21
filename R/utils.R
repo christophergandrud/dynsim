@@ -6,6 +6,7 @@
 #' @importFrom Zelig setx
 #' @importFrom Zelig sim
 #' @importFrom Zelig simulation.matrix
+#' @importFrom DataCombine MoveFront
 #'
 #' @keywords internals
 #' @noRd
@@ -20,6 +21,7 @@ OneScen <- function(obj, ldv, n, scen, sig, shocks = NULL){
 
 	# Create data frame to fill in with simulation summaries
 	SimSum <- data.frame()
+  ShockVals <- data.frame()
 
 	# Change data frame for shock values
 	for (i in 1:n){
@@ -51,12 +53,24 @@ OneScen <- function(obj, ldv, n, scen, sig, shocks = NULL){
 		ldvUpper <- quantile(PV, prob = Top, names = FALSE)
 		ldvLower50 <- quantile(PV, prob = 0.25, names = FALSE)
 		ldvUpper50 <-quantile(PV, prob = 0.75, names = FALSE)
-
+    
+    # Shock variable values
+		ShockNames <- names(shocks)[-1]
+    TempShock <- scenTemp[, ShockNames]
+    ShockVals <- rbind(ShockVals, TempShock)
+    
+    # Combine
 		TempOut <- cbind(time, ldvMean, ldvLower, ldvUpper, ldvLower50, ldvUpper50)
 		SimSum <- rbind(SimSum, TempOut)
 
 		# Change lag variable for the next simulation
 		scen[, ldv] <- ldvMean		 
 	}
-	SimSum
+  # Clean up shocks
+	CleanNames <- paste0("shock.", ShockNames)
+	names(ShockVals) <- CleanNames
+  
+  # Final clean
+	SimSum <- cbind(ShockVals, SimSum)
+  SimSum <- MoveFront(SimSum, "time")
 }
