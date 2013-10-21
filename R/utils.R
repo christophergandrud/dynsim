@@ -55,10 +55,11 @@ OneScen <- function(obj, ldv, n, scen, sig, shocks = NULL){
 		ldvUpper50 <-quantile(PV, prob = 0.75, names = FALSE)
     
     # Shock variable values
+	if (!is.null(shocks)){
 		ShockNames <- names(shocks)[-1]
-    TempShock <- scenTemp[, ShockNames]
-    ShockVals <- rbind(ShockVals, TempShock)
-    
+	    TempShock <- scenTemp[, ShockNames]
+	    ShockVals <- rbind(ShockVals, TempShock)
+    }
     # Combine
 		TempOut <- cbind(time, ldvMean, ldvLower, ldvUpper, ldvLower50, ldvUpper50)
 		SimSum <- rbind(SimSum, TempOut)
@@ -67,10 +68,11 @@ OneScen <- function(obj, ldv, n, scen, sig, shocks = NULL){
 		scen[, ldv] <- ldvMean		 
 	}
   # Clean up shocks
-	CleanNames <- paste0("shock.", ShockNames)
-	names(ShockVals) <- CleanNames
-  
-  # Final clean
-	SimSum <- cbind(ShockVals, SimSum)
-  SimSum <- MoveFront(SimSum, "time")
+	if (!is.null(shocks)){
+		CleanNames <- paste0("shock.", ShockNames)
+		names(ShockVals) <- CleanNames
+		SimSum <- cbind(ShockVals, SimSum)
+	}
+	SimSum <- MoveFront(SimSum, "time")
+	SimSum
 }

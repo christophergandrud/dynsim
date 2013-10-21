@@ -3,8 +3,9 @@
 \title{Plot dynamic simulation results}
 \usage{
   dynsimGG(obj, lsize = 1, color = NULL, alpha = 0.5,
-    xlab = "\nTime", ylab = "Predicted Value\n",
-    title = NULL, leg.name = "Scenario", leg.labels = NULL,
+    shock.plot = TRUE, xlab = "\nTime",
+    ylab = "Predicted Value\n", title = NULL,
+    leg.name = "Scenario", leg.labels = NULL,
     legend = "legend")
 }
 \arguments{

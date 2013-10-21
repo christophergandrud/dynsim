@@ -66,9 +66,11 @@
 #' dynsimGG(Sim2, leg.labels = Labels)
 #'
 #' @import ggplot2
+#' @importFrom gridExtra grid.arrange
 #'
 #' @export
-dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime", ylab = "Predicted Value\n", title = NULL, leg.name = "Scenario", leg.labels = NULL, legend = "legend"){
+
+dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, shock.plot = FALSE, xlab = "\nTime", ylab = "Predicted Value\n", title = NULL, leg.name = "Scenario", leg.labels = NULL, legend = "legend"){
 	# CRAN requirements
 	ldvMean <- ldvLower <- ldvUpper <- ldvLower50 <- ldvUpper50 <- scenNumber <- NULL
 
@@ -88,29 +90,48 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
 		if (is.null(color)){
 			color <- "#2B8CBE" 
 		}	
-		ggplot(obj, aes(time, ldvMean)) +
-			geom_line(size = lsize, colour = color) +
-			geom_ribbon(aes(ymin = ldvLower, ymax = ldvUpper), alpha = alpha, fill = color, linetype = 0) +
-			geom_ribbon(aes(ymin = ldvLower50, ymax = ldvUpper50), alpha = alpha, fill = color, linetype = 0) +
-	        xlab(xlab) + ylab(ylab) +
-	        ggtitle(title) +
-	        theme_bw(base_size = 15)
+		OutPlot <- ggplot(obj, aes(time, ldvMean)) +
+					geom_line(size = lsize, colour = color) +
+					geom_ribbon(aes(ymin = ldvLower, ymax = ldvUpper), alpha = alpha, fill = color, linetype = 0) +
+					geom_ribbon(aes(ymin = ldvLower50, ymax = ldvUpper50), alpha = alpha, fill = color, linetype = 0) +
+			        xlab(xlab) + ylab(ylab) +
+			        ggtitle(title) +
+			        theme_bw(base_size = 15)
 	}
 	# Plot multiple scenarios
 	else if (isTRUE("scenNumber" %in% names(obj))){
 		if (is.null(color)){
 			color <- "Set1" 
 		}	
-		ggplot(obj, aes(time, ldvMean, colour = factor(scenNumber), fill = factor(scenNumber))) +
-			geom_line(size = lsize) +
-			geom_ribbon(aes(ymin = ldvLower, ymax = ldvUpper), alpha = alpha, linetype = 0) +
-			geom_ribbon(aes(ymin = ldvLower50, ymax = ldvUpper50), alpha = alpha, linetype = 0) +
-	        scale_colour_brewer(palette = color, name = leg.name, guide = legend, 
-	        	labels = leg.labels) +
-	        scale_fill_brewer(palette = color, name = leg.name, guide = legend, 
-	        	labels = leg.labels) +
-	        xlab(xlab) + ylab(ylab) +
-	        ggtitle(title) +
-	        theme_bw(base_size = 15)
+		OutPlot <- ggplot(obj, aes(time, ldvMean, colour = factor(scenNumber), fill = factor(scenNumber))) +
+					geom_line(size = lsize) +
+					geom_ribbon(aes(ymin = ldvLower, ymax = ldvUpper), alpha = alpha, linetype = 0) +
+					geom_ribbon(aes(ymin = ldvLower50, ymax = ldvUpper50), alpha = alpha, linetype = 0) +
+			        scale_colour_brewer(palette = color, name = leg.name, guide = legend, 
+			        	labels = leg.labels) +
+			        scale_fill_brewer(palette = color, name = leg.name, guide = legend, 
+			        	labels = leg.labels) +
+			        xlab(xlab) + ylab(ylab) +
+			        ggtitle(title) +
+			        theme_bw(base_size = 15)
+	}
+
+	# Add shock plot 
+	if (isTRUE(shock.plot)){
+    Shocks <- obj[grep("shock.", names(obj))]
+    ShocksTime <- cbind(obj$scenNumber, obj$time, Shocks)
+    SNum <- ncol(Shocks) + 2
+    SP <- list()
+    for (i in 3:SNum){
+      Temp <- ShocksTime[, c(1:2, i)]
+      names(Temp) <- c("scenNumber", "time", "shockTemp")
+      u <- i - 2
+      SP[[u]] <- ggplot(Temp, aes(time, shockTemp, colour = factor(scenNumber))) +
+        geom_line() +
+        scale_colour_brewer(palette = color, guide = FALSE) +
+        theme_bw()
+    }
+    ShockPlots <- do.call(grid.arrange, SP)
+    grid.arrange(OutPlot, ShockPlots, ncol = 1)
 	}
 }
