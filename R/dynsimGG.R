@@ -6,6 +6,7 @@
 #' @param lsize size of the smoothing line. Default is 1. See \code{\link{ggplot2}}.
 #' @param color character string. Specifies the color of the lines and ribbons. If only one scenario is to be plotted then it can either be a single color value using any color value allowed by \code{\link{ggplot2}}. The default is the hexadecimal color \code{"#2B8CBE"}. If more than one scenario is to be plotted then a color brewer palette is set. The default is\code{"Set1"}. See \code{\link{scale_colour_brewer}}.
 #' @param alpha numeric. Alpha (e.g. transparency) for the points or ribbons. Default is \code{alpha = 0.1}. See \code{\link{ggplot2}}.
+#' @param shock.plot logical indicating whether or not to include plots of shock variable values.
 #' @param xlab a label for the plot's x-axis.
 #' @param ylab a label of the plot's y-axis.
 #' @param title the plot's main title.
@@ -122,16 +123,19 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, shock.plot = FAL
     ShocksTime <- cbind(obj$scenNumber, obj$time, Shocks)
     SNum <- ncol(Shocks) + 2
     SP <- list()
+    SP[[1]] <- OutPlot
     for (i in 3:SNum){
       Temp <- ShocksTime[, c(1:2, i)]
       names(Temp) <- c("scenNumber", "time", "shockTemp")
-      u <- i - 2
+      u <- i - 1
       SP[[u]] <- ggplot(Temp, aes(time, shockTemp, colour = factor(scenNumber))) +
         geom_line() +
         scale_colour_brewer(palette = color, guide = FALSE) +
+        xlab("") +
         theme_bw()
     }
-    ShockPlots <- do.call(grid.arrange, SP)
-    grid.arrange(OutPlot, ShockPlots, ncol = 1)
+    
+    do.call(grid.arrange, SP)
+    # grid.arrange(OutPlot, ShockPlots, ncol = 1)
 	}
 }

@@ -3,7 +3,7 @@
 \title{Plot dynamic simulation results}
 \usage{
   dynsimGG(obj, lsize = 1, color = NULL, alpha = 0.5,
-    shock.plot = TRUE, xlab = "\nTime",
+    shock.plot = FALSE, xlab = "\nTime",
     ylab = "Predicted Value\n", title = NULL,
     leg.name = "Scenario", leg.labels = NULL,
     legend = "legend")
@@ -26,6 +26,9 @@
   \item{alpha}{numeric. Alpha (e.g. transparency) for the
   points or ribbons. Default is \code{alpha = 0.1}. See
   \code{\link{ggplot2}}.}
+
+  \item{shock.plot}{logical indicating whether or not to
+  include plots of shock variable values.}
 
   \item{xlab}{a label for the plot's x-axis.}
 
