@@ -124,6 +124,10 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, shock.plot = FAL
     SNum <- ncol(Shocks) + 2
     SP <- list()
     SP[[1]] <- OutPlot
+    
+    # Extract legend
+    Leg <- dynsim:::gLegend(OutPlot)
+    
     for (i in 3:SNum){
       Temp <- ShocksTime[, c(1:2, i)]
       names(Temp) <- c("scenNumber", "time", "shockTemp")
@@ -134,8 +138,10 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, shock.plot = FAL
         xlab("") +
         theme_bw()
     }
-    
-    do.call(grid.arrange, SP)
-    # grid.arrange(OutPlot, ShockPlots, ncol = 1)
+    ArgList <- c(SP, list(theme(legend.position = "none"))
+    do.call(grid.arrange, ArgList)
 	}
+  else if (!isTRUE(shock.plot)){
+    OutPlot
+  }
 }

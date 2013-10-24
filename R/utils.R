@@ -76,3 +76,17 @@ OneScen <- function(obj, ldv, n, scen, sig, shocks = NULL){
 	SimSum <- MoveFront(SimSum, "time")
 	SimSum
 }
+
+#' Extract legend from ggplot2 object
+#' 
+#' @source Hadley Wickham
+#' @import ggplot2
+#' @keywords internals
+#' @noRd 
+
+gLegend <- function(Plot){
+  tmp <- ggplot_gtable(ggplot_build(Plot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)
+}
