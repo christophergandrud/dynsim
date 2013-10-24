@@ -6,7 +6,6 @@
 #' @param lsize size of the smoothing line. Default is 1. See \code{\link{ggplot2}}.
 #' @param color character string. Specifies the color of the lines and ribbons. If only one scenario is to be plotted then it can either be a single color value using any color value allowed by \code{\link{ggplot2}}. The default is the hexadecimal color \code{"#2B8CBE"}. If more than one scenario is to be plotted then a color brewer palette is set. The default is\code{"Set1"}. See \code{\link{scale_colour_brewer}}.
 #' @param alpha numeric. Alpha (e.g. transparency) for the points or ribbons. Default is \code{alpha = 0.1}. See \code{\link{ggplot2}}.
-#' @param shock.plot logical indicating whether or not to include plots of shock variable values.
 #' @param xlab a label for the plot's x-axis.
 #' @param ylab a label of the plot's y-axis.
 #' @param title the plot's main title.
@@ -67,11 +66,11 @@
 #' dynsimGG(Sim2, leg.labels = Labels)
 #'
 #' @import ggplot2
-#' @importFrom gridExtra grid.arrange
+#' @importFrom gridExtra
 #'
 #' @export
 
-dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, shock.plot = FALSE, xlab = "\nTime", ylab = "Predicted Value\n", title = NULL, leg.name = "Scenario", leg.labels = NULL, legend = "legend"){
+dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime", ylab = "Predicted Value\n", title = NULL, leg.name = "Scenario", leg.labels = NULL, legend = "legend"){
 	# CRAN requirements
 	ldvMean <- ldvLower <- ldvUpper <- ldvLower50 <- ldvUpper50 <- scenNumber <- NULL
 
@@ -116,32 +115,5 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, shock.plot = FAL
 			        ggtitle(title) +
 			        theme_bw(base_size = 15)
 	}
-
-	# Add shock plot 
-	if (isTRUE(shock.plot)){
-    Shocks <- obj[grep("shock.", names(obj))]
-    ShocksTime <- cbind(obj$scenNumber, obj$time, Shocks)
-    SNum <- ncol(Shocks) + 2
-    SP <- list()
-    SP[[1]] <- OutPlot
-    
-    # Extract legend
-    Leg <- dynsim:::gLegend(OutPlot)
-    
-    for (i in 3:SNum){
-      Temp <- ShocksTime[, c(1:2, i)]
-      names(Temp) <- c("scenNumber", "time", "shockTemp")
-      u <- i - 1
-      SP[[u]] <- ggplot(Temp, aes(time, shockTemp, colour = factor(scenNumber))) +
-        geom_line() +
-        scale_colour_brewer(palette = color, guide = FALSE) +
-        xlab("") +
-        theme_bw()
-    }
-    ArgList <- c(SP, list(theme(legend.position = "none"))
-    do.call(grid.arrange, ArgList)
-	}
-  else if (!isTRUE(shock.plot)){
-    OutPlot
-  }
+  OutPlot
 }

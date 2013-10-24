@@ -41,6 +41,10 @@
 #' # Estimate basic model 
 #' M1 <- zelig(invest ~ InvestLag + mvalue + kstock, 
 #'             model = "ls", data = grunfeld, cite = FALSE)
+#'
+#' # Estimate model with interaction between mvalue and kstock
+#' M2 <- zelig(invest ~ InvestLag + mvalue*kstock, 
+#'             model = "ls", data = grunfeld, cite = FALSE)
 #'             
 #' # Set up a scenario
 #' attach(grunfeld) 
@@ -55,16 +59,23 @@
 #' # Combine into a single list
 #' ScenComb <- list(Scen1, Scen2, Scen3)
 #' 
-#' ## Run dynamic simulations without shocks
+#' ## Run dynamic simulations without shocks and no interactions
 #' Sim1 <- Dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20)
+#'
+#' ## Run dynamic simulations without shocks and interactions
+#' Sim2 <- Dynsim(obj = M2, ldv = "InvestLag", scen = ScenComb, n = 20)
 #' 
 #' ## Run dynamic simulations with shocks
 #' 
 #' # Create data frame of shock values
 #' mShocks <- data.frame(times = c(5, 10), kstock = c(100, 1000), mvalue = c(58, 5000))
 #' 
-#' # Run simulations
-#' Sim2 <- Dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20,
+#' # Run simulations without interactions
+#' Sim3 <- Dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20,
+#'                shocks = mShocks)
+#'
+#' # Run simulations with interactions
+#' Sim4 <- Dynsim(obj = M2, ldv = "InvestLag", scen = ScenComb, n = 20,
 #'                shocks = mShocks)
 #' 
 #' @references 
