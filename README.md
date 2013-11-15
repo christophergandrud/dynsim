@@ -11,7 +11,9 @@ The dynsim package underdevelopment implements Williams and Whitten's ([2011](ht
 
 ## Installation
 
-Use the [devtools](http://cran.r-project.org/web/packages/devtools/index.html) package to install the *dynsim* development version:
+*dynsim* is available on [CRAN](http://cran.r-project.org/web/packages/dynsim/index.html)
+
+You can also easily install the latest development version with the [devtools](http://cran.r-project.org/web/packages/devtools/index.html) package:
 
 ```
 devtools::install_github("dynsim", "christophergandrud")
