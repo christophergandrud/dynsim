@@ -1,4 +1,4 @@
-Package: dynsim
+Package: Dynsim
 Title: An R implementation of dynamic simulations of autoregressive
     relationships
 Version: 0.2.1
@@ -17,7 +17,7 @@ Imports:
     gridExtra,
     Zelig
 Collate:
-    'dynsim.R'
+    'Dynsim.R'
     'grunfeld.R'
     'utils.R'
     'dynsimGG.R'
