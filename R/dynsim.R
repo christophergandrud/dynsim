@@ -14,10 +14,10 @@
 #' 
 #' @return The command returns a \code{Dynsim} class object. This can contain up to seven elements:
 #' \itemize{
-#'  \item{\code{scenNumber}: }{The scenario number}
-#'  \item{\code{time}: }{The time points}
+#'  \item{\code{scenNumber}: }{The scenario number.}
+#'  \item{\code{time}: }{The time points.}
 #'  \item{\code{shock.}: }{Columns containing the values of the shock variables at each point in \code{time}.}
-#'  \item{\code{ldvMean}: }{Mean of the simulation distribution}
+#'  \item{\code{ldvMean}: }{Mean of the simulation distribution.}
 #'  \item{\code{ldvLower}: }{Lower bound of the simulation distribution's central interval set with \code{sig}.}
 #'  \item{\code{ldvUpper}: }{Upper bound of the simulation distribution's central interval set with \code{sig}.}
 #'  \item{\code{ldvLower50}: }{Lower bound of the simulation distribution's central 50 percent interval.}
