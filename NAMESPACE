@@ -1,4 +1,4 @@
-export(Dynsim)
+export(dynsim)
 export(dynsimGG)
 import(ggplot2)
 importFrom(DataCombine,MoveFront)

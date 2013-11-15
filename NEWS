@@ -1,3 +1,5 @@
-Version 0.2.1
+Version 0.3
+
+The package is now referred to as `Dynsim` and the main simulation command as `dynsim`. This is to make it consistent with `Zelig`s naming conventions.
 
 Minor documentation fixes.

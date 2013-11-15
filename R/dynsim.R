@@ -1,6 +1,6 @@
 #' Dynamically simulations of autoregressive relationships
 #' 
-#' \code{Dynsim} dynamic simulations of autoregressive relationships
+#' \code{dynsim} dynamic simulations of autoregressive relationships
 #' 
 #' @param obj the output object from \code{\link{zelig}}.
 #' @param ldv character. Names the lagged dependent variable
@@ -32,7 +32,7 @@
 #' library(DataCombine)
 #' 
 #' # Load Grunfeld data
-#' data(grunfeld, package = "dynsim")
+#' data(grunfeld, package = "Dynsim")
 #' 
 #' # Create lag invest variable
 #' grunfeld <- slide(grunfeld, Var = "invest", GroupVar = "company", 
@@ -60,10 +60,10 @@
 #' ScenComb <- list(Scen1, Scen2, Scen3)
 #' 
 #' ## Run dynamic simulations without shocks and no interactions
-#' Sim1 <- Dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20)
+#' Sim1 <- dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20)
 #'
 #' ## Run dynamic simulations without shocks and interactions
-#' Sim2 <- Dynsim(obj = M2, ldv = "InvestLag", scen = ScenComb, n = 20)
+#' Sim2 <- dynsim(obj = M2, ldv = "InvestLag", scen = ScenComb, n = 20)
 #' 
 #' ## Run dynamic simulations with shocks
 #' 
@@ -71,11 +71,11 @@
 #' mShocks <- data.frame(times = c(5, 10), kstock = c(100, 1000), mvalue = c(58, 5000))
 #' 
 #' # Run simulations without interactions
-#' Sim3 <- Dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20,
+#' Sim3 <- dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20,
 #'                shocks = mShocks)
 #'
 #' # Run simulations with interactions
-#' Sim4 <- Dynsim(obj = M2, ldv = "InvestLag", scen = ScenComb, n = 20,
+#' Sim4 <- dynsim(obj = M2, ldv = "InvestLag", scen = ScenComb, n = 20,
 #'                shocks = mShocks)
 #' 
 #' @references 
@@ -87,7 +87,7 @@
 #'
 #' @export
 
-Dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, shocks = NULL){
+dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, shocks = NULL){
 	# Make sure both shocks is a data frame and the first column of shocks is a variable called times.
 	if (!is.null(shocks)){
 		if (class(shocks) != "data.frame"){
