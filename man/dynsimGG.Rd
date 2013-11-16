@@ -23,7 +23,7 @@
   \code{\link{scale_colour_brewer}}.}
 
   \item{alpha}{numeric. Alpha (e.g. transparency) for the
-  points or ribbons. Default is \code{alpha = 0.1}. See
+  ribbons. Default is \code{alpha = 0.1}. See
   \code{\link{ggplot2}}.}
 
   \item{xlab}{a label for the plot's x-axis.}
