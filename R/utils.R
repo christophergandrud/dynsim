@@ -11,7 +11,7 @@
 #' @keywords internals
 #' @noRd
 
-OneScen <- function(obj, ldv, n, scen, sig, shocks = NULL){
+OneScen <- function(obj, ldv, n, scen, sig, num, shocks = NULL){
 	# CRAN requirements
 	times <- NULL
 	
@@ -43,7 +43,7 @@ OneScen <- function(obj, ldv, n, scen, sig, shocks = NULL){
 
 		# Run simulations
 		SetVales <- setx(obj = obj, data = scenTemp)
-		SimValues <- sim(obj = obj, x = SetVales)
+		SimValues <- sim(obj = obj, x = SetVales, num = num)
 
 		# Create summary data frame
 		PV <- simulation.matrix(SimValues, "Predicted Values: Y|X")

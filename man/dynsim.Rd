@@ -2,7 +2,8 @@
 \alias{dynsim}
 \title{Dynamically simulations of autoregressive relationships}
 \usage{
-  dynsim(obj, ldv, scen, n = 10, sig = 0.95, shocks = NULL)
+  dynsim(obj, ldv, scen, n = 10, sig = 0.95, num = 1000,
+    shocks = NULL)
 }
 \arguments{
   \item{obj}{the output object from \code{\link{zelig}}.}
@@ -25,6 +26,10 @@
   \item{sig}{numeric. Specifies the level of statistical
   significance of the confidence intervals. Any value
   allowed be greater than 0 and cannot be greater than 1.}
+
+  \item{num}{numeric. Specifies the number of simulations
+  to compute for each value of \code{n}. The default is
+  1000.}
 
   \item{shocks}{data frame. Allows the user to choose
   independent variables, their values, and times to
