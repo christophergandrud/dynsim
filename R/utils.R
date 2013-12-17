@@ -21,7 +21,7 @@ OneScen <- function(obj, ldv, n, scen, sig, num, shocks = NULL){
 
 	# Create data frame to fill in with simulation summaries
 	SimSum <- data.frame()
-  ShockVals <- data.frame()
+	ShockVals <- data.frame()
 
 	# Change data frame for shock values
 	for (i in 1:n){
