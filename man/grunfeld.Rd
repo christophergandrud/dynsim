@@ -4,11 +4,11 @@
 \title{A data set from Grunfeld (1958)}
 \format{A data set with 200 observations and 6 variables}
 \source{
-  Grunfeld, Yehuda. 1958. The Determinants of Corporate
-  Investment. PhD thesis. University of Chicago.
+Grunfeld, Yehuda. 1958. The Determinants of Corporate
+Investment. PhD thesis. University of Chicago.
 }
 \description{
-  A data set from Grunfeld (1958)
+A data set from Grunfeld (1958)
 }
 \keyword{datasets}
 

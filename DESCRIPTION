@@ -16,8 +16,3 @@ Imports:
     ggplot2,
     gridExtra,
     Zelig
-Collate:
-    'dynsim.R'
-    'grunfeld.R'
-    'utils.R'
-    'dynsimGG.R'

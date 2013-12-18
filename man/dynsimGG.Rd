@@ -2,10 +2,10 @@
 \alias{dynsimGG}
 \title{Plot dynamic simulation results}
 \usage{
-  dynsimGG(obj, lsize = 1, color = NULL, alpha = 0.5,
-    xlab = "\nTime", ylab = "Predicted Value\n",
-    title = NULL, leg.name = "Scenario", leg.labels = NULL,
-    legend = "legend")
+dynsimGG(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\\nTime",
+  ylab = "Predicted Value\\n", title = NULL, leg.name = "Scenario",
+  leg.labels = NULL, legend = "legend", shockplot = FALSE,
+  shockplot.var = NULL)
 }
 \arguments{
   \item{obj}{a \code{dynsim} class object.}
@@ -43,18 +43,17 @@
   for each scenario in the legend.}
 }
 \description{
-  \code{dynsimGG} uses \code{\link{ggplot2}} to plot
-  dynamic simulation results created by
-  \code{\link{dynsim}}.
+\code{dynsimGG} uses \code{\link{ggplot2}} to plot dynamic
+simulation results created by \code{\link{dynsim}}.
 }
 \details{
-  Plots dynamic simulations of autoregressive relationships
-  from \code{\link{dynsim}}. The central line is the mean
-  of the simulation distributions. The outer ribbon is the
-  furthest extent of the simulation distributions' central
-  intervals found in \code{\link{dynsim}} with the
-  \code{sig} argument. The middle ribbons plot the limits
-  of the simulation distributions' central 50% intervals.
+Plots dynamic simulations of autoregressive relationships
+from \code{\link{dynsim}}. The central line is the mean of
+the simulation distributions. The outer ribbon is the
+furthest extent of the simulation distributions' central
+intervals found in \code{\link{dynsim}} with the \code{sig}
+argument. The middle ribbons plot the limits of the
+simulation distributions' central 50% intervals.
 }
 \examples{
 # Load packages

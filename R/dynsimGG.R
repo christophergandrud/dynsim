@@ -66,11 +66,11 @@
 #' dynsimGG(Sim2, leg.labels = Labels)
 #'
 #' @import ggplot2
-#' @importFrom gridExtra
+#' @importFrom gridExtra grid.arrange
 #'
 #' @export
 
-dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime", ylab = "Predicted Value\n", title = NULL, leg.name = "Scenario", leg.labels = NULL, legend = "legend"){
+dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime", ylab = "Predicted Value\n", title = NULL, leg.name = "Scenario", leg.labels = NULL, legend = "legend", shockplot = FALSE, shockplot.var = NULL){
 	# CRAN requirements
 	ldvMean <- ldvLower <- ldvUpper <- ldvLower50 <- ldvUpper50 <- scenNumber <- NULL
 
@@ -103,7 +103,7 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
 		if (is.null(color)){
 			color <- "Set1" 
 		}	
-		OutPlot <- ggplot(obj, aes(time, ldvMean, colour = factor(scenNumber), fill = factor(scenNumber))) +
+		MainPlot <- ggplot(obj, aes(time, ldvMean, colour = factor(scenNumber), fill = factor(scenNumber))) +
 					geom_line(size = lsize) +
 					geom_ribbon(aes(ymin = ldvLower, ymax = ldvUpper), alpha = alpha, linetype = 0) +
 					geom_ribbon(aes(ymin = ldvLower50, ymax = ldvUpper50), alpha = alpha, linetype = 0) +
@@ -114,6 +114,37 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
 			        xlab(xlab) + ylab(ylab) +
 			        ggtitle(title) +
 			        theme_bw(base_size = 15)
+	
+    # Add shock fitted value plot
+    if (isTRUE(shockplot)){
+      if (is.null(shockplot.var) | length(shockplot.var) > 1){
+        stop("You must specify ONE shock variable to plot with the shockplot.var argument.")
+      }
+      shockvar.pos <- paste0("shock.", shockplot.var)
+      shockvar.pos <- match(shockvar.pos, names(obj))
+      shockplot.df <- obj[, c(1:2, shockvar.pos)]
+      names(shockplot.df) <- c("scenNumber", "time", "shockvar")
+      
+      ShockPlot <- ggplot(shockplot.df, aes(time, shockvar, colour = as.factor(scenNumber))) + 
+        geom_line() +
+        scale_colour_brewer(palette = color, name = leg.name, guide = legend, 
+                            labels = leg.labels) +
+        ylab(shockplot.var) +
+        theme_bw(base_size = 15)
+      
+      gA <- ggplotGrob(MainPlot)
+      gB <- ggplotGrob(ShockPlot)
+      
+      # Set equal widths
+      maxWidth = grid::unit.pmax(gA$widths[2:5], gB$widths[2:5])
+      gA$widths[2:5] <- as.list(maxWidth)
+      gB$widths[2:5] <- as.list(maxWidth)
+      
+      grid.arrange(gA, gB, ncol = 1, heights = c(4, 1))
+    }
+    else if (!isTRUE(shockplot)){
+      OutPlot <- MainPlot
+    }
 	}
   OutPlot
 }

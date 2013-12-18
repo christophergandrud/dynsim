@@ -2,8 +2,8 @@
 \alias{dynsim}
 \title{Dynamically simulations of autoregressive relationships}
 \usage{
-  dynsim(obj, ldv, scen, n = 10, sig = 0.95, num = 1000,
-    shocks = NULL)
+dynsim(obj, ldv, scen, n = 10, sig = 0.95, num = 1000, shocks = NULL,
+  forecast = NULL)
 }
 \arguments{
   \item{obj}{the output object from \code{\link{zelig}}.}
@@ -46,34 +46,33 @@
   appropriately.}
 }
 \value{
-  The command returns a \code{Dynsim} class object. This
-  can contain up to seven elements: \itemize{
-  \item{\code{scenNumber}: }{The scenario number.}
-  \item{\code{time}: }{The time points.}
-  \item{\code{shock.}: }{Columns containing the values of
-  the shock variables at each point in \code{time}.}
-  \item{\code{ldvMean}: }{Mean of the simulation
-  distribution.} \item{\code{ldvLower}: }{Lower bound of
-  the simulation distribution's central interval set with
-  \code{sig}.} \item{\code{ldvUpper}: }{Upper bound of the
-  simulation distribution's central interval set with
-  \code{sig}.} \item{\code{ldvLower50}: }{Lower bound of
-  the simulation distribution's central 50 percent
-  interval.} \item{\code{ldvUpper50}: }{Upper bound of the
-  simulation distribution's central 50 percent interval.} }
-  You can easily convert the output object into a standard
-  data frame class object. For example, if the object is
-  called \code{dynOut} then use: \code{class(dynOut) <-
-  "data.frame"}.
+The command returns a \code{Dynsim} class object. This can
+contain up to seven elements: \itemize{
+\item{\code{scenNumber}: }{The scenario number.}
+\item{\code{time}: }{The time points.} \item{\code{shock.}:
+}{Columns containing the values of the shock variables at
+each point in \code{time}.} \item{\code{ldvMean}: }{Mean of
+the simulation distribution.} \item{\code{ldvLower}:
+}{Lower bound of the simulation distribution's central
+interval set with \code{sig}.} \item{\code{ldvUpper}:
+}{Upper bound of the simulation distribution's central
+interval set with \code{sig}.} \item{\code{ldvLower50}:
+}{Lower bound of the simulation distribution's central 50
+percent interval.} \item{\code{ldvUpper50}: }{Upper bound
+of the simulation distribution's central 50 percent
+interval.} } You can easily convert the output object into
+a standard data frame class object. For example, if the
+object is called \code{dynOut} then use:
+\code{class(dynOut) <- "data.frame"}.
 }
 \description{
-  \code{dynsim} dynamic simulations of autoregressive
-  relationships
+\code{dynsim} dynamic simulations of autoregressive
+relationships
 }
 \details{
-  A post-estimation technique for producing dynamic
-  simulations of autoregressive models estimated with
-  \code{\link{Zelig}}.
+A post-estimation technique for producing dynamic
+simulations of autoregressive models estimated with
+\code{\link{Zelig}}.
 }
 \examples{
 # Load packages
@@ -128,12 +127,12 @@ Sim4 <- dynsim(obj = M2, ldv = "InvestLag", scen = ScenComb, n = 20,
                shocks = mShocks)
 }
 \references{
-  Williams, L. K., & Whitten, G. D. (2011). Dynamic
-  Simulations of Autoregressive Relationships. The Stata
-  Journal, 11(4), 577-588.
+Williams, L. K., & Whitten, G. D. (2011). Dynamic
+Simulations of Autoregressive Relationships. The Stata
+Journal, 11(4), 577-588.
 
-  Williams, L. K., & Whitten, G. D. (2012). But Wait,
-  There's More! Maximizing Substantive Inferences from TSCS
-  Models. Journal of Politics, 74(03), 685-693.
+Williams, L. K., & Whitten, G. D. (2012). But Wait, There's
+More! Maximizing Substantive Inferences from TSCS Models.
+Journal of Politics, 74(03), 685-693.
 }
 

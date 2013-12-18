@@ -11,11 +11,11 @@
 #' @keywords internals
 #' @noRd
 
-OneScen <- function(obj, ldv, n, scen, sig, num, shocks = NULL){
+OneScen <- function(obj, ldv, n, scen, sig, num, shocks, forecast){
 	# CRAN requirements
 	times <- NULL
 	
-	# Create lower and upper bounds of the confidence interval
+	# Create lower and upper percentile bounds of the confidence interval
 	Bottom <- (1 - sig)/2
 	Top <- 1 - Bottom	
 
@@ -49,10 +49,23 @@ OneScen <- function(obj, ldv, n, scen, sig, num, shocks = NULL){
 		PV <- simulation.matrix(SimValues, "Predicted Values: Y|X")
 		time <- i
 		ldvMean <- mean(PV)
-		ldvLower <- quantile(PV, prob = Bottom, names = FALSE)
-		ldvUpper <- quantile(PV, prob = Top, names = FALSE)
-		ldvLower50 <- quantile(PV, prob = 0.25, names = FALSE)
-		ldvUpper50 <-quantile(PV, prob = 0.75, names = FALSE)
+    
+    if (is.null(forecast)){
+		  ldvLower <- quantile(PV, prob = Bottom, names = FALSE)
+		  ldvUpper <- quantile(PV, prob = Top, names = FALSE)
+		  ldvLower50 <- quantile(PV, prob = 0.25, names = FALSE)
+		  ldvUpper50 <-quantile(PV, prob = 0.75, names = FALSE)
+    }
+    else if (!is.null(forecast)){
+      sigma.sqrDF <- 
+      alpha.sqrDF <- 
+      if (forecast == "ag"){
+
+        iMinusOne <- i - 1
+        se <- sqrt(sigma.sqr *  (1 * iMinusOne * sigma.sqr * alpha.sqr)) 
+        
+      }
+    }
     
     # Shock variable values
 	if (!is.null(shocks)){

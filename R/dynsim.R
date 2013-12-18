@@ -87,7 +87,7 @@
 #'
 #' @export
 
-dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000, shocks = NULL){
+dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000, shocks = NULL, forecast = NULL){
 	# Make sure both shocks is a data frame and the first column of shocks is a variable called times.
 	if (!is.null(shocks)){
 		if (class(shocks) != "data.frame"){
@@ -116,7 +116,7 @@ dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000, shocks = NULL
 		scenNum <- length(scen)
 		for (u in 1:scenNum){
 			ScenTemp <- scen[[u]]
-			SimTemp <- OneScen(obj = obj, ldv = ldv, n = n, scen = ScenTemp, sig = sig, num = num, shocks = shocks)
+			SimTemp <- OneScen(obj = obj, ldv = ldv, n = n, scen = ScenTemp, sig = sig, num = num, shocks = shocks, forecast = forecast)
 			SimTemp$scenNumber <- u
 			SimTemp <- MoveFront(SimTemp, "scenNumber")
 			SimOut <- rbind(SimOut, SimTemp)
