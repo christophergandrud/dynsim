@@ -90,13 +90,44 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
 		if (is.null(color)){
 			color <- "#2B8CBE" 
 		}	
-		OutPlot <- ggplot(obj, aes(time, ldvMean)) +
+		MainPlot <- ggplot(obj, aes(time, ldvMean)) +
 					geom_line(size = lsize, colour = color) +
 					geom_ribbon(aes(ymin = ldvLower, ymax = ldvUpper), alpha = alpha, fill = color, linetype = 0) +
 					geom_ribbon(aes(ymin = ldvLower50, ymax = ldvUpper50), alpha = alpha, fill = color, linetype = 0) +
 			        xlab(xlab) + ylab(ylab) +
 			        ggtitle(title) +
 			        theme_bw(base_size = 15)
+		# Add shock fitted value plot
+		if (isTRUE(shockplot)){
+		  if (is.null(shockplot.var) | length(shockplot.var) > 1){
+		    stop("You must specify ONE shock variable to plot with the shockplot.var argument.")
+		  }
+		  shockvar.pos <- paste0("shock.", shockplot.var)
+		  shockvar.pos <- match(shockvar.pos, names(obj))
+		  if(is.null(shockvar.pos)){
+		    stop(paste(shockplot.var, "was not used as a shock variable."))
+		  }
+		  shockplot.df <- obj[, c(1, shockvar.pos)]
+		  names(shockplot.df) <- c("time", "shockvar")
+		  
+		  ShockPlot <- ggplot(shockplot.df, aes(time, shockvar)) + 
+		    geom_line(colour = color) +
+		    ylab(paste0(shockplot.var, "\n")) + xlab("") +
+		    theme_bw(base_size = 15)
+		  
+		  gA <- ggplotGrob(MainPlot)
+		  gB <- ggplotGrob(ShockPlot)
+		  
+		  # Set equal widths
+		  maxWidth = grid::unit.pmax(gA$widths[2:5], gB$widths[2:5])
+		  gA$widths[2:5] <- as.list(maxWidth)
+		  gB$widths[2:5] <- as.list(maxWidth)
+		  
+		  grid.arrange(gA, gB, ncol = 1, heights = c(4, 1))
+		}
+		else if (!isTRUE(shockplot)){
+		  MainPlot
+		}
 	}
 	# Plot multiple scenarios
 	else if (isTRUE("scenNumber" %in% names(obj))){
@@ -122,14 +153,16 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
       }
       shockvar.pos <- paste0("shock.", shockplot.var)
       shockvar.pos <- match(shockvar.pos, names(obj))
+      if(is.null(shockvar.pos)){
+        stop(paste(shockplot.var, "was not used as a shock variable."))
+      } else
       shockplot.df <- obj[, c(1:2, shockvar.pos)]
       names(shockplot.df) <- c("scenNumber", "time", "shockvar")
       
       ShockPlot <- ggplot(shockplot.df, aes(time, shockvar, colour = as.factor(scenNumber))) + 
         geom_line() +
-        scale_colour_brewer(palette = color, name = leg.name, guide = legend, 
-                            labels = leg.labels) +
-        ylab(shockplot.var) +
+        scale_colour_brewer(palette = color, guide = FALSE) +
+        ylab(paste0(shockplot.var, "\n")) + xlab("") +
         theme_bw(base_size = 15)
       
       gA <- ggplotGrob(MainPlot)
@@ -143,8 +176,7 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
       grid.arrange(gA, gB, ncol = 1, heights = c(4, 1))
     }
     else if (!isTRUE(shockplot)){
-      OutPlot <- MainPlot
+      MainPlot
     }
 	}
-  OutPlot
 }

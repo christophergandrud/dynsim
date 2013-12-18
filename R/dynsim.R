@@ -108,8 +108,8 @@ dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000, shocks = NULL
 
 	# Determine if 1 or more scenarios are desired and simulate scenarios
 	if (class(scen) == "data.frame"){
-		SimOut <- OneScen(obj = obj, ldv = ldv, n = n, scen = scen, sig = sig, 
-						  shocks = shocks)
+		SimOut <- OneScen(obj = obj, ldv = ldv, n = n, num = num, scen = scen, sig = sig, 
+						  shocks = shocks, forecast = forecast)
 	}
 	else if (class(scen) == "list"){
 		SimOut <- data.frame()
