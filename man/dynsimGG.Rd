@@ -72,7 +72,7 @@ library(Zelig)
 library(DataCombine)
 
 # Load Grunfeld data
-data(grunfeld, package = "Dynsim")
+data(grunfeld, package = "dynsim")
 
 # Create lag invest variable
 grunfeld <- slide(grunfeld, Var = "invest", GroupVar = "company",
@@ -82,13 +82,13 @@ grunfeld <- slide(grunfeld, Var = "invest", GroupVar = "company",
 M1 <- zelig(invest ~ InvestLag + mvalue + kstock,
             model = "ls", data = grunfeld, cite = FALSE)
 
-# Set up a scenario
+# Set up scenarios
 attach(grunfeld)
-Scen1 <- data.frame(invest = 317, InvestLag = mean(InvestLag, na.rm = TRUE),
+Scen1 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
                     mvalue = quantile(mvalue, 0.05), kstock = quantile(kstock, 0.05))
-Scen2 <- data.frame(invest = 100, InvestLag = mean(InvestLag, na.rm = TRUE),
+Scen2 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
                     mvalue = mean(mvalue), kstock = mean(kstock))
-Scen3 <- data.frame(invest = 317, InvestLag = mean(InvestLag, na.rm = TRUE),
+Scen3 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
                     mvalue = quantile(mvalue, 0.95), kstock = quantile(kstock, 0.95))
 detach(grunfeld)
 

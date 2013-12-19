@@ -1,4 +1,4 @@
-Dynsim
+dynsim
 ======
 
 An R implementation of dynamic simulations of autoregressive relationships.
@@ -11,10 +11,10 @@ The dynsim package underdevelopment implements Williams and Whitten's ([2011](ht
 
 ## Installation
 
-*Dynsim* is available on [CRAN](http://cran.r-project.org/web/packages/dynsim/index.html)
+*dynsim* is available on [CRAN](http://cran.r-project.org/web/packages/dynsim/index.html)
 
 You can also easily install the latest development version with the [devtools](http://cran.r-project.org/web/packages/devtools/index.html) package:
 
 ```
-devtools::install_github("Dynsim", "christophergandrud")
+devtools::install_github("dynsim", "christophergandrud")
 ```
