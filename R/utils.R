@@ -13,7 +13,7 @@
 
 OneScen <- function(obj, ldv, n, scen, sig, num, shocks, forecast){
 	# CRAN requirements
-	times <- NULL
+	times <- sigma.sqr <- alpha.sqr <- NULL
 	
 	# Create lower and upper percentile bounds of the confidence interval
 	Bottom <- (1 - sig)/2

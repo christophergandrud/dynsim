@@ -115,5 +115,8 @@ Sim2 <- dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20,
 
 # Plot
 dynsimGG(Sim2, leg.labels = Labels)
+
+# Plot with accompanying shock plot
+dynsimGG(Sim2, leg.labels = Labels, shockplot.var = "kstock")
 }
 

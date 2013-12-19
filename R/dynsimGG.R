@@ -68,6 +68,9 @@
 #' # Plot
 #' dynsimGG(Sim2, leg.labels = Labels)
 #'
+#' # Plot with accompanying shock plot
+#' dynsimGG(Sim2, leg.labels = Labels, shockplot.var = "kstock")
+#'
 #' @import ggplot2
 #' @importFrom gridExtra grid.arrange
 #'
@@ -75,7 +78,7 @@
 
 dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime", ylab = "Predicted Value\n", title = NULL, leg.name = "Scenario", leg.labels = NULL, legend = "legend", shockplot = FALSE, shockplot.var = NULL, shockplot.ylab = NULL){
 	# CRAN requirements
-	ldvMean <- ldvLower <- ldvUpper <- ldvLower50 <- ldvUpper50 <- scenNumber <- NULL
+	ldvMean <- ldvLower <- ldvUpper <- ldvLower50 <- ldvUpper50 <- scenNumber <- shockvar <- NULL
 
 	# Check if obj is of the Dynsim class
 	if (class(obj) != "Dynsim"){

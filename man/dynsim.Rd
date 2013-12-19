@@ -44,6 +44,8 @@ dynsim(obj, ldv, scen, n = 10, sig = 0.95, num = 1000, shocks = NULL,
   will revert to those in \code{scen}. If \code{*} is used
   to create interactions, interaction terms will be fitted
   appropriately.}
+
+  \item{forecast}{Reserved argument for future version.}
 }
 \value{
 The command returns a \code{Dynsim} class object. This can

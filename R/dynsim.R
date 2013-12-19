@@ -9,6 +9,7 @@
 #' @param sig numeric. Specifies the level of statistical significance of the confidence intervals. Any value allowed be greater than 0 and cannot be greater than 1.
 #' @param num numeric. Specifies the number of simulations to compute for each value of \code{n}. The default is 1000.
 #' @param shocks data frame. Allows the user to choose independent variables, their values, and times to introduce these values. The first column of the data frame must be called \code{times} this will contain the times in \code{n} to use the shock values. The following columns' names must match the names of the variables whose values you wish to alter. You do not need to specify values for variables that you want to remain the same as in \code{scen}. In times \code{n} where shock values are not specified, non-\code{ldv} variable values will revert to those in \code{scen}. If \code{*} is used to create interactions, interaction terms will be fitted appropriately.
+#' @param forecast Reserved argument for future version.
 #' 
 #' @details A post-estimation technique for producing dynamic simulations of autoregressive models estimated with \code{\link{Zelig}}. 
 #' 

@@ -4,6 +4,8 @@ The package is now referred to as `Dynsim` and the main simulation command as `d
 
 Note: this will break code created with version 0.2.
 
+Added a `shockplot` to `dynsimGG`. This allows you to include a plot of one shock variable's fitted values below the main prediction plot.
+
 `num` argument added to `dynsim` allowing the user to specify how many simulations to run at each point in time.
 
 Minor documentation fixes.
