@@ -1,4 +1,4 @@
-#' Dynamically simulations of autoregressive relationships
+#' Dynamic simulations of autoregressive relationships
 #' 
 #' \code{dynsim} dynamic simulations of autoregressive relationships
 #' 

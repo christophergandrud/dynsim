@@ -1,4 +1,4 @@
-#' Plot dynamic simulation results
+#' Plot dynamic simulation results from \code{dynsim}
 #'
 #' \code{dynsimGG} uses \code{\link{ggplot2}} to plot dynamic simulation results created by \code{\link{dynsim}}.
 #'

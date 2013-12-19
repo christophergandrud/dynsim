@@ -1,6 +1,6 @@
 \name{dynsim}
 \alias{dynsim}
-\title{Dynamically simulations of autoregressive relationships}
+\title{Dynamic simulations of autoregressive relationships}
 \usage{
 dynsim(obj, ldv, scen, n = 10, sig = 0.95, num = 1000, shocks = NULL,
   forecast = NULL)

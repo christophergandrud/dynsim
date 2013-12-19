@@ -1,6 +1,6 @@
 \name{dynsimGG}
 \alias{dynsimGG}
-\title{Plot dynamic simulation results}
+\title{Plot dynamic simulation results from \code{dynsim}}
 \usage{
 dynsimGG(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\\nTime",
   ylab = "Predicted Value\\n", title = NULL, leg.name = "Scenario",
