@@ -72,6 +72,7 @@
 #'
 #' @import ggplot2
 #' @importFrom gridExtra grid.arrange
+#' @importFrom gridExtra arrangeGrob
 #'
 #' @export
 
@@ -104,7 +105,7 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
 			        theme_bw(base_size = 15)
 		# Add shock fitted value plot
 		if (!is.null(shockplot.var)){
-		  if (is.null(shockplot.var) | length(shockplot.var) > 1){
+		  if (length(shockplot.var) > 1){
 		    stop("You must specify ONE shock variable to plot with the shockplot.var argument.")
 		  }
 		  if (is.null(shockplot.ylab)){
@@ -121,7 +122,7 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
 		  ShockPlot <- ggplot(shockplot.df, aes(time, shockvar)) + 
 		    geom_line(colour = color) +
 		    ylab(shockplot.ylab) + xlab("") +
-		    theme_bw(base_size = 15)
+		    theme_bw(base_size = 10)
 		  
 		  gA <- ggplotGrob(MainPlot)
 		  gB <- ggplotGrob(ShockPlot)
@@ -131,7 +132,7 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
 		  gA$widths[2:5] <- as.list(maxWidth)
 		  gB$widths[2:5] <- as.list(maxWidth)
 		  
-		  grid.arrange(gA, gB, ncol = 1, heights = c(4, 1))
+		  grid.arrange(arrangeGrob(gA, gB, ncol = 1, heights = c(4, 1)))
 		}
 		else if (is.null(shockplot.var)){
 		  MainPlot
@@ -156,7 +157,7 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
 	
     # Add shock fitted value plot
     if (!is.null(shockplot.var)){
-      if (is.null(shockplot.var) | length(shockplot.var) > 1){
+      if (length(shockplot.var) > 1){
         stop("You must specify ONE shock variable to plot with the shockplot.var argument.")
       }
 	  if (is.null(shockplot.ylab)){
@@ -174,7 +175,7 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
         geom_line() +
         scale_colour_brewer(palette = color, guide = FALSE) +
         ylab(shockplot.ylab) + xlab("") +
-        theme_bw(base_size = 15)
+        theme_bw(base_size = 10)
       
       gA <- ggplotGrob(MainPlot)
       gB <- ggplotGrob(ShockPlot)
@@ -184,7 +185,7 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
       gA$widths[2:5] <- as.list(maxWidth)
       gB$widths[2:5] <- as.list(maxWidth)
       
-      grid.arrange(gA, gB, ncol = 1, heights = c(4, 1))
+    grid.arrange(arrangeGrob(gA, gB, ncol = 1, heights = c(4, 1)))
     }
 		else if (is.null(shockplot.var)){
       MainPlot
