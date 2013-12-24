@@ -4,8 +4,8 @@
 \usage{
 dynsimGG(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\\nTime",
   ylab = "Predicted Value\\n", title = NULL, leg.name = "Scenario",
-  leg.labels = NULL, legend = "legend", shockplot = FALSE,
-  shockplot.var = NULL, shockplot.ylab = NULL)
+  leg.labels = NULL, legend = "legend", shockplot.var = NULL,
+  shockplot.ylab = NULL)
 }
 \arguments{
   \item{obj}{a \code{dynsim} class object.}
@@ -42,13 +42,9 @@ dynsimGG(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\\nTime",
   \item{leg.labels}{character vector specifying the labels
   for each scenario in the legend.}
 
-  \item{shockplot}{logical. If \code{TRUE} then the values
-  of the fitted shock variable over time specified in
-  \code{shockplot.var} will be plotted underneath the main
-  plot.}
-
   \item{shockplot.var}{character string naming the one
-  shock variable to plot if \code{shockplot = TRUE}.}
+  shock variable to plot fitted values of over time
+  specified underneath the main plot.}
 
   \item{shockplot.ylab}{a label for the shockplot's
   y-axis.}
