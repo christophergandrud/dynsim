@@ -128,8 +128,3 @@ dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000, shocks = NULL
 	class(SimOut) <- "dynsim"
 	return(SimOut)
 }
-
-
-
-
-

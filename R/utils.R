@@ -63,12 +63,15 @@ OneScen <- function(obj, ldv, n, scen, sig, num, shocks, forecast){
 		  ldvUpper50 <-quantile(PV, prob = 0.75, names = FALSE)
     }
     else if (!is.null(forecast)){
-      sigma.sqrDF <- 
-      alpha.sqrDF <- 
+      # Predict mean and standard error
+      pred <- predict(object = obj, newdata = scenTemp, level = 1, se.fit = TRUE)
+      ldvMean <- as.numeric(pred0[1])
+      sigma.sqr <- as.numeric(pred0[2])
+       
       if (forecast == "ag"){
-
         iMinusOne <- i - 1
-        se <- sqrt(sigma.sqr *  (1 * iMinusOne * sigma.sqr * alpha.sqr)) 
+        se <- sqrt(sigma.sqr *  (1 * iMinusOne * sigma.sqr * (ldvMean)^2)) 
+        ldvLower <- ldvMean - 
         
       }
     }
