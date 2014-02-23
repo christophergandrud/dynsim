@@ -1,3 +1,7 @@
+Version 0.2.3
+
+Internal: Travis CI added for build checks
+
 Version 0.2.2
 
 Simplified the syntax for shock plots (`shockplot = TRUE` is no longer necessary) and decreaseed the font size.
