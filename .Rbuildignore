@@ -1,5 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^.*\..Rmd
+^.*\..html
 
 # Git related
 ./.git*
