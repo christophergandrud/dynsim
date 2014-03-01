@@ -1,7 +1,9 @@
 dynsim
 ======
 
-An R implementation of dynamic simulations of autoregressive relationships.
+### An R implementation of dynamic simulations of autoregressive relationships.
+
+### Version 0.2.3
 
 #### Laron K Williams, Guy D Whitten, and [Christopher Gandrud](http://christophergandrud.blogspot.com/p/biocontact.html)
 
