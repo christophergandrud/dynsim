@@ -25,7 +25,7 @@ There are four basic steps to use **dynsim** to create dynamic simulations of au
 
 ## Examples 
 
-For examples please visit []().
+For examples please visit [http://christophergandrud.github.io/dynsim/](http://christophergandrud.github.io/dynsim/).
 
 ## Install
 

@@ -8,7 +8,8 @@ Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>
 BugReports: https://github.com/christophergandrud/dynsim/issues
 Description: An R implementation of dynamic simulations of autoregressive
     relationships
-License: GPL-2 | GPL-3Depends:
+License: GPL-2 | GPL-3
+Depends:
     R (>= 3.0.0)
 Imports:
     DataCombine,
