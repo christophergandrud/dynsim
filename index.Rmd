@@ -178,5 +178,16 @@ dynsimGG(Sim3, leg.name = 'Scenarios', leg.labels = Labels, color = 'OrRd',
 You can also easily install the latest development version with the [devtools](http://cran.r-project.org/web/packages/devtools/index.html) package:
 
 ```{r eval=FALSE}
-devtools::install_github('dynsim', 'christophergandrud')
+devtools::install_github('dynsim/christophergandrud')
 ```
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48683594-1', 'christophergandrud.github.io');
+  ga('send', 'pageview');
+
+</script>
