@@ -38,3 +38,7 @@ You can also easily install the latest development version with the [devtools](h
 ```
 devtools::install_github("dynsim/christophergandrud")
 ```
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/christophergandrud/dynsim/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
