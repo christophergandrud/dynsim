@@ -36,9 +36,5 @@ For examples please visit [http://christophergandrud.github.io/dynsim/](http://c
 You can also easily install the latest development version with the [devtools](http://cran.r-project.org/web/packages/devtools/index.html) package:
 
 ```{S}
-devtools::install_github("dynsim/christophergandrud")
+devtools::install_github("christophergandrud/dynsim")
 ```
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/christophergandrud/dynsim/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
