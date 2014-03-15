@@ -363,7 +363,11 @@ percentiles.</li>
 
 <p>Suppose that we want to simulate three different scenarios based on holding the firm's market value and value of the capital stock at its 5th percentile, mean, and 95th percentile, respectively. To do this we use the <code>scen</code> options (in the Stata version you can set up to 4 scenarios). We can also provide the starting value for the lagged dependent variable (in the <code>scen</code> options), which in this case is the sample mean. Here is the code:</p> 
 
-<div class="chunk" id="unnamed-chunk-13"><div class="rcode"><div class="source"><pre class="knitr r">estsimp reg invest lag_invest mvalue kstock
+<div class="chunk" id="unnamed-chunk-13"><div class="rcode"><div class="source"><pre class="knitr r">dynsim, <span class="hl kwd">ldv</span>(lag_invest) <span class="hl kwd">scen1</span>(lag_invest mean mvalue p5 kstock p5) 
+        <span class="hl kwd">scen2</span>(mean)
+        <span class="hl kwd">scen3</span>(lag_invest mean mvalue p95 kstock p95) 
+        <span class="hl kwd">n</span>(20) 
+        <span class="hl kwd">saving</span>(dynsim1)
 </pre></div>
 </div></div>
 

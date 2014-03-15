@@ -292,7 +292,11 @@ end.rcode-->
 <p>Suppose that we want to simulate three different scenarios based on holding the firm's market value and value of the capital stock at its 5th percentile, mean, and 95th percentile, respectively. To do this we use the <code>scen</code> options (in the Stata version you can set up to 4 scenarios). We can also provide the starting value for the lagged dependent variable (in the <code>scen</code> options), which in this case is the sample mean. Here is the code:</p> 
 
 <!--begin.rcode eval=FALSE
-estsimp reg invest lag_invest mvalue kstock
+dynsim, ldv(lag_invest) scen1(lag_invest mean mvalue p5 kstock p5) 
+        scen2(mean)
+        scen3(lag_invest mean mvalue p95 kstock p95) 
+        n(20) 
+        saving(dynsim1)
 end.rcode-->
 
 <p>We can present the predicted values (and confidence intervals) in the new <em>dynsim1</em> data set in a variety of ways. We have found that Stata’s <code>twoway rcap</code> is a simple way of demonstrating the predicted values and uncertainty.</p>
