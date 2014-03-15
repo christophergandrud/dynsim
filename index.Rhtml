@@ -5,6 +5,7 @@
         <title>dynsim</title>
         <meta name="dynsimVignette" content="dynsim: dynamic simulations of autoregressive relationships.">
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/images.css">
         <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
         <link rel="stylesheet" href="css/bootstrapMod.css" media="screen">
         <link href="css/bootswatch.css" rel="stylesheet">
@@ -15,17 +16,27 @@
 <!--begin.rcode include=FALSE
 opts_chunk$set(fig.align='center')
 opts_chunk$set(dev='svg')
+opts_chunk$set(tidy=FALSE)
+opts_chunk$set(message=FALSE)
 end.rcode-->
 
 <!----------------------------- Header ------------------------------>
 
+
+
+<!-- Header -->
 <div id="topbar"><strong><code>dynsim</code>:</strong></div> <div id="topbarsub">dynamic simulations of autoregressive relationships</div>
 
-<p>Laron K Williams, Guy D Whitten, and <a href="http://christophergandrud.blogspot.com/p/biocontact.html">Christopher Gandrud</a></p>
+<p><a href="http://web.missouri.edu/~williamslaro/">Laron K Williams</a>, <a href="http://politicalscience.tamu.edu/html/bio--whitten.html">Guy D Whitten</a>, and <a href="http://christophergandrud.blogspot.com/p/biocontact.html">Christopher Gandrud</a></p>
 
 <p>15 March 2014</p>
 
-<hr>
+<br>
+
+<!-- Banner image -->
+<div id="rect1"></div>
+<div id="rect2"></div>
+<div id="rect1"></div>
 
 <!----------------------------- Basic description ------------------------------>
 <div id='maindescript'>
@@ -46,9 +57,21 @@ end.rcode-->
 <div class="tab-content">
     <div class="tab-pane fade active in" id="R">
 
-<p class="pull-left">Version <a href="http://cran.at.r-project.org/web/packages/dynsim/index.html">0.2.3</a></p> <p class="pull-right">Fork it on <a href="https://github.com/christophergandrud/dynsim">GitHub</a></p>
+<p class="pull-left"><strong>Version <a href="http://cran.at.r-project.org/web/packages/dynsim/index.html">0.2.3</a></strong></p> <p class="pull-right"><strong>Fork it on <a href="https://github.com/christophergandrud/dynsim">GitHub</a></strong></p>
 
 <br/>
+
+<hr>
+
+<div id="navcontainer">
+    <ul id="navlist">
+    <li><a href="#process">Process</a></li> 
+    <li><a href="#examples">Examples</a></li> 
+    <li><a href="#install">Install</a></li>
+    </ul>
+</div>
+
+<hr>
 
 <h2 id="process">Process</h2>
 
@@ -67,7 +90,7 @@ end.rcode-->
 
 <p>First let's load the packages we will use:</p>
 
-<!--begin.rcode message=FALSE
+<!--begin.rcode
 library(dynsim)
 library(DataCombine)
 library(Zelig)
@@ -76,8 +99,7 @@ end.rcode-->
 <p>Now let's load the data:</p>
 
 <!--begin.rcode
-data(grunfeld, 
-    package = 'dynsim')
+data(grunfeld, package = 'dynsim')
 end.rcode-->
 
 <p>The linear regression model we will estimate is:</p>
@@ -89,7 +111,7 @@ end.rcode-->
 
 <p>In the <code>grunfeld</code> data set real gross investment is denoted <code>invest</code>, the firm's market value is <code>mvalue</code>, and the capital stock is <code>kstock</code>. There are 10 large US manufacturers from 1935-1954 in the data set. The variable identifying the individual companies is called <code>company</code>. We can easily create the investment one-year lag using the <code>slide</code> command from the <a href="https://github.com/christophergandrud/DataCombine">DataCombine</a> package. Here is the code:</p>
 
-<!--begin.rcode message=FALSE, tidy=FALSE
+<!--begin.rcode
 grunfeld <- slide(grunfeld, Var = 'invest', 
                GroupVar = 'company',
                NewVar = 'InvestLag')
@@ -102,7 +124,7 @@ end.rcode-->
 
 <p>Now that we have created our lag variable we, can begin to create dynamic simulations with <strong><code>dynsim</code></strong> by estimating the underlying linear regression model using <strong><code>Zelig</code></strong>, i.e.:</p>
 
-<!--begin.rcode message=FALSE, tidy=FALSE
+<!--begin.rcode
 M1 <- zelig(invest ~ InvestLag + mvalue + kstock,
             model = 'ls', data = grunfeld, cite = FALSE)
 end.rcode-->
@@ -119,16 +141,19 @@ percentiles.</li>
 
 <p>We can create a list object for the scen argument containing each of these scenarios with the following code:</p>
 
-<!--begin.rcode message=FALSE, tidy=FALSE
+<!--begin.rcode
 # Create simulation scenarios
 attach(grunfeld)
-Scen1 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
+Scen1 <- data.frame(InvestLag = mean(InvestLag, 
+                                 na.rm = TRUE),
                     mvalue = quantile(mvalue, 0.95),
                     kstock = quantile(kstock, 0.95))
-Scen2 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
+Scen2 <- data.frame(InvestLag = mean(InvestLag, 
+                                 na.rm = TRUE),
                     mvalue = mean(mvalue),
                     kstock = mean(kstock))
-Scen3 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
+Scen3 <- data.frame(InvestLag = mean(InvestLag, 
+                                 na.rm = TRUE),
                     mvalue = quantile(mvalue, 0.05),
                     kstock = quantile(kstock, 0.05))
 detach(grunfeld)
@@ -139,7 +164,7 @@ end.rcode-->
 
 <p>In this example we won't introduce shocks, so now we run our simulations:</p>
 
-<!--begin.rcode message=FALSE, tidy=FALSE
+<!--begin.rcode
 Sim1 <- dynsim(obj = M1, ldv = 'InvestLag', 
                 scen = ScenComb, n = 20)
 end.rcode-->
@@ -150,7 +175,7 @@ end.rcode-->
 
 <p>Now let's include fitted shock values. In particular, let's see how a company with capital stock in the 5th percentile is predicted to change its gross investment when its market value experiences shocks compared to a company with capital stock in the 95th percentile. We will use market values for the first company in the grunfeld data set over the first 15 years as the shock values. To create the shock data use the following code:</p>
 
-<!--begin.rcode message=FALSE, tidy=FALSE
+<!--begin.rcode
 # Keep only the mvalue for the first company 
 # for the first 15 years
 grunfeldsub <- subset(grunfeld, company == 1)
@@ -163,7 +188,7 @@ end.rcode-->
 
 <p>Now we can simply add <code>grunfeldshock</code> to the dynsim shocks argument.</p>
 
-<!--begin.rcode message=FALSE, tidy=FALSE
+<!--begin.rcode
 Sim2 <- dynsim(obj = M1, ldv = 'InvestLag', 
                scen = ScenComb, n = 15,
                shocks = grunfeldshock)
@@ -171,7 +196,7 @@ end.rcode-->
 
 <p>Now we can simply add grunfeldshock to the dynsim <code>shocks</code> argument.</p>
 
-<!--begin.rcode message=FALSE, tidy=FALSE
+<!--begin.rcode
 Sim3 <- dynsim(obj = M1, ldv = 'InvestLag', 
                scen = ScenComb, n = 15,
                shocks = grunfeldshock)
@@ -182,12 +207,51 @@ end.rcode-->
 <p>Probably the easiest and most effective way to communicate your <strong><code>dynsim</code></strong> simulation results is with the package’s built-in plotting capabilities. These are accessed with the <code>dysnsimGG</code> command. Let’s start by plotting the simulations from our basic model. In an earlier example we put these results into <code>Sim1</code>. Using <code>dynsimGG</code>'s default settings we can plot the simulations with the following code:
 </p>
 
-<!--begin.rcode
+<!--begin.rcode Basic
 dynsimGG(Sim1)
 end.rcode-->
 
 <p>We can make a number of aesthetic changes. For example, we can re-title the legend using the <code>leg.name</code> argument and change the legend values by adding a vector of the desired label names in the order of our scenarios using the <code>leg.labels</code> argument. We can also change the color palette using the <code>color</code> argument. Let’s use the 'orange-red' palette denoted by <code>OrRd</code>. Finally, we can change the y-axis label with the <code>ylab</code> argument so that it is more descriptive. 
 </p>
+
+<!--begin.rcode ColorScen
+# Create legend labels vector
+Labels <- c('95th Percentile', 'Mean', '5th Percentile')
+
+# Plot
+dynsimGG(Sim1, leg.name = 'Scenarios', 
+         leg.labels = Labels, color = 'OrRd',
+         ylab = 'Predicted Real Gross Investment\n')
+end.rcode-->
+
+<p>Plotting simulations with shock variables is very similar to what we have already seen. The one major change we can make is to include a plot of one shock variable’s fitted values underneath the main plot. To do this simply use the <code>shockplot.var</code> argument to specify which variable to plot. Use the <code>shockplot.ylab</code> argument to change the y-axis label. For example:
+</p>
+
+<!--begin.rcode ShockPlot
+dynsimGG(Sim2, leg.name = 'Scenarios', leg.labels = Labels, 
+            color = 'OrRd', ylab = 'Predicted Real Gross Investment\n', 
+            shockplot.var = 'mvalue',
+            shockplot.ylab = 'Firm Value')
+end.rcode-->
+
+<p>Similarly, we can plot the simulations from scenarios where market value shocks were interacted with capital stock. The code is accomplish this is almost identical to the code chunk we just saw. The only difference is that we use the <code>Sim3</code> model object.
+</p>
+
+<!--begin.rcode InteractShock
+dynsimGG(Sim3, leg.name = 'Scenarios', leg.labels = Labels, color = 'OrRd',
+       ylab = 'Predicted Real Gross Investment\n', shockplot.var = 'mvalue',
+       shockplot.ylab = 'Firm Value')
+end.rcode-->
+
+<h2 id="install">Install</h2>
+
+<p><strong><code>dynsim</code></strong> for R is available on <a href="http://cran.r-project.org/web/packages/dynsim/index.html">CRAN</a>.</p>
+
+<p>You can also easily install the latest development version with <a href="http://cran.r-project.org/web/packages/devtools/index.html">devtools</a> package:.</p>
+
+<!--begin.rcode eval=FALSE
+devtools::install_github('dynsim/christophergandrud')
+end.rcode-->
 
 </div>
 
@@ -199,6 +263,28 @@ end.rcode-->
 </div>
 
 </div>
+
+
+<!----------------------------- Comments ------------------------------>
+
+<br>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'dynsim'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+<br>
 
 <!----------------------------- Footer ------------------------------>
 

@@ -67,6 +67,7 @@
         <title>dynsim</title>
         <meta name="dynsimVignette" content="dynsim: dynamic simulations of autoregressive relationships.">
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/images.css">
         <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
         <link rel="stylesheet" href="css/bootstrapMod.css" media="screen">
         <link href="css/bootswatch.css" rel="stylesheet">
@@ -79,13 +80,21 @@
 
 <!----------------------------- Header ------------------------------>
 
+
+
+<!-- Header -->
 <div id="topbar"><strong><code>dynsim</code>:</strong></div> <div id="topbarsub">dynamic simulations of autoregressive relationships</div>
 
-<p>Laron K Williams, Guy D Whitten, and <a href="http://christophergandrud.blogspot.com/p/biocontact.html">Christopher Gandrud</a></p>
+<p><a href="http://web.missouri.edu/~williamslaro/">Laron K Williams</a>, <a href="http://politicalscience.tamu.edu/html/bio--whitten.html">Guy D Whitten</a>, and <a href="http://christophergandrud.blogspot.com/p/biocontact.html">Christopher Gandrud</a></p>
 
 <p>15 March 2014</p>
 
-<hr>
+<br>
+
+<!-- Banner image -->
+<div id="rect1"></div>
+<div id="rect2"></div>
+<div id="rect1"></div>
 
 <!----------------------------- Basic description ------------------------------>
 <div id='maindescript'>
@@ -106,9 +115,21 @@
 <div class="tab-content">
     <div class="tab-pane fade active in" id="R">
 
-<p class="pull-left">Version <a href="http://cran.at.r-project.org/web/packages/dynsim/index.html">0.2.3</a></p> <p class="pull-right">Fork it on <a href="https://github.com/christophergandrud/dynsim">GitHub</a></p>
+<p class="pull-left"><strong>Version <a href="http://cran.at.r-project.org/web/packages/dynsim/index.html">0.2.3</a></strong></p> <p class="pull-right"><strong>Fork it on <a href="https://github.com/christophergandrud/dynsim">GitHub</a></strong></p>
 
 <br/>
+
+<hr>
+
+<div id="navcontainer">
+    <ul id="navlist">
+    <li><a href="#process">Process</a></li> 
+    <li><a href="#examples">Examples</a></li> 
+    <li><a href="#install">Install</a></li>
+    </ul>
+</div>
+
+<hr>
 
 <h2 id="process">Process</h2>
 
@@ -136,7 +157,7 @@
 
 <p>Now let's load the data:</p>
 
-<div class="chunk" id="unnamed-chunk-3"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">data</span><span class="hl std">(grunfeld,</span> <span class="hl kwc">package</span> <span class="hl std">=</span> <span class="hl str">&quot;dynsim&quot;</span><span class="hl std">)</span>
+<div class="chunk" id="unnamed-chunk-3"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">data</span><span class="hl std">(grunfeld,</span> <span class="hl kwc">package</span> <span class="hl std">=</span> <span class="hl str">'dynsim'</span><span class="hl std">)</span>
 </pre></div>
 </div></div>
 
@@ -183,13 +204,16 @@ percentiles.</li>
 
 <div class="chunk" id="unnamed-chunk-6"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl com"># Create simulation scenarios</span>
 <span class="hl kwd">attach</span><span class="hl std">(grunfeld)</span>
-<span class="hl std">Scen1</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">data.frame</span><span class="hl std">(</span><span class="hl kwc">InvestLag</span> <span class="hl std">=</span> <span class="hl kwd">mean</span><span class="hl std">(InvestLag,</span> <span class="hl kwc">na.rm</span> <span class="hl std">=</span> <span class="hl num">TRUE</span><span class="hl std">),</span>
+<span class="hl std">Scen1</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">data.frame</span><span class="hl std">(</span><span class="hl kwc">InvestLag</span> <span class="hl std">=</span> <span class="hl kwd">mean</span><span class="hl std">(InvestLag,</span>
+                                 <span class="hl kwc">na.rm</span> <span class="hl std">=</span> <span class="hl num">TRUE</span><span class="hl std">),</span>
                     <span class="hl kwc">mvalue</span> <span class="hl std">=</span> <span class="hl kwd">quantile</span><span class="hl std">(mvalue,</span> <span class="hl num">0.95</span><span class="hl std">),</span>
                     <span class="hl kwc">kstock</span> <span class="hl std">=</span> <span class="hl kwd">quantile</span><span class="hl std">(kstock,</span> <span class="hl num">0.95</span><span class="hl std">))</span>
-<span class="hl std">Scen2</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">data.frame</span><span class="hl std">(</span><span class="hl kwc">InvestLag</span> <span class="hl std">=</span> <span class="hl kwd">mean</span><span class="hl std">(InvestLag,</span> <span class="hl kwc">na.rm</span> <span class="hl std">=</span> <span class="hl num">TRUE</span><span class="hl std">),</span>
+<span class="hl std">Scen2</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">data.frame</span><span class="hl std">(</span><span class="hl kwc">InvestLag</span> <span class="hl std">=</span> <span class="hl kwd">mean</span><span class="hl std">(InvestLag,</span>
+                                 <span class="hl kwc">na.rm</span> <span class="hl std">=</span> <span class="hl num">TRUE</span><span class="hl std">),</span>
                     <span class="hl kwc">mvalue</span> <span class="hl std">=</span> <span class="hl kwd">mean</span><span class="hl std">(mvalue),</span>
                     <span class="hl kwc">kstock</span> <span class="hl std">=</span> <span class="hl kwd">mean</span><span class="hl std">(kstock))</span>
-<span class="hl std">Scen3</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">data.frame</span><span class="hl std">(</span><span class="hl kwc">InvestLag</span> <span class="hl std">=</span> <span class="hl kwd">mean</span><span class="hl std">(InvestLag,</span> <span class="hl kwc">na.rm</span> <span class="hl std">=</span> <span class="hl num">TRUE</span><span class="hl std">),</span>
+<span class="hl std">Scen3</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">data.frame</span><span class="hl std">(</span><span class="hl kwc">InvestLag</span> <span class="hl std">=</span> <span class="hl kwd">mean</span><span class="hl std">(InvestLag,</span>
+                                 <span class="hl kwc">na.rm</span> <span class="hl std">=</span> <span class="hl num">TRUE</span><span class="hl std">),</span>
                     <span class="hl kwc">mvalue</span> <span class="hl std">=</span> <span class="hl kwd">quantile</span><span class="hl std">(mvalue,</span> <span class="hl num">0.05</span><span class="hl std">),</span>
                     <span class="hl kwc">kstock</span> <span class="hl std">=</span> <span class="hl kwd">quantile</span><span class="hl std">(kstock,</span> <span class="hl num">0.05</span><span class="hl std">))</span>
 <span class="hl kwd">detach</span><span class="hl std">(grunfeld)</span>
@@ -249,13 +273,56 @@ percentiles.</li>
 <p>Probably the easiest and most effective way to communicate your <strong><code>dynsim</code></strong> simulation results is with the package’s built-in plotting capabilities. These are accessed with the <code>dysnsimGG</code> command. Let’s start by plotting the simulations from our basic model. In an earlier example we put these results into <code>Sim1</code>. Using <code>dynsimGG</code>'s default settings we can plot the simulations with the following code:
 </p>
 
-<div class="chunk" id="unnamed-chunk-11"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">dynsimGG</span><span class="hl std">(Sim1)</span>
+<div class="chunk" id="Basic"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">dynsimGG</span><span class="hl std">(Sim1)</span>
 </pre></div>
-</div><div class="rimage center"><img src="figure/unnamed-chunk-11.svg" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" class="plot" /></div></div>
+</div><div class="rimage center"><img src="figure/Basic.svg" title="plot of chunk Basic" alt="plot of chunk Basic" class="plot" /></div></div>
 
 
 <p>We can make a number of aesthetic changes. For example, we can re-title the legend using the <code>leg.name</code> argument and change the legend values by adding a vector of the desired label names in the order of our scenarios using the <code>leg.labels</code> argument. We can also change the color palette using the <code>color</code> argument. Let’s use the 'orange-red' palette denoted by <code>OrRd</code>. Finally, we can change the y-axis label with the <code>ylab</code> argument so that it is more descriptive. 
 </p>
+
+<div class="chunk" id="ColorScen"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl com"># Create legend labels vector</span>
+<span class="hl std">Labels</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl str">'95th Percentile'</span><span class="hl std">,</span> <span class="hl str">'Mean'</span><span class="hl std">,</span> <span class="hl str">'5th Percentile'</span><span class="hl std">)</span>
+
+<span class="hl com"># Plot</span>
+<span class="hl kwd">dynsimGG</span><span class="hl std">(Sim1,</span> <span class="hl kwc">leg.name</span> <span class="hl std">=</span> <span class="hl str">'Scenarios'</span><span class="hl std">,</span>
+         <span class="hl kwc">leg.labels</span> <span class="hl std">= Labels,</span> <span class="hl kwc">color</span> <span class="hl std">=</span> <span class="hl str">'OrRd'</span><span class="hl std">,</span>
+         <span class="hl kwc">ylab</span> <span class="hl std">=</span> <span class="hl str">'Predicted Real Gross Investment\n'</span><span class="hl std">)</span>
+</pre></div>
+</div><div class="rimage center"><img src="figure/ColorScen.svg" title="plot of chunk ColorScen" alt="plot of chunk ColorScen" class="plot" /></div></div>
+
+
+<p>Plotting simulations with shock variables is very similar to what we have already seen. The one major change we can make is to include a plot of one shock variable’s fitted values underneath the main plot. To do this simply use the <code>shockplot.var</code> argument to specify which variable to plot. Use the <code>shockplot.ylab</code> argument to change the y-axis label. For example:
+</p>
+
+<div class="chunk" id="ShockPlot"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">dynsimGG</span><span class="hl std">(Sim2,</span> <span class="hl kwc">leg.name</span> <span class="hl std">=</span> <span class="hl str">'Scenarios'</span><span class="hl std">,</span> <span class="hl kwc">leg.labels</span> <span class="hl std">= Labels,</span>
+            <span class="hl kwc">color</span> <span class="hl std">=</span> <span class="hl str">'OrRd'</span><span class="hl std">,</span> <span class="hl kwc">ylab</span> <span class="hl std">=</span> <span class="hl str">'Predicted Real Gross Investment\n'</span><span class="hl std">,</span>
+            <span class="hl kwc">shockplot.var</span> <span class="hl std">=</span> <span class="hl str">'mvalue'</span><span class="hl std">,</span>
+            <span class="hl kwc">shockplot.ylab</span> <span class="hl std">=</span> <span class="hl str">'Firm Value'</span><span class="hl std">)</span>
+</pre></div>
+</div><div class="rimage center"><img src="figure/ShockPlot.svg" title="plot of chunk ShockPlot" alt="plot of chunk ShockPlot" class="plot" /></div></div>
+
+
+<p>Similarly, we can plot the simulations from scenarios where market value shocks were interacted with capital stock. The code is accomplish this is almost identical to the code chunk we just saw. The only difference is that we use the <code>Sim3</code> model object.
+</p>
+
+<div class="chunk" id="InteractShock"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">dynsimGG</span><span class="hl std">(Sim3,</span> <span class="hl kwc">leg.name</span> <span class="hl std">=</span> <span class="hl str">'Scenarios'</span><span class="hl std">,</span> <span class="hl kwc">leg.labels</span> <span class="hl std">= Labels,</span> <span class="hl kwc">color</span> <span class="hl std">=</span> <span class="hl str">'OrRd'</span><span class="hl std">,</span>
+       <span class="hl kwc">ylab</span> <span class="hl std">=</span> <span class="hl str">'Predicted Real Gross Investment\n'</span><span class="hl std">,</span> <span class="hl kwc">shockplot.var</span> <span class="hl std">=</span> <span class="hl str">'mvalue'</span><span class="hl std">,</span>
+       <span class="hl kwc">shockplot.ylab</span> <span class="hl std">=</span> <span class="hl str">'Firm Value'</span><span class="hl std">)</span>
+</pre></div>
+</div><div class="rimage center"><img src="figure/InteractShock.svg" title="plot of chunk InteractShock" alt="plot of chunk InteractShock" class="plot" /></div></div>
+
+
+<h2 id="install">Install</h2>
+
+<p><strong><code>dynsim</code></strong> for R is available on <a href="http://cran.r-project.org/web/packages/dynsim/index.html">CRAN</a>.</p>
+
+<p>You can also easily install the latest development version with <a href="http://cran.r-project.org/web/packages/devtools/index.html">devtools</a> package:.</p>
+
+<div class="chunk" id="unnamed-chunk-11"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">devtools::</span><span class="hl kwd">install_github</span><span class="hl std">(</span><span class="hl str">'dynsim/christophergandrud'</span><span class="hl std">)</span>
+</pre></div>
+</div></div>
+
 
 </div>
 
@@ -267,6 +334,28 @@ percentiles.</li>
 </div>
 
 </div>
+
+
+<!----------------------------- Comments ------------------------------>
+
+<br>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'dynsim'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+<br>
 
 <!----------------------------- Footer ------------------------------>
 
