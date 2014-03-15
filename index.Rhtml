@@ -9,6 +9,7 @@
         <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
         <link rel="stylesheet" href="css/bootstrapMod.css" media="screen">
         <link href="css/bootswatch.css" rel="stylesheet">
+        <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     </head>
 
 <body>
@@ -29,7 +30,7 @@ end.rcode-->
 
 <p><a href="http://web.missouri.edu/~williamslaro/">Laron K Williams</a>, <a href="http://politicalscience.tamu.edu/html/bio--whitten.html">Guy D Whitten</a>, and <a href="http://christophergandrud.blogspot.com/p/biocontact.html">Christopher Gandrud</a></p>
 
-<p>15 March 2014</p>
+<p>15 March 2014</p> 
 
 <br>
 
@@ -41,9 +42,11 @@ end.rcode-->
 <!----------------------------- Basic description ------------------------------>
 <div id='maindescript'>
 <blockquote>
-    <p><strong><code>dynsim</code></strong> implements <a href="http://web.missouri.edu/~williamslaro/Williams%20and%20Whitten%202012.pdf">Williams and Whitten's (2012)</a> method for dynamic simulations of autoregressive relationships. Building on the <code><a href="http://gking.harvard.edu/zelig">Zelig</a></code> package, <strong><code>dynsim</code></strong> depicts long-run simulations of dynamic processes for a variety of substantively interesting scenarios, with and without the presence of exogenous shocks.</p> 
+    <p><strong><code>dynsim</code></strong> implements <a href="http://web.missouri.edu/~williamslaro/Williams%20and%20Whitten%202012.pdf">Williams and Whitten's (2012)</a> method for dynamic simulations of autoregressive relationships. Building on work by <a href="http://gking.harvard.edu/files/abs/making-abs.shtml">King, Tomz, and Wittenberg (2000)</a>, <strong><code>dynsim</code></strong> depicts long-run simulations of dynamic processes for a variety of substantively interesting scenarios, with and without the presence of exogenous shocks.</p> 
 
-    <p>It is available for both <a href="http://www.r-project.org/">R</a> and <a href="http://www.stata.com/">Stata</a>. The general functionality is the same for the two versions of the software. The examples below describe how to use the different versions of the package.</p>
+    <p>The software package is available for both <a href="http://www.r-project.org/">R</a> and <a href="http://www.stata.com/">Stata</a>. The general functionality is the same for the two versions of the software, though the syntax differs. The examples below illustrate how to use the different versions of the package.</p>
+
+    <p>The examples are drawn directly from <a href="http://dx.doi.org/10.6084/m9.figshare.962949">Gandrud, Williams, and Whitten (working paper)</a> for the R version and <a href="http://www.stata-journal.com/article.html?article=st0242">Williams and Whitten (2011)</a> for the Stata version.</p>
 </blockquote>
 </div>
 
@@ -57,7 +60,7 @@ end.rcode-->
 <div class="tab-content">
     <div class="tab-pane fade active in" id="R">
 
-<p class="pull-left"><strong>Version <a href="http://cran.at.r-project.org/web/packages/dynsim/index.html">0.2.3</a></strong></p> <p class="pull-right"><strong>Fork it on <a href="https://github.com/christophergandrud/dynsim">GitHub</a></strong></p>
+<p class="pull-left"><strong>Version <a href="http://cran.at.r-project.org/web/packages/dynsim/index.html">0.2.3</a></strong></p> <p class="pull-right"><strong>Fork me on <a href="https://github.com/christophergandrud/dynsim"><i class="fa fa-github fa-lg"></i></a></strong></p>
 
 <br/>
 
@@ -65,9 +68,9 @@ end.rcode-->
 
 <div id="navcontainer">
     <ul id="navlist">
-    <li><a href="#process">Process</a></li> 
-    <li><a href="#examples">Examples</a></li> 
-    <li><a href="#install">Install</a></li>
+    <li><a href="#process">Process <i class="fa fa-sort-numeric-asc"></i></a></li> 
+    <li><a href="#examples">Examples <i class="fa fa-code"></i></a></li> 
+    <li><a href="#install">Install <i class="fa fa-download"></i></a></li>
     </ul>
 </div>
 
@@ -86,7 +89,7 @@ end.rcode-->
 
 <h2 id="examples">Examples</h2>
 
-<p>To see how dynsim works, let's go through a few examples. We will use the Grunfeld (1958) data set. It is included with dynsim.</p> 
+<p>To see how dynsim works, let's go through a few examples. We will use the Grunfeld (1958) data set. It is included with <strong><code>dynsim</code></strong>.</p> 
 
 <p>First let's load the packages we will use:</p>
 
@@ -259,8 +262,43 @@ end.rcode-->
 <!----------------------------- Stata ------------------------------>
 
 <div class="tab-pane fade" id="Stata">
-    <h3 align="center">The Stata Examples section is under development.</h3> 
-    <p>For more information about the Stata version of <strong><code>dynsim</code></strong> please see <a href="http://www.stata-journal.com/article.html?article=st0242">Williams and Whitten's (2011)</a>.</p>        
+    <div class="alert alert-warning">
+        <h3 align="center">The Stata Examples section is under development.</h3> 
+    </div>
+    <p>For more information about the Stata version of <strong><code>dynsim</code></strong> please see <a href="http://www.stata-journal.com/article.html?article=st0242">Williams and Whitten's (2011)</a>.</>   
+
+<h2 id="exampleStata">Examples</h2>
+
+<p>To see how dynsim works, let's go through a few examples. We will use the Grunfeld (1958) data set. You can download it with: <code>webuse grunfeld</code>.</p> 
+
+<p>The linear regression model we will estimate is:</p>
+
+\[I_{it} = \alpha + \beta_{1}I_{it-1} + \beta_{2}F_{it} + \beta_{3}C_{it} + \mu_{it} \]
+
+
+<p>where \(I_{it}\) is real gross investment for firm \(i\) in year \(t\). \(I_{it-1}\) is the firm's investment in the previous year. \(F_{it}\) is the real value of the firm and \(C_{it}\) is the real value of the capital stock.</p>  
+
+<p>In the <code>grunfeld</code> data set real gross investment is denoted <code>invest</code>, the one-year lag of this variable is <code>lag_invest</code>, the firm's market value is <code>mvalue</code>, and the capital stock is <code>kstock</code>. There are 10 large US manufacturers from 1935-1954 in the data set. The variable identifying the individual companies is called <code>company</code>.</p>
+
+<p>We start by using <code>estsimp</code> to simulate 1,000 draws of each coefficient.</p>  
+
+
+<!--begin.rcode eval=FALSE
+estsimp reg invest lag_invest mvalue kstock
+end.rcode-->
+
+<p>We then use <code>dynsim</code> to produce 20 dynamic simulations (using the option <code>n(20)</code>) of each of the three scenarios, with the resulting predicted values and 95% confidence intervals (the default, changeable via the <code>sig</code> option) saved to a data set named ''<em>dynsim1</em>'' in the working directory.</p>
+
+<p>Suppose that we want to simulate three different scenarios based on holding the firm's market value and value of the capital stock at its 5th percentile, mean, and 95th percentile, respectively. To do this we use the <code>scen</code> options (in the Stata version you can set up to 4 scenarios). We can also provide the starting value for the lagged dependent variable (in the <code>scen</code> options), which in this case is the sample mean. Here is the code:</p> 
+
+<!--begin.rcode eval=FALSE
+estsimp reg invest lag_invest mvalue kstock
+end.rcode-->
+
+<p>We can present the predicted values (and confidence intervals) in the new <em>dynsim1</em> data set in a variety of ways. We have found that Stata’s <code>twoway rcap</code> is a simple way of demonstrating the predicted values and uncertainty.</p>
+
+
+
 </div>
 
 </div>
@@ -296,8 +334,10 @@ end.rcode-->
 
 <!----------------------------- Footer ------------------------------>
 
-    <footer><hr><a href="https://github.com/christophergandrud">Christopher Gandrud</a> (2014)</div></footer>
-
+<footer>
+<hr>
+    <p class="pull-left"><a href="https://github.com/christophergandrud">Christopher Gandrud</a> (2014) <p class="pull-right"><a href="https://twitter.com/ChrisGandrud"><i class="fa fa-twitter"></i></i></a></p>
+</div></footer>
 
 <!----------------------------- Scripts ----------------------------->
 
