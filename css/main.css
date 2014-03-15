@@ -10,7 +10,8 @@ html {
 
 body {
     margin: 0 auto;
-    padding: 2em 2em 4em;
+    padding-left: 10%;
+    padding-right: 10%;    
     max-width: 1000px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 16px;
@@ -60,6 +61,11 @@ b, strong {
     padding-left: 5%;
     line-height: 1.2em;
 } 
+
+#maindescript {
+    padding-top: 10%;
+    padding-bottom: 10%;
+}
 
 #main {
     width: 70%;
