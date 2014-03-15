@@ -92,10 +92,10 @@ pre {
     font-size: 22px;
 }
 
-#footer {
+#footerCust {
     clear: both;
     position: relative;
     z-index: 10;
-    margin-top: 5em;
-    margin-bottom: 5em;
+    padding-top: 30px;
+    padding-bottom: 15%;
 }
