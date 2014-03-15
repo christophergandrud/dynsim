@@ -22,7 +22,7 @@ end.rcode-->
 
 <!----------------------------- Header ------------------------------>
 
-
+<div id="rect01"></div>
 
 <!-- Header -->
 <div id="topbar"><strong><code>dynsim</code>:</strong></div> <div id="topbarsub">dynamic simulations of autoregressive relationships</div>
@@ -41,9 +41,9 @@ end.rcode-->
 <!----------------------------- Basic description ------------------------------>
 <div id='maindescript'>
 <blockquote>
-    <p><strong><code>dynsim</code></strong> implements <a href="http://web.missouri.edu/~williamslaro/Williams%20and%20Whitten%202012.pdf">Williams and Whitten's (2012)</a> method for dynamic simulations of autoregressive relationships.</p> 
+    <p><strong><code>dynsim</code></strong> implements <a href="http://web.missouri.edu/~williamslaro/Williams%20and%20Whitten%202012.pdf">Williams and Whitten's (2012)</a> method for dynamic simulations of autoregressive relationships. Building on the <code><a href="http://gking.harvard.edu/zelig">Zelig</a></code> package, <strong><code>dynsim</code></strong> depicts long-run simulations of dynamic processes for a variety of substantively interesting scenarios, with and without the presence of exogenous shocks.</p> 
 
-    <p>It is available for both R and Stata. The general functionality is the same for the two versions of the software. The examples below describe how to use the different versions of the package.</p>
+    <p>It is available for both <a href="http://www.r-project.org/">R</a> and <a href="http://www.stata.com/">Stata</a>. The general functionality is the same for the two versions of the software. The examples below describe how to use the different versions of the package.</p>
 </blockquote>
 </div>
 
@@ -169,7 +169,7 @@ Sim1 <- dynsim(obj = M1, ldv = 'InvestLag',
                 scen = ScenComb, n = 20)
 end.rcode-->
 
-<p>This took 1000 draws of the coefficients to produce 20 dynamic simulation iterations for each of the three scenarios. In the resulting <code>Sim1</code> object we have retained the middle 95% and 50%. We will return to presenting and exploring the contents of <code>Sim1</code> later in this section.</p>
+<p>This took 1000 draws of the coefficients to produce 20 dynamic simulation iterations for each of the three scenarios. In the resulting <code>Sim1</code> object we have retained the middle 95% and 50%. We will return to presenting and exploring the contents of <code>Sim1</code> later.</p>
 
 <h3>Dynamic simulation with shocks</h3>
 
@@ -229,7 +229,8 @@ end.rcode-->
 
 <!--begin.rcode ShockPlot
 dynsimGG(Sim2, leg.name = 'Scenarios', leg.labels = Labels, 
-            color = 'OrRd', ylab = 'Predicted Real Gross Investment\n', 
+            color = 'OrRd', 
+            ylab = 'Predicted Real Gross Investment\n', 
             shockplot.var = 'mvalue',
             shockplot.ylab = 'Firm Value')
 end.rcode-->
@@ -267,7 +268,7 @@ end.rcode-->
 
 <!----------------------------- Comments ------------------------------>
 
-<br>
+<br/>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
@@ -284,7 +285,7 @@ end.rcode-->
 <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
     
-<br>
+<br/>
 
 <!----------------------------- Footer ------------------------------>
 
