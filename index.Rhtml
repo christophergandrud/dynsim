@@ -30,45 +30,172 @@ end.rcode-->
 <!----------------------------- Basic description ------------------------------>
 <div id='maindescript'>
 <blockquote>
-    <p><strong><code>dynsim</code></strong> implements <a href="http://web.missouri.edu/~williamslaro/Williams%20and%20Whitten%202012.pdf">Williams and Whitten’s (2012)</a> method for dynamic simulations of autoregressive relationships.</p> 
+    <p><strong><code>dynsim</code></strong> implements <a href="http://web.missouri.edu/~williamslaro/Williams%20and%20Whitten%202012.pdf">Williams and Whitten's (2012)</a> method for dynamic simulations of autoregressive relationships.</p> 
 
     <p>It is available for both R and Stata. The general functionality is the same for the two versions of the software. The examples below describe how to use the different versions of the package.</p>
 </blockquote>
 </div>
+
 <!----------------------------- Tabbed Examples ------------------------------>
-
-<!----------------------------- R ------------------------------>
-
 <ul class="nav nav-tabs" id="tableTabs">
     <li class="active"><a href="#R" data-toggle="tab">R</a></li>
     <li class=""><a href="#Stata" data-toggle="tab">Stata</a></li> 
 </ul>
 
-<!-- R -->
-
+<!----------------------------- R ------------------------------>
 <div class="tab-content">
     <div class="tab-pane fade active in" id="R">
 
-<p>This is an R HTML document. When you click the <b>Knit HTML</b> button a web page will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
+<p class="pull-left">Version <a href="http://cran.at.r-project.org/web/packages/dynsim/index.html">0.2.3</a></p> <p class="pull-right">Fork it on <a href="https://github.com/christophergandrud/dynsim">GitHub</a></p>
 
-<!--begin.rcode
-summary(cars)
+<br/>
+
+<h2 id="process">Process</h2>
+
+<p>There are four basic steps to use <strong><code>dynsim</code></strong> to create dynamic simulations of autoregressive relationships:</p>
+
+<ol style="list-style-type: decimal">
+    <li><p><em>Estimate</em> your linear model using <code>zelig</code> from the <code><a href="http://gking.harvard.edu/zelig">Zelig</a></code> package.</p></li>
+    <li><p><em>Set up starting values</em> for simulation scenarios and (optionally) shock values at particular iterations (e.g. points in forecasted time).</p></li>
+    <li><p><em>Simulate</em> these scenarios based on the estimated model using the <code>dynsim</code> function.</p></li>
+    <li><p><em>Plot</em> the simulation results with the <code>dynsimGG</code> function.</p></li>
+</ol>
+
+<h2 id="examples">Examples</h2>
+
+<p>To see how dynsim works, let's go through a few examples. We will use the Grunfeld (1958) data set. It is included with dynsim.</p> 
+
+<p>First let's load the packages we will use:</p>
+
+<!--begin.rcode message=FALSE
+library(dynsim)
+library(DataCombine)
+library(Zelig)
 end.rcode-->
 
-<p>You can also embed plots, for example:</p>
+<p>Now let's load the data:</p>
 
 <!--begin.rcode
-plot(cars)
+data(grunfeld, 
+    package = 'dynsim')
 end.rcode-->
+
+<p>The linear regression model we will estimate is:</p>
+
+\[I_{it} = \alpha + \beta_{1}I_{it-1} + \beta_{2}F_{it} + \beta_{3}C_{it} + \mu_{it} \]
+
+
+<p>where \(I_{it}\) is real gross investment for firm \(i\) in year \(t\). \(I_{it-1}\) is the firm's investment in the previous year. \(F_{it}\) is the real value of the firm and \(C_{it}\) is the real value of the capital stock.</p>  
+
+<p>In the <code>grunfeld</code> data set real gross investment is denoted <code>invest</code>, the firm's market value is <code>mvalue</code>, and the capital stock is <code>kstock</code>. There are 10 large US manufacturers from 1935-1954 in the data set. The variable identifying the individual companies is called <code>company</code>. We can easily create the investment one-year lag using the <code>slide</code> command from the <a href="https://github.com/christophergandrud/DataCombine">DataCombine</a> package. Here is the code:</p>
+
+<!--begin.rcode message=FALSE, tidy=FALSE
+grunfeld <- slide(grunfeld, Var = 'invest', 
+               GroupVar = 'company',
+               NewVar = 'InvestLag')
+
+end.rcode-->
+
+<p>The new lagged variable is called <code>InvestLag</code>.</p>
+
+<h3>Dynamic simulation without shocks</h3>
+
+<p>Now that we have created our lag variable we, can begin to create dynamic simulations with <strong><code>dynsim</code></strong> by estimating the underlying linear regression model using <strong><code>Zelig</code></strong>, i.e.:</p>
+
+<!--begin.rcode message=FALSE, tidy=FALSE
+M1 <- zelig(invest ~ InvestLag + mvalue + kstock,
+            model = 'ls', data = grunfeld, cite = FALSE)
+end.rcode-->
+
+<p>We can use the resulting model object <code>M1</code> in the dynsim command to run our dynamic simulations. We first need to create a list object containing data frames with starting values for each simulation scenario. Imagine we want to run three contrasting scenarios with the following fitted values:
+</p>
+
+<ul>
+    <li>Scenario 1: mean lagged investment, market value and capital stock held at their 95th percentiles,</li>
+    <li>Scenario 2: all variables held at their means,</li>
+    <li>Scenario 3: mean lagged investment, market value and capital stock held at their 5th
+percentiles.</li>
+</ul>
+
+<p>We can create a list object for the scen argument containing each of these scenarios with the following code:</p>
+
+<!--begin.rcode message=FALSE, tidy=FALSE
+# Create simulation scenarios
+attach(grunfeld)
+Scen1 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
+                    mvalue = quantile(mvalue, 0.95),
+                    kstock = quantile(kstock, 0.95))
+Scen2 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
+                    mvalue = mean(mvalue),
+                    kstock = mean(kstock))
+Scen3 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
+                    mvalue = quantile(mvalue, 0.05),
+                    kstock = quantile(kstock, 0.05))
+detach(grunfeld)
+
+# Combine into a single list
+ScenComb <- list(Scen1, Scen2, Scen3)
+end.rcode-->
+
+<p>In this example we won't introduce shocks, so now we run our simulations:</p>
+
+<!--begin.rcode message=FALSE, tidy=FALSE
+Sim1 <- dynsim(obj = M1, ldv = 'InvestLag', 
+                scen = ScenComb, n = 20)
+end.rcode-->
+
+<p>This took 1000 draws of the coefficients to produce 20 dynamic simulation iterations for each of the three scenarios. In the resulting <code>Sim1</code> object we have retained the middle 95% and 50%. We will return to presenting and exploring the contents of <code>Sim1</code> later in this section.</p>
+
+<h3>Dynamic simulation with shocks</h3>
+
+<p>Now let's include fitted shock values. In particular, let's see how a company with capital stock in the 5th percentile is predicted to change its gross investment when its market value experiences shocks compared to a company with capital stock in the 95th percentile. We will use market values for the first company in the grunfeld data set over the first 15 years as the shock values. To create the shock data use the following code:</p>
+
+<!--begin.rcode message=FALSE, tidy=FALSE
+# Keep only the mvalue for the first company 
+# for the first 15 years
+grunfeldsub <- subset(grunfeld, company == 1)
+grunfeldshock <- grunfeldsub[1:15, 'mvalue']
+
+# Create data frame for the shock argument
+grunfeldshock <- data.frame(times = 1:15, 
+                    mvalue = grunfeldshock)
+end.rcode-->
+
+<p>Now we can simply add <code>grunfeldshock</code> to the dynsim shocks argument.</p>
+
+<!--begin.rcode message=FALSE, tidy=FALSE
+Sim2 <- dynsim(obj = M1, ldv = 'InvestLag', 
+               scen = ScenComb, n = 15,
+               shocks = grunfeldshock)
+end.rcode-->
+
+<p>Now we can simply add grunfeldshock to the dynsim <code>shocks</code> argument.</p>
+
+<!--begin.rcode message=FALSE, tidy=FALSE
+Sim3 <- dynsim(obj = M1, ldv = 'InvestLag', 
+               scen = ScenComb, n = 15,
+               shocks = grunfeldshock)
+end.rcode-->
+
+<h3>Plotting simulations</h3>
+
+<p>Probably the easiest and most effective way to communicate your <strong><code>dynsim</code></strong> simulation results is with the package’s built-in plotting capabilities. These are accessed with the <code>dysnsimGG</code> command. Let’s start by plotting the simulations from our basic model. In an earlier example we put these results into <code>Sim1</code>. Using <code>dynsimGG</code>'s default settings we can plot the simulations with the following code:
+</p>
+
+<!--begin.rcode
+dynsimGG(Sim1)
+end.rcode-->
+
+<p>We can make a number of aesthetic changes. For example, we can re-title the legend using the <code>leg.name</code> argument and change the legend values by adding a vector of the desired label names in the order of our scenarios using the <code>leg.labels</code> argument. We can also change the color palette using the <code>color</code> argument. Let’s use the 'orange-red' palette denoted by <code>OrRd</code>. Finally, we can change the y-axis label with the <code>ylab</code> argument so that it is more descriptive. 
+</p>
 
 </div>
-
 
 <!----------------------------- Stata ------------------------------>
 
 <div class="tab-pane fade" id="Stata">
     <h3 align="center">The Stata Examples section is under development.</h3> 
-    <p>For more information about the Stata version of <strong><code>dynsim</code></strong> please see <a href="http://www.stata-journal.com/article.html?article=st0242">Williams and Whitten’s (2011)</a>.</p>        
+    <p>For more information about the Stata version of <strong><code>dynsim</code></strong> please see <a href="http://www.stata-journal.com/article.html?article=st0242">Williams and Whitten's (2011)</a>.</p>        
 </div>
 
 </div>

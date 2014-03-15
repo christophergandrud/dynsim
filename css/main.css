@@ -27,6 +27,7 @@ h1, h2, h3, h4, h5, h6 {
     color: #222;
     font-weight: 600;
     line-height: 1.3em;
+    padding-top: 5%;
 }
 
 a {
@@ -35,12 +36,22 @@ a {
 }
 a:hover,
 a:focus {
-  color: #0066cc;
-  text-decoration: underline;
+    color: #0066cc;
+    text-decoration: underline;
+}
+
+p {
+    margin: 10px 10px 10px;
+    font-size: 17px;
+    font-weight: 400;
 }
 
 b, strong {
     font-weight: 600;
+}
+
+pre {
+    word-wrap: break-word;
 }
 
 #topbar {

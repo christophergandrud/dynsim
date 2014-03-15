@@ -604,11 +604,6 @@ textarea {
   clear: both;
 }
 
-p {
-  margin: 0 0 10px;
-  font-size: 17px;
-}
-
 .lead {
   margin-bottom: 20px;
   font-size: 21px;
@@ -798,8 +793,8 @@ ol ul {
 }
 
 li {
-  line-height: 20px;
-  font-size: 17px;
+  line-height: 25px;
+  font-size: 15x;
 }
 
 ul.unstyled,
