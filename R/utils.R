@@ -43,7 +43,7 @@ OneScen <- function(obj, ldv, n, scen, sig, num, shocks, forecast){
     
 		# Add in dependent variable for setx
 		DV <- as.character(obj$formula[2])
-		DVmean <- data.frame(mean(obj$data[, DV]))
+		DVmean <- data.frame(mean(obj$data[, DV], na.rm = TRUE))
 		names(DVmean) <- DV
 		scenTemp <- cbind(DVmean, scenTemp)
 
