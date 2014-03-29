@@ -45,7 +45,8 @@ dynsim(obj, ldv, scen, n = 10, sig = 0.95, num = 1000, shocks = NULL,
   to create interactions, interaction terms will be fitted
   appropriately.}
 
-  \item{forecast}{Reserved argument for future version.}
+  \item{forecast}{Reserved argument for future version. Any
+  value given to \code{forecast} will be ignored.}
 }
 \value{
 The command returns a \code{dynsim} class object. This can
@@ -99,11 +100,14 @@ M2 <- zelig(invest ~ InvestLag + mvalue*kstock,
 # Set up scenarios
 attach(grunfeld)
 Scen1 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
-                    mvalue = quantile(mvalue, 0.05), kstock = quantile(kstock, 0.05))
+                    mvalue = quantile(mvalue, 0.05),
+                    kstock = quantile(kstock, 0.05))
 Scen2 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
-                    mvalue = mean(mvalue), kstock = mean(kstock))
+                    mvalue = mean(mvalue),
+                    kstock = mean(kstock))
 Scen3 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
-                    mvalue = quantile(mvalue, 0.95), kstock = quantile(kstock, 0.95))
+                    mvalue = quantile(mvalue, 0.95),
+                    kstock = quantile(kstock, 0.95))
 detach(grunfeld)
 
 # Combine into a single list
@@ -118,7 +122,8 @@ Sim2 <- dynsim(obj = M2, ldv = "InvestLag", scen = ScenComb, n = 20)
 ## Run dynamic simulations with shocks
 
 # Create data frame of shock values
-mShocks <- data.frame(times = c(5, 10), kstock = c(100, 1000), mvalue = c(58, 5000))
+mShocks <- data.frame(times = c(5, 10), kstock = c(100, 1000),
+                      mvalue = c(58, 5000))
 
 # Run simulations without interactions
 Sim3 <- dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20,

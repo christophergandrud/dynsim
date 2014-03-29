@@ -36,11 +36,13 @@
 #' # Set up scenarios
 #' attach(grunfeld) 
 #' Scen1 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE), 
-#'                     mvalue = quantile(mvalue, 0.05), kstock = quantile(kstock, 0.05))
+#'                     mvalue = quantile(mvalue, 0.05), 
+#'                     kstock = quantile(kstock, 0.05))
 #' Scen2 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE), 
 #'                     mvalue = mean(mvalue), kstock = mean(kstock))
 #' Scen3 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE), 
-#'                     mvalue = quantile(mvalue, 0.95), kstock = quantile(kstock, 0.95))
+#'                     mvalue = quantile(mvalue, 0.95), 
+#'                     kstock = quantile(kstock, 0.95))
 #' detach(grunfeld)
 #'                     
 #' # Combine into a single list
@@ -82,7 +84,7 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
 
 	# Check if obj is of the dynsim class
 	if (class(obj) != "dynsim"){
-		stop("obj must be a dynsim class object.")
+		stop("obj must be a dynsim class object.", call. = FALSE)
 	}
 	# Reclass obj as a data frame for ggplot2
 	class(obj) <- "data.frame"
@@ -98,15 +100,18 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
 		}	
 		MainPlot <- ggplot(obj, aes(time, ldvMean)) +
 					geom_line(size = lsize, colour = color) +
-					geom_ribbon(aes(ymin = ldvLower, ymax = ldvUpper), alpha = alpha, fill = color, linetype = 0) +
-					geom_ribbon(aes(ymin = ldvLower50, ymax = ldvUpper50), alpha = alpha, fill = color, linetype = 0) +
+					geom_ribbon(aes(ymin = ldvLower, ymax = ldvUpper), alpha = alpha, 
+                      fill = color, linetype = 0) +
+					geom_ribbon(aes(ymin = ldvLower50, ymax = ldvUpper50), alpha = alpha, 
+                      fill = color, linetype = 0) +
 			        xlab(xlab) + ylab(ylab) +
 			        ggtitle(title) +
 			        theme_bw(base_size = 15)
 		# Add shock fitted value plot
 		if (!is.null(shockplot.var)){
 		  if (length(shockplot.var) > 1){
-		    stop("You must specify ONE shock variable to plot with the shockplot.var argument.")
+		    stop("You must specify ONE shock variable to plot with the shockplot.var argument.",
+		         call. = FALSE)
 		  }
 		  if (is.null(shockplot.ylab)){
 		  	shockplot.ylab <- paste0(shockplot.var, "\n")
@@ -114,7 +119,8 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
 		  shockvar.pos <- paste0("shock.", shockplot.var)
 		  shockvar.pos <- match(shockvar.pos, names(obj))
 		  if(is.null(shockvar.pos)){
-		    stop(paste(shockplot.var, "was not used as a shock variable."))
+		    stop(paste(shockplot.var, "was not used as a shock variable."), 
+             call. = FALSE)
 		  }
 		  shockplot.df <- obj[, c(1, shockvar.pos)]
 		  names(shockplot.df) <- c("time", "shockvar")
@@ -143,14 +149,17 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
 		if (is.null(color)){
 			color <- "Set1" 
 		}	
-		MainPlot <- ggplot(obj, aes(time, ldvMean, colour = factor(scenNumber), fill = factor(scenNumber))) +
+		MainPlot <- ggplot(obj, aes(time, ldvMean, colour = factor(scenNumber), 
+                                fill = factor(scenNumber))) +
 					geom_line(size = lsize) +
-					geom_ribbon(aes(ymin = ldvLower, ymax = ldvUpper), alpha = alpha, linetype = 0) +
-					geom_ribbon(aes(ymin = ldvLower50, ymax = ldvUpper50), alpha = alpha, linetype = 0) +
-			        scale_colour_brewer(palette = color, name = leg.name, guide = legend, 
-			        	labels = leg.labels) +
-			        scale_fill_brewer(palette = color, name = leg.name, guide = legend, 
-			        	labels = leg.labels) +
+					geom_ribbon(aes(ymin = ldvLower, ymax = ldvUpper), 
+                      alpha = alpha, linetype = 0) +
+					geom_ribbon(aes(ymin = ldvLower50, ymax = ldvUpper50), 
+                      alpha = alpha, linetype = 0) +
+			        scale_colour_brewer(palette = color, name = leg.name, 
+                                  guide = legend, labels = leg.labels) +
+			        scale_fill_brewer(palette = color, name = leg.name, 
+                                guide = legend, labels = leg.labels) +
 			        xlab(xlab) + ylab(ylab) +
 			        ggtitle(title) +
 			        theme_bw(base_size = 15)
@@ -158,7 +167,8 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
     # Add shock fitted value plot
     if (!is.null(shockplot.var)){
       if (length(shockplot.var) > 1){
-        stop("You must specify ONE shock variable to plot with the shockplot.var argument.")
+        stop("You must specify ONE shock variable to plot with the shockplot.var argument.",
+             call. = FALSE)
       }
 	  if (is.null(shockplot.ylab)){
 	  	shockplot.ylab <- paste0(shockplot.var, "\n")
@@ -166,12 +176,14 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
       shockvar.pos <- paste0("shock.", shockplot.var)
       shockvar.pos <- match(shockvar.pos, names(obj))
       if(is.null(shockvar.pos)){
-        stop(paste(shockplot.var, "was not used as a shock variable."))
+        stop(paste(shockplot.var, "was not used as a shock variable."), 
+             call. = FALSE)
       } else
       shockplot.df <- obj[, c(1:2, shockvar.pos)]
       names(shockplot.df) <- c("scenNumber", "time", "shockvar")
       
-      ShockPlot <- ggplot(shockplot.df, aes(time, shockvar, colour = as.factor(scenNumber))) + 
+      ShockPlot <- ggplot(shockplot.df, aes(time, shockvar, 
+                                            colour = as.factor(scenNumber))) + 
         geom_line() +
         scale_colour_brewer(palette = color, guide = FALSE) +
         ylab(shockplot.ylab) + xlab("") +

@@ -81,11 +81,13 @@ M1 <- zelig(invest ~ InvestLag + mvalue + kstock,
 # Set up scenarios
 attach(grunfeld)
 Scen1 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
-                    mvalue = quantile(mvalue, 0.05), kstock = quantile(kstock, 0.05))
+                    mvalue = quantile(mvalue, 0.05),
+                    kstock = quantile(kstock, 0.05))
 Scen2 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
                     mvalue = mean(mvalue), kstock = mean(kstock))
 Scen3 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
-                    mvalue = quantile(mvalue, 0.95), kstock = quantile(kstock, 0.95))
+                    mvalue = quantile(mvalue, 0.95),
+                    kstock = quantile(kstock, 0.95))
 detach(grunfeld)
 
 # Combine into a single list

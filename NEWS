@@ -1,14 +1,20 @@
-Version 0.2.3
+## Version 0.2.4
+
+Warning and error improvements for `dynsim`.
+
+Minor example formatting improvements.
+
+## Version 0.2.3
 
 Internal: Travis CI added for build checks.
 
 Minor documentation improvements.
 
-Version 0.2.2
+## Version 0.2.2
 
 Simplified the syntax for shock plots (`shockplot = TRUE` is no longer necessary) and decreaseed the font size.
 
-Version 0.2.1
+## Version 0.2.1
 
 Added a `shockplot` to `dynsimGG`. This allows you to include a plot of one shock variable's fitted values below the main prediction plot.
 
