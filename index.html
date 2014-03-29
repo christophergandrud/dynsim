@@ -118,7 +118,7 @@
 <div class="tab-content">
     <div class="tab-pane fade active in" id="R">
 
-<p class="pull-left"><strong>Version <a href="http://cran.at.r-project.org/web/packages/dynsim/index.html">0.2.3</a></strong></p> <p class="pull-right"><strong>Fork me on <a href="https://github.com/christophergandrud/dynsim"><i class="fa fa-github fa-lg"></i></a></strong></p>
+<p class="pull-left"><strong>Version <a href="http://cran.at.r-project.org/web/packages/dynsim/index.html">0.2.4</a></strong></p> <p class="pull-right"><strong>Fork me on <a href="https://github.com/christophergandrud/dynsim"><i class="fa fa-github fa-lg"></i></a></strong></p>
 
 <br/>
 
@@ -310,9 +310,11 @@ percentiles.</li>
 <p>Similarly, we can plot the simulations from scenarios where market value shocks were interacted with capital stock. The code is accomplish this is almost identical to the code chunk we just saw. The only difference is that we use the <code>Sim3</code> model object.
 </p>
 
-<div class="chunk" id="InteractShock"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">dynsimGG</span><span class="hl std">(Sim3,</span> <span class="hl kwc">leg.name</span> <span class="hl std">=</span> <span class="hl str">'Scenarios'</span><span class="hl std">,</span> <span class="hl kwc">leg.labels</span> <span class="hl std">= Labels,</span> <span class="hl kwc">color</span> <span class="hl std">=</span> <span class="hl str">'OrRd'</span><span class="hl std">,</span>
-       <span class="hl kwc">ylab</span> <span class="hl std">=</span> <span class="hl str">'Predicted Real Gross Investment\n'</span><span class="hl std">,</span> <span class="hl kwc">shockplot.var</span> <span class="hl std">=</span> <span class="hl str">'mvalue'</span><span class="hl std">,</span>
-       <span class="hl kwc">shockplot.ylab</span> <span class="hl std">=</span> <span class="hl str">'Firm Value'</span><span class="hl std">)</span>
+<div class="chunk" id="InteractShock"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">dynsimGG</span><span class="hl std">(Sim3,</span> <span class="hl kwc">leg.name</span> <span class="hl std">=</span> <span class="hl str">'Scenarios'</span><span class="hl std">,</span> <span class="hl kwc">leg.labels</span> <span class="hl std">= Labels,</span>
+         <span class="hl kwc">color</span> <span class="hl std">=</span> <span class="hl str">'OrRd'</span><span class="hl std">,</span>
+         <span class="hl kwc">ylab</span> <span class="hl std">=</span> <span class="hl str">'Predicted Real Gross Investment\n'</span><span class="hl std">,</span>
+         <span class="hl kwc">shockplot.var</span> <span class="hl std">=</span> <span class="hl str">'mvalue'</span><span class="hl std">,</span>
+         <span class="hl kwc">shockplot.ylab</span> <span class="hl std">=</span> <span class="hl str">'Firm Value'</span><span class="hl std">)</span>
 </pre></div>
 </div><div class="rimage center"><img src="figure/InteractShock.svg" title="plot of chunk InteractShock" alt="plot of chunk InteractShock" class="plot" /></div></div>
 
@@ -409,24 +411,20 @@ percentiles.</li>
 <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
     
 </div>
-
+</div>
 <!----------------------------- Footer ------------------------------>
-
-<div id="footerCust">
+<afooter>
 <hr>
 
-    <p class="pull-left"><a href="https://github.com/christophergandrud">Christopher Gandrud <i class="fa fa-github fa-lg"></i></a></p> <p class="pull-right"><a href="https://twitter.com/ChrisGandrud"><i class="fa fa-twitter"></i></a></p>
+    <p><a href="https://github.com/christophergandrud">Christopher Gandrud <i class="fa fa-github fa-lg"></i></a> <a href="https://twitter.com/ChrisGandrud"><i class="fa fa-twitter"></i></a></p>
 
-    <br/>
-    <br/>
+    <p><strong><code>dynsim</code></strong> is covered under the <a href="https://www.gnu.org/licenses/quick-guide-gplv3.html">GPL-3 license</a>.</p>
 
-    <p><strong><code>dynsim</code></strong> is covered under the <a href="https://www.gnu.org/licenses/quick-guide-gplv3.html">GPL-3 license</a>.</p> 
+    <p>This site is covered under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC By-NC-SA 4.0 License</a> and relies on <a href="http://getbootstrap.com/">Bootstrap</a>.</p> 
 
-    <p>This site relies on <a href="http://getbootstrap.com/">Bootstrap</a>.</p>
+    <a href="http://nadrosia.tumblr.com/post/53520500877/made-in-berlin-badge-update"><img alt="BerlinBadge" src="http://media.tumblr.com/023c285c14ef01953d3b67ffe789004d/tumblr_inline_mor1uu2OOZ1qz4rgp.png" width = "100"></a>
 
-</div>
-
-</div>
+</footer>
 <!----------------------------- Scripts ----------------------------->
 
 <!-- Tabs with Bootstrap -->

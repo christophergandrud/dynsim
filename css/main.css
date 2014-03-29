@@ -91,11 +91,3 @@ pre {
     padding-top: 5%;
     font-size: 22px;
 }
-
-#footerCust {
-    clear: both;
-    position: relative;
-    z-index: 10;
-    padding-top: 30px;
-    padding-bottom: 15%;
-}
