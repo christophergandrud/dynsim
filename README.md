@@ -3,13 +3,15 @@ dynsim
 
 ### An R implementation of dynamic simulations of autoregressive relationships
 
-##### Version 0.2.3
+##### Version 0.2.4
+
+[![Build Status](https://travis-ci.org/christophergandrud/dynsim.png)](https://travis-ci.org/christophergandrud/dynsim)
 
 ##### [Christopher Gandrud](http://christophergandrud.blogspot.com/p/biocontact.html), Laron K Williams, and Guy D Whitten
 
 ## About 
 
-The **dynsim** package underdevelopment implements Williams and Whitten's ([2011](http://www.stata-journal.com/article.html?article=st0242), [2012](http://web.missouri.edu/~williamslaro/Williams%20and%20Whitten%202012.pdf)) method for dynamic simulations of autoregressive relationships in R.
+The **dynsim** package implements Williams and Whitten's ([2011](http://www.stata-journal.com/article.html?article=st0242), [2012](http://web.missouri.edu/~williamslaro/Williams%20and%20Whitten%202012.pdf)) method for dynamic simulations of autoregressive relationships in R.
 
 ## Process 
 
@@ -33,6 +35,6 @@ For examples please visit [http://christophergandrud.github.io/dynsim/](http://c
 
 You can also easily install the latest development version with the [devtools](http://cran.r-project.org/web/packages/devtools/index.html) package:
 
-```
-devtools::install_github("dynsim/christophergandrud")
+```{S}
+devtools::install_github("christophergandrud/dynsim")
 ```
