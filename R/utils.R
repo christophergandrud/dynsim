@@ -2,7 +2,6 @@
 #'
 #' \code{OneScen} is an internal function to dynamically simulate one scenario.
 #'
-#' 
 #' @importFrom Zelig setx
 #' @importFrom Zelig sim
 #' @importFrom Zelig simulation.matrix
@@ -80,7 +79,8 @@ OneScen <- function(obj, ldv, n, scen, sig, num, shocks, forecast){
 	    ShockVals <- rbind(ShockVals, TempShock)
     }
     # Combine
-		TempOut <- cbind(time, ldvMean, ldvLower, ldvUpper, ldvLower50, ldvUpper50)
+		TempOut <- cbind(time, ldvMean, ldvLower, ldvUpper, ldvLower50, 
+                        ldvUpper50)
 		SimSum <- rbind(SimSum, TempOut)
 
 		# Change lag variable for the next simulation

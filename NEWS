@@ -19,13 +19,16 @@ Minor documentation improvements.
 
 ## Version 0.2.2
 
-Simplified the syntax for shock plots (`shockplot = TRUE` is no longer necessary) and decreaseed the font size.
+Simplified the syntax for shock plots (`shockplot = TRUE` is no longer 
+necessary) and decreaseed the font size.
 
 ## Version 0.2.1
 
-Added a `shockplot` to `dynsimGG`. This allows you to include a plot of one shock variable's fitted values below the main prediction plot.
+Added a `shockplot` to `dynsimGG`. This allows you to include a plot of one 
+shock variable's fitted values below the main prediction plot.
 
-`num` argument added to `dynsim` allowing the user to specify how many simulations to run at each point in time.
+`num` argument added to `dynsim` allowing the user to specify how many 
+simulations to run at each point in time.
 
 Fixed simpler `scen` objects.
 
