@@ -1,3 +1,10 @@
+## Version 0.2.5
+
+Uses `theme_linedraw` rather than `theme_bw` for the plots. Requires ggplot2
+version 1.0.0.
+
+Internal improvements.
+
 ## Version 0.2.4
 
 Warning and error improvements for `dynsim`.

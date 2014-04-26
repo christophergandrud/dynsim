@@ -3,9 +3,7 @@ dynsim
 
 ### An R implementation of dynamic simulations of autoregressive relationships
 
-##### Version 0.2.4
-
-[![Build Status](https://travis-ci.org/christophergandrud/dynsim.png)](https://travis-ci.org/christophergandrud/dynsim)
+##### Version 0.2.5 [![Build Status](https://travis-ci.org/christophergandrud/dynsim.png)](https://travis-ci.org/christophergandrud/dynsim)
 
 ##### [Christopher Gandrud](http://christophergandrud.blogspot.com/p/biocontact.html), Laron K Williams, and Guy D Whitten
 

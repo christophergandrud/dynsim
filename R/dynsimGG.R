@@ -1,21 +1,38 @@
 #' Plot dynamic simulation results from \code{dynsim}
 #'
-#' \code{dynsimGG} uses \code{\link{ggplot2}} to plot dynamic simulation results created by \code{\link{dynsim}}.
+#' \code{dynsimGG} uses \code{\link{ggplot2}} to plot dynamic simulation results 
+#' created by \code{\link{dynsim}}.
 #'
 #' @param obj a \code{dynsim} class object.
-#' @param lsize size of the smoothing line. Default is 1. See \code{\link{ggplot2}}.
-#' @param color character string. Specifies the color of the lines and ribbons. If only one scenario is to be plotted then it can either be a single color value using any color value allowed by \code{\link{ggplot2}}. The default is the hexadecimal color \code{"#2B8CBE"}. If more than one scenario is to be plotted then a color brewer palette is set. The default is\code{"Set1"}. See \code{\link{scale_colour_brewer}}.
-#' @param alpha numeric. Alpha (e.g. transparency) for the ribbons. Default is \code{alpha = 0.1}. See \code{\link{ggplot2}}.
+#' @param lsize size of the smoothing line. Default is 1. See 
+#' \code{\link{ggplot2}}.
+#' @param color character string. Specifies the color of the lines and ribbons. 
+#' If only one scenario is to be plotted then it can either be a single color 
+#' value using any color value allowed by \code{\link{ggplot2}}. The default is 
+#' the hexadecimal color \code{"#2B8CBE"}. If more than one scenario is to be 
+#' plotted then a color brewer palette is set. The default is\code{"Set1"}. See 
+#' \code{\link{scale_colour_brewer}}.
+#' @param alpha numeric. Alpha (e.g. transparency) for the ribbons. Default is 
+#' \code{alpha = 0.1}. See \code{\link{ggplot2}}.
 #' @param xlab a label for the plot's x-axis.
 #' @param ylab a label of the plot's y-axis.
 #' @param title the plot's main title.
 #' @param leg.name name of the legend (if applicable).
-#' @param legend specifies what type of legend to include (if applicable). The default is \code{legend = "legend"}. To hide the legend use \code{legend = FALSE}. See \code{\link{discrete_scale}} for more details.
-#' @param leg.labels character vector specifying the labels for each scenario in the legend. 
-#' @param shockplot.var character string naming the one shock variable to plot fitted values of over time specified underneath the main plot. 
+#' @param legend specifies what type of legend to include (if applicable). The 
+#' default is \code{legend = "legend"}. To hide the legend use 
+#' \code{legend = FALSE}. See \code{\link{discrete_scale}} for more details.
+#' @param leg.labels character vector specifying the labels for each scenario in
+#' the legend. 
+#' @param shockplot.var character string naming the one shock variable to plot 
+#' fitted values of over time specified underneath the main plot. 
 #' @param shockplot.ylab a label for the shockplot's y-axis.
 #'
-#' @details Plots dynamic simulations of autoregressive relationships from \code{\link{dynsim}}. The central line is the mean of the simulation distributions. The outer ribbon is the furthest extent of the simulation distributions' central intervals found in \code{\link{dynsim}} with the \code{sig} argument. The middle ribbons plot the limits of the simulation distributions' central 50% intervals.
+#' @details Plots dynamic simulations of autoregressive relationships from 
+#' \code{\link{dynsim}}. The central line is the mean of the simulation 
+#' distributions. The outer ribbon is the furthest extent of the simulation 
+#' distributions' central intervals found in \code{\link{dynsim}} with the 
+#' \code{sig} argument. The middle ribbons plot the limits of the simulation 
+#' distributions' central 50% intervals.
 #'
 #' @examples
 #' # Load packages
@@ -78,9 +95,13 @@
 #'
 #' @export
 
-dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime", ylab = "Predicted Value\n", title = NULL, leg.name = "Scenario", leg.labels = NULL, legend = "legend", shockplot.var = NULL, shockplot.ylab = NULL){
+dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime", 
+                    ylab = "Predicted Value\n", title = NULL, 
+                    leg.name = "Scenario", leg.labels = NULL, legend = "legend", 
+                    shockplot.var = NULL, shockplot.ylab = NULL){
 	# CRAN requirements
-	ldvMean <- ldvLower <- ldvUpper <- ldvLower50 <- ldvUpper50 <- scenNumber <- shockvar <- NULL
+	ldvMean <- ldvLower <- ldvUpper <- ldvLower50 <- ldvUpper50 <- scenNumber <- 
+    shockvar <- NULL
 
 	# Check if obj is of the dynsim class
 	if (class(obj) != "dynsim"){
@@ -106,46 +127,46 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
                       fill = color, linetype = 0) +
 			        xlab(xlab) + ylab(ylab) +
 			        ggtitle(title) +
-			        theme_bw(base_size = 15)
+			        theme_linedraw(base_size = 15)
 		# Add shock fitted value plot
 		if (!is.null(shockplot.var)){
 		  if (length(shockplot.var) > 1){
-		    stop("You must specify ONE shock variable to plot with the shockplot.var argument.",
-		         call. = FALSE)
+            stop("You must specify ONE shock variable to plot with the shockplot.var argument.",
+                call. = FALSE)
 		  }
 		  if (is.null(shockplot.ylab)){
-		  	shockplot.ylab <- paste0(shockplot.var, "\n")
+            shockplot.ylab <- paste0(shockplot.var, "\n")
 		  }
 		  shockvar.pos <- paste0("shock.", shockplot.var)
 		  shockvar.pos <- match(shockvar.pos, names(obj))
 		  if(is.null(shockvar.pos)){
-		    stop(paste(shockplot.var, "was not used as a shock variable."), 
-             call. = FALSE)
+            stop(paste(shockplot.var, "was not used as a shock variable."), 
+                 call. = FALSE)
 		  }
 		  shockplot.df <- obj[, c(1, shockvar.pos)]
 		  names(shockplot.df) <- c("time", "shockvar")
 		  
-		  ShockPlot <- ggplot(shockplot.df, aes(time, shockvar)) + 
-		    geom_line(colour = color) +
-		    ylab(shockplot.ylab) + xlab("") +
-		    theme_bw(base_size = 10)
-		  
-		  gA <- ggplotGrob(MainPlot)
-		  gB <- ggplotGrob(ShockPlot)
-		  
-		  # Set equal widths
-		  maxWidth = grid::unit.pmax(gA$widths[2:5], gB$widths[2:5])
-		  gA$widths[2:5] <- as.list(maxWidth)
-		  gB$widths[2:5] <- as.list(maxWidth)
+            ShockPlot <- ggplot(shockplot.df, aes(time, shockvar)) + 
+                geom_line(colour = color) +
+                ylab(shockplot.ylab) + xlab("") +
+                theme_linedraw(base_size = 10)
+
+            gA <- ggplotGrob(MainPlot)
+            gB <- ggplotGrob(ShockPlot)
+
+            # Set equal widths
+            maxWidth = grid::unit.pmax(gA$widths[2:5], gB$widths[2:5])
+            gA$widths[2:5] <- as.list(maxWidth)
+            gB$widths[2:5] <- as.list(maxWidth)
 		  
 		  grid.arrange(arrangeGrob(gA, gB, ncol = 1, heights = c(4, 1)))
 		}
 		else if (is.null(shockplot.var)){
-		  MainPlot
+            MainPlot
 		}
 	}
 	# Plot multiple scenarios
-	else if (isTRUE("scenNumber" %in% names(obj))){
+    else if (isTRUE("scenNumber" %in% names(obj))){
 		if (is.null(color)){
 			color <- "Set1" 
 		}	
@@ -162,45 +183,45 @@ dynsimGG <- function(obj, lsize = 1, color = NULL, alpha = 0.5, xlab = "\nTime",
                                 guide = legend, labels = leg.labels) +
 			        xlab(xlab) + ylab(ylab) +
 			        ggtitle(title) +
-			        theme_bw(base_size = 15)
+			        theme_linedraw(base_size = 15)
 	
     # Add shock fitted value plot
     if (!is.null(shockplot.var)){
-      if (length(shockplot.var) > 1){
-        stop("You must specify ONE shock variable to plot with the shockplot.var argument.",
-             call. = FALSE)
-      }
-	  if (is.null(shockplot.ylab)){
-	  	shockplot.ylab <- paste0(shockplot.var, "\n")
-	  }
-      shockvar.pos <- paste0("shock.", shockplot.var)
-      shockvar.pos <- match(shockvar.pos, names(obj))
-      if(is.null(shockvar.pos)){
+        if (length(shockplot.var) > 1){
+            stop("You must specify ONE shock variable to plot with the shockplot.var argument.",
+                call. = FALSE)
+    }
+    if (is.null(shockplot.ylab)){
+        shockplot.ylab <- paste0(shockplot.var, "\n")
+    }
+    shockvar.pos <- paste0("shock.", shockplot.var)
+    shockvar.pos <- match(shockvar.pos, names(obj))
+        if(is.null(shockvar.pos)){
         stop(paste(shockplot.var, "was not used as a shock variable."), 
-             call. = FALSE)
-      } else
-      shockplot.df <- obj[, c(1:2, shockvar.pos)]
-      names(shockplot.df) <- c("scenNumber", "time", "shockvar")
+            call. = FALSE)
+    } else
+        shockplot.df <- obj[, c(1:2, shockvar.pos)]
+        names(shockplot.df) <- c("scenNumber", "time", "shockvar")
       
-      ShockPlot <- ggplot(shockplot.df, aes(time, shockvar, 
+        ShockPlot <- ggplot(shockplot.df, aes(time, shockvar, 
                                             colour = as.factor(scenNumber))) + 
         geom_line() +
         scale_colour_brewer(palette = color, guide = FALSE) +
         ylab(shockplot.ylab) + xlab("") +
-        theme_bw(base_size = 10)
+        theme_linedraw(base_size = 10)
       
-      gA <- ggplotGrob(MainPlot)
-      gB <- ggplotGrob(ShockPlot)
+        gA <- ggplotGrob(MainPlot)
+        gB <- ggplotGrob(ShockPlot)
+
+        # Set equal widths
+        maxWidth = grid::unit.pmax(gA$widths[2:5], gB$widths[2:5])
+        gA$widths[2:5] <- as.list(maxWidth)
+        gB$widths[2:5] <- as.list(maxWidth)
       
-      # Set equal widths
-      maxWidth = grid::unit.pmax(gA$widths[2:5], gB$widths[2:5])
-      gA$widths[2:5] <- as.list(maxWidth)
-      gB$widths[2:5] <- as.list(maxWidth)
-      
-    grid.arrange(arrangeGrob(gA, gB, ncol = 1, heights = c(4, 1)))
+        grid.arrange(arrangeGrob(gA, gB, ncol = 1, heights = c(4, 1)))
     }
-		else if (is.null(shockplot.var)){
-      MainPlot
-    }
+	else if (is.null(shockplot.var)){
+        MainPlot
+        }
 	}
 }
