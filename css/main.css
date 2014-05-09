@@ -44,6 +44,7 @@ p {
     margin: 10px 10px 10px;
     font-size: 17px;
     font-weight: 400;
+    text-align: justify;
 }
 
 b, strong {
@@ -64,20 +65,20 @@ pre {
 #topbar {
     float: top;
     width:90%;
-    font-size:3em; 
+    font-size:3em;
     padding-top: 10%;
     line-height: 1.2em;
-} 
+}
 
 #topbarsub {
     float: top;
     width:90%;
-    font-size:2em; 
+    font-size:2em;
     padding-top: 20px;
     padding-bottom: 20px;
     padding-left: 5%;
     line-height: 1.2em;
-} 
+}
 
 #maindescript {
     padding-top: 8%;
