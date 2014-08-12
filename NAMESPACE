@@ -3,7 +3,6 @@
 export(dynsim)
 export(dynsimGG)
 import(ggplot2)
-importFrom(DataCombine,MoveFront)
 importFrom(Zelig,setx)
 importFrom(Zelig,sim)
 importFrom(Zelig,simulation.matrix)

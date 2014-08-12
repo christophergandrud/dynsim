@@ -105,11 +105,9 @@ dynsimGG <- function(obj, lsize = 1, color, alpha = 0.5, xlab = "\nTime",
     shockvar <- NULL
 
     # Check if obj is of the dynsim class
-    if (class(obj) != "dynsim"){
+    if (!("dynsim" %in% class(obj))){
         stop("obj must be a dynsim class object.", call. = FALSE)
     }
-    # Reclass obj as a data frame for ggplot2
-    class(obj) <- "data.frame"
     # Create legend values if none are specified
     if (missing(leg.labels)){
         leg.labels <- as.character(unique(obj$scenNumber))

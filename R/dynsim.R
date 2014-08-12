@@ -184,6 +184,6 @@ dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000,
     }
 
     # Ascribe class and return output
-    class(SimOut) <- "dynsim"
+    class(SimOut) <- c("data.frame", "dynsim")
     return(SimOut)
 }

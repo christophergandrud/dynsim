@@ -6,7 +6,6 @@
 #' @importFrom Zelig setx
 #' @importFrom Zelig sim
 #' @importFrom Zelig simulation.matrix
-#' @importFrom DataCombine MoveFront
 #'
 #' @keywords internals
 #' @noRd
@@ -71,20 +70,20 @@ OneScen <- function(obj, ldv, n, scen, sig, num, shocks, forecast){
             se <- sqrt(sigma.sqr *  (1 * iMinusOne * sigma.sqr * alpha.sqr))
 
             }
-    }
+        }
 
-    # Shock variable values
-    if (!is.null(shocks)){
-        ShockNames <- names(shocks)[-1]
-        TempShock <- scenTemp[, ShockNames]
-        ShockVals <- rbind(ShockVals, TempShock)
-    }
-    # Combine
-        TempOut <- cbind(time, ldvMean, ldvLower, ldvUpper, ldvLower50, ldvUpper50)
-        SimSum <- rbind(SimSum, TempOut)
+        # Shock variable values
+        if (!is.null(shocks)){
+            ShockNames <- names(shocks)[-1]
+            TempShock <- scenTemp[, ShockNames]
+            ShockVals <- rbind(ShockVals, TempShock)
+        }
+        # Combine
+            TempOut <- cbind(time, ldvMean, ldvLower, ldvUpper, ldvLower50, ldvUpper50)
+            SimSum <- rbind(SimSum, TempOut)
 
-        # Change lag variable for the next simulation
-        scen[, ldv] <- ldvMean
+            # Change lag variable for the next simulation
+            scen[, ldv] <- ldvMean
     }
     # Clean up shocks
     if (!is.null(shocks)){
@@ -92,8 +91,9 @@ OneScen <- function(obj, ldv, n, scen, sig, num, shocks, forecast){
         names(ShockVals) <- CleanNames
         SimSum <- cbind(ShockVals, SimSum)
     }
-    SimSum <- MoveFront(SimSum, "time")
-    SimSum
+	col_idx <- grep("time", names(SimSum))
+	SimSum <- SimSum[, c(col_idx, (1:ncol(SimSum))[-col_idx])]
+    return(SimSum)
 }
 
 #' Extract legend from ggplot2 object
