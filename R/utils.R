@@ -30,7 +30,7 @@ OneScen <- function(obj, ldv, n, scen, sig, num, shocks, forecast){
         }
         else if (!is.null(shocks)){
             if (i %in% shocks[, "times"]){
-              scenTemp <- scen
+                scenTemp <- scen
                 for (x in names(shocks)[-1]){
                     shocksTemp <- subset(shocks, times == i)
                     scenTemp[, x] <- shocksTemp[1, x]
@@ -56,21 +56,21 @@ OneScen <- function(obj, ldv, n, scen, sig, num, shocks, forecast){
         time <- i
         ldvMean <- mean(PV)
 
-    if (is.null(forecast)){
-          ldvLower <- quantile(PV, prob = Bottom, names = FALSE)
-          ldvUpper <- quantile(PV, prob = Top, names = FALSE)
-          ldvLower50 <- quantile(PV, prob = 0.25, names = FALSE)
-          ldvUpper50 <-quantile(PV, prob = 0.75, names = FALSE)
-    }
-    else if (!is.null(forecast)){
-      sigma.sqrDF <-
-      alpha.sqrDF <-
-      if (forecast == "ag"){
+        if (is.null(forecast)){
+            ldvLower <- quantile(PV, prob = Bottom, names = FALSE)
+            ldvUpper <- quantile(PV, prob = Top, names = FALSE)
+            ldvLower50 <- quantile(PV, prob = 0.25, names = FALSE)
+            ldvUpper50 <-quantile(PV, prob = 0.75, names = FALSE)
+        }
+        else if (!is.null(forecast)){
+            sigma.sqrDF <-
+            alpha.sqrDF <-
+            if (forecast == "ag"){
 
-        iMinusOne <- i - 1
-        se <- sqrt(sigma.sqr *  (1 * iMinusOne * sigma.sqr * alpha.sqr))
+            iMinusOne <- i - 1
+            se <- sqrt(sigma.sqr *  (1 * iMinusOne * sigma.sqr * alpha.sqr))
 
-      }
+            }
     }
 
     # Shock variable values
@@ -86,7 +86,7 @@ OneScen <- function(obj, ldv, n, scen, sig, num, shocks, forecast){
         # Change lag variable for the next simulation
         scen[, ldv] <- ldvMean
     }
-  # Clean up shocks
+    # Clean up shocks
     if (!is.null(shocks)){
         CleanNames <- paste0("shock.", ShockNames)
         names(ShockVals) <- CleanNames

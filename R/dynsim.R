@@ -126,7 +126,7 @@ dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000,
                    shocks = NULL, forecast = NULL, ...){
     # Dynsim forecast warning.
     #### Remove when forecast capability added ####
-    if (!missing(forecast)){
+    if (!is.null(forecast)){
         message("\nforecast capabilities not yet available. forecast argument is ignored.")
         forecast <- NULL
     }
