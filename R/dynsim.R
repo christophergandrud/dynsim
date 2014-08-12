@@ -51,9 +51,7 @@
 #'  \item{\code{ldvUpper50}: }{Upper bound of the simulation distribution's
 #'  central 50 percent interval.}
 #' }
-#' You can easily convert the output object into a standard data frame class
-#' object. For example, if the object is called \code{dynOut} then use:
-#' \code{class(dynOut) <- "data.frame"}.
+#' The output object is a data frame class object. Do with it as you like.
 #'
 #'
 #' @examples
