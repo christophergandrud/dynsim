@@ -62,9 +62,7 @@ to seven elements:
  \item{\code{ldvUpper50}: }{Upper bound of the simulation distribution's
  central 50 percent interval.}
 }
-You can easily convert the output object into a standard data frame class
-object. For example, if the object is called \code{dynOut} then use:
-\code{class(dynOut) <- "data.frame"}.
+The output object is a data frame class object. Do with it as you like.
 }
 \description{
 \code{dynsim} dynamic simulations of autoregressive relationships
@@ -74,8 +72,7 @@ A post-estimation technique for producing dynamic simulations of
 autoregressive models estimated with \code{\link{Zelig}}.
 }
 \examples{
-# Load packages
-library(Zelig)
+# Load package
 library(DataCombine)
 
 # Load Grunfeld data
@@ -86,12 +83,10 @@ grunfeld <- slide(grunfeld, Var = "invest", GroupVar = "company",
                NewVar = "InvestLag")
 
 # Estimate basic model
-M1 <- zelig(invest ~ InvestLag + mvalue + kstock,
-            model = "ls", data = grunfeld, cite = FALSE)
+M1 <- lm(invest ~ InvestLag + mvalue + kstock, data = grunfeld)
 
 # Estimate model with interaction between mvalue and kstock
-M2 <- zelig(invest ~ InvestLag + mvalue*kstock,
-            model = "ls", data = grunfeld, cite = FALSE)
+M2 <- lm(invest ~ InvestLag + mvalue*kstock, data = grunfeld)
 
 # Set up scenarios
 attach(grunfeld)

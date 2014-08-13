@@ -35,8 +35,7 @@
 #' distributions' central 50% intervals.
 #'
 #' @examples
-#' # Load packages
-#' library(Zelig)
+#' # Load package
 #' library(DataCombine)
 #'
 #' # Load Grunfeld data
@@ -47,8 +46,7 @@
 #'                NewVar = "InvestLag")
 #'
 #' # Estimate basic model
-#' M1 <- zelig(invest ~ InvestLag + mvalue + kstock,
-#'             model = "ls", data = grunfeld, cite = FALSE)
+#' M1 <- lm(invest ~ InvestLag + mvalue + kstock, data = grunfeld)
 #'
 #' # Set up scenarios
 #' attach(grunfeld)

@@ -2,10 +2,7 @@
 #'
 #' \code{OneScen} is an internal function to dynamically simulate one scenario.
 #'
-#'
-#' @importFrom Zelig setx
-#' @importFrom Zelig sim
-#' @importFrom Zelig simulation.matrix
+#' @importFrom MASS mvrnorm
 #'
 #' @keywords internals
 #' @noRd
@@ -40,18 +37,22 @@ OneScen <- function(obj, ldv, n, scen, sig, num, shocks, forecast){
             }
         }
 
-        # Add in dependent variable for setx
-        DV <- as.character(obj$formula[2])
-        DVmean <- data.frame(mean(obj$data[, DV], na.rm = TRUE))
-        names(DVmean) <- DV
-        scenTemp <- cbind(DVmean, scenTemp)
+        # Parameter estimates & Variance/Covariance matrix
+        Coef <- matrix(obj$coefficients)
+        VC <- vcov(obj)
 
-        # Run simulations
-        SetVales <- setx(obj = obj, data = scenTemp)
-        SimValues <- sim(obj = obj, x = SetVales, num = num)
+        # Draw covariate estimates from the multivariate normal distribution
+        Drawn <- mvrnorm(n = num, mu = Coef, Sigma = VC)
+        DrawnDF <- data.frame(Drawn)
+
+        # Find predicted value
+        qiDF <- data.frame(DrawnDF[, 1]) # keep the intercept
+        for (u in names(scenTemp)){
+            qiDF[, u] <- DrawnDF[, u] * scenTemp[, u]
+        }
+        PV <- rowSums(qiDF)
 
         # Create summary data frame
-        PV <- simulation.matrix(SimValues, "Predicted Values: Y|X")
         time <- i
         ldvMean <- mean(PV)
 
@@ -79,7 +80,8 @@ OneScen <- function(obj, ldv, n, scen, sig, num, shocks, forecast){
             ShockVals <- rbind(ShockVals, TempShock)
         }
         # Combine
-            TempOut <- cbind(time, ldvMean, ldvLower, ldvUpper, ldvLower50, ldvUpper50)
+            TempOut <- cbind(time, ldvMean, ldvLower, ldvUpper, ldvLower50,
+                            ldvUpper50)
             SimSum <- rbind(SimSum, TempOut)
 
             # Change lag variable for the next simulation
@@ -91,8 +93,8 @@ OneScen <- function(obj, ldv, n, scen, sig, num, shocks, forecast){
         names(ShockVals) <- CleanNames
         SimSum <- cbind(ShockVals, SimSum)
     }
-	col_idx <- grep("time", names(SimSum))
-	SimSum <- SimSum[, c(col_idx, (1:ncol(SimSum))[-col_idx])]
+    col_idx <- grep("time", names(SimSum))
+    SimSum <- SimSum[, c(col_idx, (1:ncol(SimSum))[-col_idx])]
     return(SimSum)
 }
 
