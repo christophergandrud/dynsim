@@ -30,7 +30,7 @@ end.rcode-->
 
 <p><a href="http://web.missouri.edu/~williamslaro/">Laron K Williams</a>, <a href="http://politicalscience.tamu.edu/html/bio--whitten.html">Guy D Whitten</a>, and <a href="http://christophergandrud.blogspot.com/p/biocontact.html">Christopher Gandrud</a></p>
 
-<p>15 March 2014</p> 
+<p>13 August 2014</p> 
 
 <br>
 
@@ -60,7 +60,7 @@ end.rcode-->
 <div class="tab-content">
     <div class="tab-pane fade active in" id="R">
 
-<p class="pull-left"><strong>Version <a href="http://cran.at.r-project.org/web/packages/dynsim/index.html">0.2.4</a></strong></p> <p class="pull-right"><strong>Fork me on <a href="https://github.com/christophergandrud/dynsim"><i class="fa fa-github fa-lg"></i></a></strong></p>
+<p class="pull-left"><strong>Version <a href="http://cran.at.r-project.org/web/packages/dynsim/index.html">1.0</a></strong></p> <p class="pull-right"><strong>Fork me on <a href="https://github.com/christophergandrud/dynsim"><i class="fa fa-github fa-lg"></i></a></strong></p>
 
 <br/>
 
@@ -81,7 +81,7 @@ end.rcode-->
 <p>There are four basic steps to use <strong><code>dynsim</code></strong> to create dynamic simulations of autoregressive relationships:</p>
 
 <ol style="list-style-type: decimal">
-    <li><p><em>Estimate</em> your linear model using <code>zelig</code> from the <code><a href="http://gking.harvard.edu/zelig">Zelig</a></code> package.</p></li>
+    <li><p><em>Estimate</em> your linear model using <code>lm</code> or similar functions.</p></li>
     <li><p><em>Set up starting values</em> for simulation scenarios and (optionally) shock values at particular iterations (e.g. points in forecasted time).</p></li>
     <li><p><em>Simulate</em> these scenarios based on the estimated model using the <code>dynsim</code> function.</p></li>
     <li><p><em>Plot</em> the simulation results with the <code>dynsimGG</code> function.</p></li>
@@ -96,7 +96,6 @@ end.rcode-->
 <!--begin.rcode
 library(dynsim)
 library(DataCombine)
-library(Zelig)
 end.rcode-->
 
 <p>Now let's load the data:</p>
@@ -125,11 +124,11 @@ end.rcode-->
 
 <h3>Dynamic simulation without shocks</h3>
 
-<p>Now that we have created our lag variable we, can begin to create dynamic simulations with <strong><code>dynsim</code></strong> by estimating the underlying linear regression model using <strong><code>Zelig</code></strong>, i.e.:</p>
+<p>Now that we have created our lag variable we, can begin to create dynamic simulations with <strong><code>dynsim</code></strong> by estimating the underlying linear regression model:</p>
 
 <!--begin.rcode
-M1 <- zelig(invest ~ InvestLag + mvalue + kstock,
-            model = 'ls', data = grunfeld, cite = FALSE)
+M1 <- lm(invest ~ InvestLag + mvalue + kstock,
+        data = grunfeld)
 end.rcode-->
 
 <p>We can use the resulting model object <code>M1</code> in the dynsim command to run our dynamic simulations. We first need to create a list object containing data frames with starting values for each simulation scenario. Imagine we want to run three contrasting scenarios with the following fitted values:

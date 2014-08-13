@@ -78,7 +78,6 @@
 
 
 
-
 <!----------------------------- Header ------------------------------>
 
 <div id="rect01"></div>
@@ -88,7 +87,7 @@
 
 <p><a href="http://web.missouri.edu/~williamslaro/">Laron K Williams</a>, <a href="http://politicalscience.tamu.edu/html/bio--whitten.html">Guy D Whitten</a>, and <a href="http://christophergandrud.blogspot.com/p/biocontact.html">Christopher Gandrud</a></p>
 
-<p>15 March 2014</p> 
+<p>13 August 2014</p> 
 
 <br>
 
@@ -118,7 +117,7 @@
 <div class="tab-content">
     <div class="tab-pane fade active in" id="R">
 
-<p class="pull-left"><strong>Version <a href="http://cran.at.r-project.org/web/packages/dynsim/index.html">0.2.4</a></strong></p> <p class="pull-right"><strong>Fork me on <a href="https://github.com/christophergandrud/dynsim"><i class="fa fa-github fa-lg"></i></a></strong></p>
+<p class="pull-left"><strong>Version <a href="http://cran.at.r-project.org/web/packages/dynsim/index.html">1.0</a></strong></p> <p class="pull-right"><strong>Fork me on <a href="https://github.com/christophergandrud/dynsim"><i class="fa fa-github fa-lg"></i></a></strong></p>
 
 <br/>
 
@@ -139,7 +138,7 @@
 <p>There are four basic steps to use <strong><code>dynsim</code></strong> to create dynamic simulations of autoregressive relationships:</p>
 
 <ol style="list-style-type: decimal">
-    <li><p><em>Estimate</em> your linear model using <code>zelig</code> from the <code><a href="http://gking.harvard.edu/zelig">Zelig</a></code> package.</p></li>
+    <li><p><em>Estimate</em> your linear model using <code>lm</code> or similar functions.</p></li>
     <li><p><em>Set up starting values</em> for simulation scenarios and (optionally) shock values at particular iterations (e.g. points in forecasted time).</p></li>
     <li><p><em>Simulate</em> these scenarios based on the estimated model using the <code>dynsim</code> function.</p></li>
     <li><p><em>Plot</em> the simulation results with the <code>dynsimGG</code> function.</p></li>
@@ -153,17 +152,14 @@
 
 <div class="chunk" id="unnamed-chunk-2"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">library</span><span class="hl std">(dynsim)</span>
 <span class="hl kwd">library</span><span class="hl std">(DataCombine)</span>
-<span class="hl kwd">library</span><span class="hl std">(Zelig)</span>
 </pre></div>
 </div></div>
-
 
 <p>Now let's load the data:</p>
 
 <div class="chunk" id="unnamed-chunk-3"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">data</span><span class="hl std">(grunfeld,</span> <span class="hl kwc">package</span> <span class="hl std">=</span> <span class="hl str">'dynsim'</span><span class="hl std">)</span>
 </pre></div>
 </div></div>
-
 
 <p>The linear regression model we will estimate is:</p>
 
@@ -180,18 +176,16 @@
 </pre></div>
 </div></div>
 
-
 <p>The new lagged variable is called <code>InvestLag</code>.</p>
 
 <h3>Dynamic simulation without shocks</h3>
 
-<p>Now that we have created our lag variable we, can begin to create dynamic simulations with <strong><code>dynsim</code></strong> by estimating the underlying linear regression model using <strong><code>Zelig</code></strong>, i.e.:</p>
+<p>Now that we have created our lag variable we, can begin to create dynamic simulations with <strong><code>dynsim</code></strong> by estimating the underlying linear regression model:</p>
 
-<div class="chunk" id="unnamed-chunk-5"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">M1</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">zelig</span><span class="hl std">(invest</span> <span class="hl opt">~</span> <span class="hl std">InvestLag</span> <span class="hl opt">+</span> <span class="hl std">mvalue</span> <span class="hl opt">+</span> <span class="hl std">kstock,</span>
-            <span class="hl kwc">model</span> <span class="hl std">=</span> <span class="hl str">'ls'</span><span class="hl std">,</span> <span class="hl kwc">data</span> <span class="hl std">= grunfeld,</span> <span class="hl kwc">cite</span> <span class="hl std">=</span> <span class="hl num">FALSE</span><span class="hl std">)</span>
+<div class="chunk" id="unnamed-chunk-5"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">M1</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">lm</span><span class="hl std">(invest</span> <span class="hl opt">~</span> <span class="hl std">InvestLag</span> <span class="hl opt">+</span> <span class="hl std">mvalue</span> <span class="hl opt">+</span> <span class="hl std">kstock,</span>
+        <span class="hl kwc">data</span> <span class="hl std">= grunfeld)</span>
 </pre></div>
 </div></div>
-
 
 <p>We can use the resulting model object <code>M1</code> in the dynsim command to run our dynamic simulations. We first need to create a list object containing data frames with starting values for each simulation scenario. Imagine we want to run three contrasting scenarios with the following fitted values:
 </p>
@@ -226,14 +220,12 @@ percentiles.</li>
 </pre></div>
 </div></div>
 
-
 <p>In this example we won't introduce shocks, so now we run our simulations:</p>
 
 <div class="chunk" id="unnamed-chunk-7"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">Sim1</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">dynsim</span><span class="hl std">(</span><span class="hl kwc">obj</span> <span class="hl std">= M1,</span> <span class="hl kwc">ldv</span> <span class="hl std">=</span> <span class="hl str">'InvestLag'</span><span class="hl std">,</span>
                 <span class="hl kwc">scen</span> <span class="hl std">= ScenComb,</span> <span class="hl kwc">n</span> <span class="hl std">=</span> <span class="hl num">20</span><span class="hl std">)</span>
 </pre></div>
 </div></div>
-
 
 <p>This took 1000 draws of the coefficients to produce 20 dynamic simulation iterations for each of the three scenarios. In the resulting <code>Sim1</code> object we have retained the middle 95% and 50%. We will return to presenting and exploring the contents of <code>Sim1</code> later.</p>
 
@@ -252,7 +244,6 @@ percentiles.</li>
 </pre></div>
 </div></div>
 
-
 <p>Now we can simply add <code>grunfeldshock</code> to the dynsim shocks argument.</p>
 
 <div class="chunk" id="unnamed-chunk-9"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">Sim2</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">dynsim</span><span class="hl std">(</span><span class="hl kwc">obj</span> <span class="hl std">= M1,</span> <span class="hl kwc">ldv</span> <span class="hl std">=</span> <span class="hl str">'InvestLag'</span><span class="hl std">,</span>
@@ -260,7 +251,6 @@ percentiles.</li>
                <span class="hl kwc">shocks</span> <span class="hl std">= grunfeldshock)</span>
 </pre></div>
 </div></div>
-
 
 <p>Now we can simply add grunfeldshock to the dynsim <code>shocks</code> argument.</p>
 
@@ -270,7 +260,6 @@ percentiles.</li>
 </pre></div>
 </div></div>
 
-
 <h3>Plotting simulations</h3>
 
 <p>Probably the easiest and most effective way to communicate your <strong><code>dynsim</code></strong> simulation results is with the package’s built-in plotting capabilities. These are accessed with the <code>dysnsimGG</code> command. Let’s start by plotting the simulations from our basic model. In an earlier example we put these results into <code>Sim1</code>. Using <code>dynsimGG</code>'s default settings we can plot the simulations with the following code:
@@ -279,7 +268,6 @@ percentiles.</li>
 <div class="chunk" id="Basic"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">dynsimGG</span><span class="hl std">(Sim1)</span>
 </pre></div>
 </div><div class="rimage center"><img src="figure/Basic.svg" title="plot of chunk Basic" alt="plot of chunk Basic" class="plot" /></div></div>
-
 
 <p>We can make a number of aesthetic changes. For example, we can re-title the legend using the <code>leg.name</code> argument and change the legend values by adding a vector of the desired label names in the order of our scenarios using the <code>leg.labels</code> argument. We can also change the color palette using the <code>color</code> argument. Let’s use the 'orange-red' palette denoted by <code>OrRd</code>. Finally, we can change the y-axis label with the <code>ylab</code> argument so that it is more descriptive. 
 </p>
@@ -294,7 +282,6 @@ percentiles.</li>
 </pre></div>
 </div><div class="rimage center"><img src="figure/ColorScen.svg" title="plot of chunk ColorScen" alt="plot of chunk ColorScen" class="plot" /></div></div>
 
-
 <p>Plotting simulations with shock variables is very similar to what we have already seen. The one major change we can make is to include a plot of one shock variable’s fitted values underneath the main plot. To do this simply use the <code>shockplot.var</code> argument to specify which variable to plot. Use the <code>shockplot.ylab</code> argument to change the y-axis label. For example:
 </p>
 
@@ -305,7 +292,6 @@ percentiles.</li>
             <span class="hl kwc">shockplot.ylab</span> <span class="hl std">=</span> <span class="hl str">'Firm Value'</span><span class="hl std">)</span>
 </pre></div>
 </div><div class="rimage center"><img src="figure/ShockPlot.svg" title="plot of chunk ShockPlot" alt="plot of chunk ShockPlot" class="plot" /></div></div>
-
 
 <p>Similarly, we can plot the simulations from scenarios where market value shocks were interacted with capital stock. The code is accomplish this is almost identical to the code chunk we just saw. The only difference is that we use the <code>Sim3</code> model object.
 </p>
@@ -318,7 +304,6 @@ percentiles.</li>
 </pre></div>
 </div><div class="rimage center"><img src="figure/InteractShock.svg" title="plot of chunk InteractShock" alt="plot of chunk InteractShock" class="plot" /></div></div>
 
-
 <h2 id="install">Install</h2>
 
 <p><strong><code>dynsim</code></strong> for R is available on <a href="http://cran.r-project.org/web/packages/dynsim/index.html">CRAN</a>.</p>
@@ -328,7 +313,6 @@ percentiles.</li>
 <div class="chunk" id="unnamed-chunk-11"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">devtools::</span><span class="hl kwd">install_github</span><span class="hl std">(</span><span class="hl str">'christophergandrud/dynsim'</span><span class="hl std">)</span>
 </pre></div>
 </div></div>
-
 
 </div>
 
@@ -360,7 +344,6 @@ percentiles.</li>
 </pre></div>
 </div></div>
 
-
 <p>We then use <code>dynsim</code> to produce 20 dynamic simulations (using the option <code>n(20)</code>) of each of the three scenarios, with the resulting predicted values and 95% confidence intervals (the default, changeable via the <code>sig</code> option) saved to a data set named ''<em>dynsim1</em>'' in the working directory.</p>
 
 <p>Suppose that we want to simulate three different scenarios based on holding the firm's market value and value of the capital stock at its 5th percentile, mean, and 95th percentile, respectively. To do this we use the <code>scen</code> options (in the Stata version you can set up to 4 scenarios). We can also provide the starting value for the lagged dependent variable (in the <code>scen</code> options), which in this case is the sample mean. Here is the code:</p> 
@@ -373,7 +356,6 @@ percentiles.</li>
         <span class="hl kwd">saving</span>(dynsim1)
 </pre></div>
 </div></div>
-
 
 <p>We can present the predicted values (and confidence intervals) in the new <em>dynsim1</em> data set in a variety of ways. We have found that Stata’s <code>twoway rcap</code> is a simple way of demonstrating the predicted values and uncertainty. It gives us plots like this:</p>
 
