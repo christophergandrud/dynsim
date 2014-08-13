@@ -66,8 +66,10 @@ data(grunfeld, package = "dynsim")
 grunfeld <- slide(grunfeld, Var = "invest", GroupVar = "company",
                NewVar = "InvestLag")
 
+# Convert company to factor for fixed-effects specification
+grunfeld$company <- as.factor(grunfeld$company)
 # Estimate basic model
-M1 <- lm(invest ~ InvestLag + mvalue + kstock, data = grunfeld)
+M1 <- lm(invest ~ InvestLag + mvalue + kstock + company, data = grunfeld)
 
 # Set up scenarios
 attach(grunfeld)

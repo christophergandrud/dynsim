@@ -7,7 +7,7 @@ dynsim(obj, ldv, scen, n = 10, sig = 0.95, num = 1000, shocks = NULL,
   forecast = NULL, ...)
 }
 \arguments{
-\item{obj}{the output object from \code{\link{zelig}}.}
+\item{obj}{the output object the estimation model.}
 
 \item{ldv}{character. Names the lagged dependent variable}
 
@@ -69,7 +69,7 @@ The output object is a data frame class object. Do with it as you like.
 }
 \details{
 A post-estimation technique for producing dynamic simulations of
-autoregressive models estimated with \code{\link{Zelig}}.
+autoregressive models.
 }
 \examples{
 # Load package
@@ -82,11 +82,14 @@ data(grunfeld, package = "dynsim")
 grunfeld <- slide(grunfeld, Var = "invest", GroupVar = "company",
                NewVar = "InvestLag")
 
+# Convert company to factor for fixed-effects specification
+grunfeld$company <- as.factor(grunfeld$company)
+
 # Estimate basic model
-M1 <- lm(invest ~ InvestLag + mvalue + kstock, data = grunfeld)
+M1 <- lm(invest ~ InvestLag + mvalue + kstock + company, data = grunfeld)
 
 # Estimate model with interaction between mvalue and kstock
-M2 <- lm(invest ~ InvestLag + mvalue*kstock, data = grunfeld)
+M2 <- lm(invest ~ InvestLag + mvalue*kstock + company, data = grunfeld)
 
 # Set up scenarios
 attach(grunfeld)

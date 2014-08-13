@@ -2,7 +2,7 @@
 #'
 #' \code{dynsim} dynamic simulations of autoregressive relationships
 #'
-#' @param obj the output object from \code{\link{zelig}}.
+#' @param obj the output object the estimation model.
 #' @param ldv character. Names the lagged dependent variable
 #' @param scen data frame or list of data frames. Specifies the values of the
 #' variables used to generate the predicted values when \eqn{t = 0}. If only one
@@ -32,7 +32,7 @@
 #' @param ... arguments to pass to methods.
 #'
 #' @details A post-estimation technique for producing dynamic simulations of
-#' autoregressive models estimated with \code{\link{Zelig}}.
+#' autoregressive models.
 #'
 #' @return The command returns a \code{dynsim} class object. This can contain up
 #' to seven elements:
@@ -65,11 +65,14 @@
 #' grunfeld <- slide(grunfeld, Var = "invest", GroupVar = "company",
 #'                NewVar = "InvestLag")
 #'
+#' # Convert company to factor for fixed-effects specification
+#' grunfeld$company <- as.factor(grunfeld$company)
+#'
 #' # Estimate basic model
-#' M1 <- lm(invest ~ InvestLag + mvalue + kstock, data = grunfeld)
+#' M1 <- lm(invest ~ InvestLag + mvalue + kstock + company, data = grunfeld)
 #'
 #' # Estimate model with interaction between mvalue and kstock
-#' M2 <- lm(invest ~ InvestLag + mvalue*kstock, data = grunfeld)
+#' M2 <- lm(invest ~ InvestLag + mvalue*kstock + company, data = grunfeld)
 #'
 #' # Set up scenarios
 #' attach(grunfeld)
@@ -119,6 +122,12 @@
 
 dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000,
                    shocks = NULL, forecast = NULL, ...){
+    # Zelig no longer used
+    if ('zelig' %in% class(obj)){
+        stop(paste0('dynsim no longer relies on Zelig.\n',
+            '----Please use `lm` or similar estimation functions.----'),
+            call. = FALSE)
+    }
     # Dynsim forecast warning.
     #### Remove when forecast capability added ####
     if (!is.null(forecast)){
