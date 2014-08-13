@@ -9,13 +9,12 @@ Solution: Before running `dynsim` simply estimate model with `lm` rather than
 
 Fixed effect examples added.
 
-`summarize` method added to summarise simulation object.
-
 ## Version 0.2.5
 
 Internal improvements.
 
 The result of `dynsim` is now both a `data.frame` and `dynsim` object.
+This enables the user to find easy nongraphical summaries.
 
 ## Version 0.2.4
 

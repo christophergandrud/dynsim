@@ -45,8 +45,8 @@ appropriately.}
 \item{...}{arguments to pass to methods.}
 }
 \value{
-The command returns a \code{dynsim} class object. This can contain up
-to seven elements:
+The command returns a \code{data.frame} and \code{dynsim} class
+object. This can contain up to columns elements:
 \itemize{
  \item{\code{scenNumber}: }{The scenario number.}
  \item{\code{time}: }{The time points.}
@@ -91,17 +91,20 @@ M1 <- lm(invest ~ InvestLag + mvalue + kstock + company, data = grunfeld)
 # Estimate model with interaction between mvalue and kstock
 M2 <- lm(invest ~ InvestLag + mvalue*kstock + company, data = grunfeld)
 
-# Set up scenarios
+# Set up scenarios for company 4
 attach(grunfeld)
 Scen1 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
                     mvalue = quantile(mvalue, 0.05),
-                    kstock = quantile(kstock, 0.05))
+                    kstock = quantile(kstock, 0.05),
+                    company4 = 1)
 Scen2 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
                     mvalue = mean(mvalue),
-                    kstock = mean(kstock))
+                    kstock = mean(kstock),
+                    company4 = 1)
 Scen3 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
                     mvalue = quantile(mvalue, 0.95),
-                    kstock = quantile(kstock, 0.95))
+                    kstock = quantile(kstock, 0.95),
+                    company4 = 1)
 detach(grunfeld)
 
 # Combine into a single list

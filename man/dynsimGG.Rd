@@ -71,16 +71,20 @@ grunfeld$company <- as.factor(grunfeld$company)
 # Estimate basic model
 M1 <- lm(invest ~ InvestLag + mvalue + kstock + company, data = grunfeld)
 
-# Set up scenarios
+# Set up scenarios for company 4
 attach(grunfeld)
 Scen1 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
                     mvalue = quantile(mvalue, 0.05),
-                    kstock = quantile(kstock, 0.05))
+                    kstock = quantile(kstock, 0.05),
+                    company4 = 1)
 Scen2 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
-                    mvalue = mean(mvalue), kstock = mean(kstock))
+                    mvalue = mean(mvalue),
+                    kstock = mean(kstock),
+                    company4 = 1)
 Scen3 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
                     mvalue = quantile(mvalue, 0.95),
-                    kstock = quantile(kstock, 0.95))
+                    kstock = quantile(kstock, 0.95),
+                    company4 = 1)
 detach(grunfeld)
 
 # Combine into a single list
