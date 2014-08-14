@@ -6,6 +6,7 @@ dynsim
 ##### Version 0.2.4
 
 [![Build Status](https://travis-ci.org/christophergandrud/dynsim.png)](https://travis-ci.org/christophergandrud/dynsim)
+[![DOI](https://zenodo.org/badge/5350/christophergandrud/dynsim.png)](http://dx.doi.org/10.5281/zenodo.11285)
 
 ##### [Christopher Gandrud](http://christophergandrud.blogspot.com/p/biocontact.html),
 Laron K Williams, and Guy D Whitten
