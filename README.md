@@ -1,7 +1,7 @@
 dynsim
 ======
 
-### An R implementation of dynamic simulations of autoregressive relationships
+### Dynamic Simulations of Autoregressive Relationships
 
 ##### Version 0.2.4
 
