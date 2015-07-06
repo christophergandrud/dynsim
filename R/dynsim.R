@@ -27,8 +27,6 @@
 #' non-\code{ldv} variable values will revert to those in \code{scen}. If
 #' \code{*} is used to create interactions, interaction terms will be fitted
 #' appropriately.
-#' @param forecast Reserved argument for future version. Any value given to
-#' \code{forecast} will be ignored.
 #' @param ... arguments to pass to methods.
 #'
 #' @details A post-estimation technique for producing dynamic simulations of
@@ -52,7 +50,6 @@
 #'  central 50 percent interval.}
 #' }
 #' The output object is a data frame class object. Do with it as you like.
-#'
 #'
 #' @examples
 #' # Load package
@@ -124,38 +121,33 @@
 #' @export
 
 dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000,
-                   shocks = NULL, forecast = NULL, ...){
+                   shocks = NULL, ...) {
     # Zelig no longer used
-    if ('zelig' %in% class(obj)){
+    if ('zelig' %in% class(obj)) {
         stop(paste0('dynsim no longer relies on Zelig.\n',
-            '----Please use `lm` or similar estimation functions.----'),
+            '---- Please use `lm` or `plm` estimation functions. ----'),
             call. = FALSE)
     }
-    # Dynsim forecast warning.
-    #### Remove when forecast capability added ####
-    if (!is.null(forecast)){
-        message("\nforecast capabilities not yet available. forecast argument is ignored.")
-        forecast <- NULL
-    }
+
     # Make sure that the variables in scen are in the model
     ModCoefNames <- names(coef(obj))
     VarMisError <- '\nAt least one variable name in scen was not found in the estimation model.'
     if (class(scen) == 'data.frame'){
-        if (any(!(names(scen) %in% ModCoefNames))){
+        if (any(!(names(scen) %in% ModCoefNames))) {
             stop(VarMisError, call. = FALSE)
         }
-    } else if (class(scen) == 'list'){
+    } else if (class(scen) == 'list') {
         for (a in seq_along(scen)){
             TempDF <- scen[[a]]
-            if (any(!(names(TempDF) %in% ModCoefNames))){
+            if (any(!(names(TempDF) %in% ModCoefNames))) {
                 stop(VarMisError, call. = FALSE)
             }
         }
     }
     # Make sure that both shocks is a data frame and the first column of shocks
     # is a variable called times.
-    if (!is.null(shocks)){
-        if (class(shocks) != "data.frame"){
+    if (!is.null(shocks)) {
+        if (!is.data.frame(shocks)) {
             stop("\nShocks must be a data frame.", call. = FALSE)
         }
         if (names(shocks)[1] != "times"){
@@ -175,16 +167,16 @@ dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000,
     }
 
     # Determine if 1 or more scenarios are desired and simulate scenarios
-    if (class(scen) == "data.frame"){
+    if (is.data.frame(scen)){
         SimOut <- OneScen(obj = obj, ldv = ldv, n = n, num = num, scen = scen,
-                            sig = sig, shocks = shocks, forecast = forecast)
+                            sig = sig, shocks = shocks)
     }
-    else if (class(scen) == "list"){
+    else if (is.list(scen)){
         results <- list()
         for (u in seq_along(scen)){
             SimTemp <- OneScen(obj = obj, ldv = ldv, n = n,
                                 scen = scen[[u]], sig = sig, num = num,
-                                shocks = shocks, forecast = forecast)
+                                shocks = shocks)
             results[[u]] <- cbind("scenNumber" = u, SimTemp)
         }
         SimOut <- do.call("rbind", results)
