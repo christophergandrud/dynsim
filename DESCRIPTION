@@ -16,7 +16,7 @@ Depends:
 Imports:
     ggplot2,
     gridExtra,
-    MASS
-Suggests:
-    DataCombine,
+    MASS,
     plm
+Suggests:
+    DataCombine

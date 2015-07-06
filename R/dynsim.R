@@ -118,6 +118,8 @@
 #' Substantive Inferences from TSCS Models. Journal of Politics, 74(03),
 #' 685-693.
 #'
+#' @importFrom plm fixef
+#'
 #' @export
 
 dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000,
@@ -131,6 +133,14 @@ dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000,
 
     # Make sure that the variables in scen are in the model
     ModCoefNames <- names(coef(obj))
+
+    if (class(obj) = 'plm') {
+        fixed_effects <- fixef(obj)
+        fixed_names <- names(fixed_effects)
+        if (!is.null(fixed_effects))
+            ModCoefNames <- c(ModCoefNames, fixed_names)
+    }
+
     VarMisError <- '\nAt least one variable name in scen was not found in the estimation model.'
     if (class(scen) == 'data.frame'){
         if (any(!(names(scen) %in% ModCoefNames))) {
@@ -176,7 +186,7 @@ dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000,
         for (u in seq_along(scen)){
             SimTemp <- OneScen(obj = obj, ldv = ldv, n = n,
                                 scen = scen[[u]], sig = sig, num = num,
-                                shocks = shocks)
+                                shocks = shocks, forecast = forecast)
             results[[u]] <- cbind("scenNumber" = u, SimTemp)
         }
         SimOut <- do.call("rbind", results)
