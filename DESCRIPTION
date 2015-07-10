@@ -1,7 +1,7 @@
 Package: dynsim
 Title: Dynamic Simulations of Autoregressive Relationships
 Version: 1.1
-Date: 2015-07-06
+Date: 2015-07-10
 Authors@R: c(
     person("Christopher", "Gandrud", email = "christopher.gandrud@gmail.com",
     role = c("aut", "cre"))
@@ -15,7 +15,7 @@ Depends:
     R (>= 3.0.0)
 Imports:
     ggplot2,
-    gridExtra,
+    gridExtra (>=2.0.0),
     MASS,
     plm
 Suggests:

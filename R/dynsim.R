@@ -131,22 +131,21 @@ dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000,
             call. = FALSE)
     }
 
+    # Create mean fitted values if scen is not specified
+    if (missing(scen)) {
+        model_values <- obj$model
+        scen <- data.frame(colSums(model_values))
+    }
+
     # Make sure that the variables in scen are in the model
     ModCoefNames <- names(coef(obj))
 
-    if (class(obj) = 'plm') {
-        fixed_effects <- fixef(obj)
-        fixed_names <- names(fixed_effects)
-        if (!is.null(fixed_effects))
-            ModCoefNames <- c(ModCoefNames, fixed_names)
-    }
-
     VarMisError <- '\nAt least one variable name in scen was not found in the estimation model.'
-    if (class(scen) == 'data.frame'){
+    if (is.data.frame(scen)){
         if (any(!(names(scen) %in% ModCoefNames))) {
             stop(VarMisError, call. = FALSE)
         }
-    } else if (class(scen) == 'list') {
+    } else if (is.list(scen)) {
         for (a in seq_along(scen)){
             TempDF <- scen[[a]]
             if (any(!(names(TempDF) %in% ModCoefNames))) {
@@ -154,8 +153,17 @@ dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000,
             }
         }
     }
+
+    if ('plm' %in% class(obj)) {
+        fixed_effects <- fixef(obj)
+        if (!is.null(fixed_effects))
+            fixed_names <- names(fixed_effects)
+            ModCoefNames <- c(ModCoefNames, fixed_names)
+    }
+
+
     # Make sure that both shocks is a data frame and the first column of shocks
-    # is a variable called times.
+    # is a variable called "times".
     if (!is.null(shocks)) {
         if (!is.data.frame(shocks)) {
             stop("\nShocks must be a data frame.", call. = FALSE)
@@ -177,16 +185,29 @@ dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000,
     }
 
     # Determine if 1 or more scenarios are desired and simulate scenarios
-    if (is.data.frame(scen)){
-        SimOut <- OneScen(obj = obj, ldv = ldv, n = n, num = num, scen = scen,
-                            sig = sig, shocks = shocks)
+    if (is.data.frame(scen)) {
+        if (nrow(scen) == 1) {
+            SimOut <- OneScen(obj = obj, ldv = ldv, n = n, num = num,
+                                scen = scen, sig = sig, shocks = shocks)
+        }
+        else if (nrow(scen > 1)) {
+            results <- list()
+            for (u in 1:nrow(scen)) {
+                scen_sub <- scen[u, ]
+                SimTemp <- OneScen(obj = obj, ldv = ldv, n = n,
+                                    scen = scen_sub, sig = sig, num = num,
+                                    shocks = shocks)
+                results[[u]] <- cbind("scenNumber" = u, SimTemp)
+            }
+            SimOut <- do.call("rbind", results)
+        }
     }
-    else if (is.list(scen)){
+    else if (is.list(scen)) {
         results <- list()
-        for (u in seq_along(scen)){
+        for (u in seq_along(scen)) {
             SimTemp <- OneScen(obj = obj, ldv = ldv, n = n,
                                 scen = scen[[u]], sig = sig, num = num,
-                                shocks = shocks, forecast = forecast)
+                                shocks = shocks)
             results[[u]] <- cbind("scenNumber" = u, SimTemp)
         }
         SimOut <- do.call("rbind", results)

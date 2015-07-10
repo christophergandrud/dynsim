@@ -95,8 +95,7 @@
 #' dynsimGG(Sim2, leg.labels = Labels, shockplot.var = "kstock")
 #'
 #' @import ggplot2
-#' @importFrom gridExtra grid.arrange
-#' @importFrom gridExtra arrangeGrob
+#' @importFrom gridExtra grid.arrange arrangeGrob
 #'
 #' @export
 

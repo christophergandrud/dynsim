@@ -7,7 +7,7 @@
 #' @keywords internals
 #' @noRd
 
-OneScen <- function(obj, ldv, n, scen, sig, num, shocks, forecast){
+OneScen <- function(obj, ldv, n, scen, sig, num, shocks){
     # CRAN requirements
     times <- sigma.sqr <- alpha.sqr <- NULL
 
@@ -56,22 +56,10 @@ OneScen <- function(obj, ldv, n, scen, sig, num, shocks, forecast){
         time <- i
         ldvMean <- mean(PV)
 
-        if (missing(forecast)){
-            ldvLower <- quantile(PV, prob = Bottom, names = FALSE)
-            ldvUpper <- quantile(PV, prob = Top, names = FALSE)
-            ldvLower50 <- quantile(PV, prob = 0.25, names = FALSE)
-            ldvUpper50 <- quantile(PV, prob = 0.75, names = FALSE)
-        }
-        else if (!missing(forecast)){
-            sigma.sqrDF <-
-            alpha.sqrDF <-
-            if (forecast == "ag"){
-
-            iMinusOne <- i - 1
-            se <- sqrt(sigma.sqr *  (1 * iMinusOne * sigma.sqr * alpha.sqr))
-
-            }
-        }
+        ldvLower <- quantile(PV, prob = Bottom, names = FALSE)
+        ldvUpper <- quantile(PV, prob = Top, names = FALSE)
+        ldvLower50 <- quantile(PV, prob = 0.25, names = FALSE)
+        ldvUpper50 <- quantile(PV, prob = 0.75, names = FALSE)
 
         # Shock variable values
         if (!is.null(shocks)){

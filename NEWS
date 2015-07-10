@@ -2,7 +2,9 @@
 
 - Closer integration with the plm panel data estimators package.
 
-- Cleaner scenario builder.
+- Cleaner scenario builder now allows users to specify fitted values in a
+multiple row data frame. When variables are not given fitted values, then their
+means are used.
 
 - Internal code improvements.
 
