@@ -6,6 +6,10 @@
 multiple row data frame. When variables are not given fitted values, then their
 means are used.
 
+- Now depends on gridExtra >= 2.0.0. Allows users to specify the height of
+of each plot when shock values are plotted with the `shockplot.heights`
+argument.
+
 - Internal code improvements.
 
 ## Version 1.0
@@ -40,8 +44,8 @@ This enables the user to find easy nongraphical summaries.
 
 ## Version 0.2.2
 
-- Simplified the syntax for shock plots (`shockplot = TRUE` is no longer necessary)
-and decreased the font size.
+- Simplified the syntax for shock plots (`shockplot = TRUE` is no longer
+necessary) and decreased the font size.
 
 ## Version 0.2.1
 

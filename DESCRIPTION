@@ -15,7 +15,8 @@ Depends:
     R (>= 3.0.0)
 Imports:
     ggplot2,
-    gridExtra (>=2.0.0),
+    grid,
+    gridExtra (>= 2.0.0),
     MASS,
     plm
 Suggests:

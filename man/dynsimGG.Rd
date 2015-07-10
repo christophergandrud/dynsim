@@ -6,7 +6,8 @@
 \usage{
 dynsimGG(obj, lsize = 1, color, alpha = 0.5, xlab = "\\nTime",
   ylab = "Predicted Value\\n", title = "", leg.name = "Scenario",
-  leg.labels, legend = "legend", shockplot.var, shockplot.ylab)
+  leg.labels, legend = "legend", shockplot.var, shockplot.ylab,
+  shockplot.heights = c(12, 4), shockplot.heights.units = c("cm", "cm"))
 }
 \arguments{
 \item{obj}{a \code{dynsim} class object.}
@@ -42,7 +43,14 @@ default is \code{legend = "legend"}. To hide the legend use
 \item{shockplot.var}{character string naming the one shock variable to plot
 fitted values of over time specified underneath the main plot.}
 
-\item{shockplot.ylab}{a label for the shockplot's y-axis.}
+\item{shockplot.ylab}{character string for the shockplot's y-axis label.}
+
+\item{shockplot.heights}{numeric vector with of length 2 with units of
+the main and shockplot height plots.}
+
+\item{shockplot.heights.units}{a character vector of length 2 with the
+unit types for the values in \code{shockplot.heights}.
+See \code{\link{unit}} for details.}
 }
 \description{
 \code{dynsimGG} uses \code{\link{ggplot2}} to plot dynamic simulation results
