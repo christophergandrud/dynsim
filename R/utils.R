@@ -32,7 +32,7 @@ OneScen <- function(obj, ldv, n, scen, sig, num, shocks){
                     scenTemp[, x] <- shocksTemp[1, x]
                 }
             }
-            else if (!(i %in% shocks)){
+            else if (!(i %in% shocks)) {
                 scenTemp <- scen
             }
         }
@@ -45,9 +45,12 @@ OneScen <- function(obj, ldv, n, scen, sig, num, shocks){
         Drawn <- mvrnorm(n = num, mu = Coef, Sigma = VC)
         DrawnDF <- data.frame(Drawn)
 
+        ##### The intercept
+        #names(DrawnDF) <- names(scenTemp)
+
         # Find predicted value
         qiDF <- data.frame(DrawnDF[, 1]) # keep the intercept
-        for (u in names(scenTemp)){
+        for (u in names(scenTemp)) {
             qiDF[, u] <- DrawnDF[, u] * scenTemp[, u]
         }
         PV <- rowSums(qiDF)

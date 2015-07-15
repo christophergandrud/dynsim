@@ -8,8 +8,8 @@ means are used.
 
 ## Version 1.1
 
-- Now depends on gridExtra >= 2.0.0. Allows users to specify the height of
-of each plot when shock values are plotted with the `shockplot.heights`
+- Depands on gridExtra >= 2.0.0. This allows users to specify the height of
+of each graph when shock values are plotted with the `shockplot.heights`
 argument.
 
 - Internal code improvements.
