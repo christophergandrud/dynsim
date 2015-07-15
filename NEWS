@@ -1,13 +1,7 @@
 ## Version 1.1
 
-- Closer integration with the plm panel data estimators package.
-
-- Cleaner scenario builder now allows users to specify fitted values in a
-multiple row data frame. When variables are not given fitted values, then their
-means are used.
-
-- Now depends on gridExtra >= 2.0.0. Allows users to specify the height of
-of each plot when shock values are plotted with the `shockplot.heights`
+- Depands on gridExtra >= 2.0.0. This allows users to specify the height of
+of each graph when shock values are plotted with the `shockplot.heights`
 argument.
 
 - Internal code improvements.

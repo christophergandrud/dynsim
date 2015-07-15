@@ -118,8 +118,6 @@
 #' Substantive Inferences from TSCS Models. Journal of Politics, 74(03),
 #' 685-693.
 #'
-#' @importFrom plm fixef
-#'
 #' @export
 
 dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000,
@@ -131,22 +129,24 @@ dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000,
             call. = FALSE)
     }
 
+    ModCoefNames <- names(coef(obj))
+
     # Create mean fitted values if scen is not specified
     if (missing(scen)) {
+        message('No scen provided. All covariates fitted at their means.')
         model_values <- obj$model
-        scen <- data.frame(colSums(model_values))
+        scen <- data.frame(as.list(colMeans(model_values)))[, -1]
+        names(scen) <- ModCoefNames
     }
 
     # Make sure that the variables in scen are in the model
-    ModCoefNames <- names(coef(obj))
-
     VarMisError <- '\nAt least one variable name in scen was not found in the estimation model.'
-    if (is.data.frame(scen)){
+    if (is.data.frame(scen)) {
         if (any(!(names(scen) %in% ModCoefNames))) {
             stop(VarMisError, call. = FALSE)
         }
     } else if (is.list(scen)) {
-        for (a in seq_along(scen)){
+        for (a in seq_along(scen)) {
             TempDF <- scen[[a]]
             if (any(!(names(TempDF) %in% ModCoefNames))) {
                 stop(VarMisError, call. = FALSE)
@@ -154,32 +154,24 @@ dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000,
         }
     }
 
-    if ('plm' %in% class(obj)) {
-        fixed_effects <- fixef(obj)
-        if (!is.null(fixed_effects))
-            fixed_names <- names(fixed_effects)
-            ModCoefNames <- c(ModCoefNames, fixed_names)
-    }
-
-
     # Make sure that both shocks is a data frame and the first column of shocks
     # is a variable called "times".
     if (!is.null(shocks)) {
         if (!is.data.frame(shocks)) {
             stop("\nShocks must be a data frame.", call. = FALSE)
         }
-        if (names(shocks)[1] != "times"){
+        if (names(shocks)[1] != "times") {
             stop("\nThe first variable of shocks must be called 'times' and contain the shock times.",
                call. = FALSE)
         }
     }
     # Error if number of iterations is <= 0.
-    if (n <= 0){
+    if (n <= 0) {
         stop("\nYou must specify at least 1 iteration with the n argument.",
              call. = FALSE)
     }
     # Make sure sig is between 0 and 1.
-    if (sig <= 0 | sig > 1){
+    if (sig <= 0 | sig > 1) {
         stop("\nsig must be greater than 0 and not greater than 1.",
              call. = FALSE)
     }
