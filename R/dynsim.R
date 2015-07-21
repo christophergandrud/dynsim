@@ -72,6 +72,7 @@
 #' M2 <- lm(invest ~ InvestLag + mvalue*kstock + company, data = grunfeld)
 #'
 #' # Set up scenarios for company 4
+#' ## List version ##
 #' attach(grunfeld)
 #' Scen1 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
 #'                     mvalue = quantile(mvalue, 0.05),
@@ -86,6 +87,14 @@
 #'                     kstock = quantile(kstock, 0.95),
 #'                     company4 = 1)
 #' detach(grunfeld)
+#'
+#' ## Alternative data frame version of the scenario builder ##
+#' \dontrun{
+#' scen_df <- data.frame(InvestLag = rep(139.2307, 3),
+#'                      mvalue = c(500, 1000, 1500),
+#'                      kstock = c(500, 1000, 1500),
+#'                      company4 = rep(1, 3))
+#' }
 #'
 #' # Combine into a single list
 #' ScenComb <- list(Scen1, Scen2, Scen3)
@@ -133,10 +142,8 @@ dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000,
 
     # Create mean fitted values if scen is not specified
     if (missing(scen)) {
-        message('No scen provided. All covariates fitted at their means.')
-        model_values <- obj$model
-        scen <- data.frame(as.list(colMeans(model_values)))[, -1]
-        names(scen) <- ModCoefNames
+        stop('\nNo scen provided. Please specify scenario values.',
+            call. = FALSE)
     }
 
     # Make sure that the variables in scen are in the model

@@ -90,6 +90,7 @@ M1 <- lm(invest ~ InvestLag + mvalue + kstock + company, data = grunfeld)
 M2 <- lm(invest ~ InvestLag + mvalue*kstock + company, data = grunfeld)
 
 # Set up scenarios for company 4
+## List version ##
 attach(grunfeld)
 Scen1 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
                     mvalue = quantile(mvalue, 0.05),
@@ -104,6 +105,14 @@ Scen3 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
                     kstock = quantile(kstock, 0.95),
                     company4 = 1)
 detach(grunfeld)
+
+## Alternative data frame version of the scenario builder ##
+\dontrun{
+scen_df <- data.frame(InvestLag = rep(139.2307, 3),
+                     mvalue = c(500, 1000, 1500),
+                     kstock = c(500, 1000, 1500),
+                     company4 = rep(1, 3))
+}
 
 # Combine into a single list
 ScenComb <- list(Scen1, Scen2, Scen3)

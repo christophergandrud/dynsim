@@ -3,6 +3,7 @@
 #' \code{OneScen} is an internal function to dynamically simulate one scenario.
 #'
 #' @importFrom MASS mvrnorm
+#' @importFrom plm fixef
 #'
 #' @keywords internals
 #' @noRd
@@ -38,8 +39,12 @@ OneScen <- function(obj, ldv, n, scen, sig, num, shocks){
         }
 
         # Parameter estimates & Variance/Covariance matrix
-        Coef <- matrix(obj$coefficients)
+        Coef <- coef(obj)
         VC <- vcov(obj)
+
+        if ('plm' %in% class(obj)) {
+
+        }
 
         # Draw covariate estimates from the multivariate normal distribution
         Drawn <- mvrnorm(n = num, mu = Coef, Sigma = VC)
