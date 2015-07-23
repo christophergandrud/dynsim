@@ -8,8 +8,6 @@
 \usepackage{amsmath,amssymb,array}
 \usepackage{booktabs}
 \usepackage{graphicx}
-\usepackage{caption}
-\usepackage{subcaption
 
 <<include=FALSE>>=
 library(dynsim)
@@ -243,14 +241,14 @@ Sim3 <- dynsim(obj = M2, ldv = "InvestLag", scen = ScenComb, n = 15,
 @
 \subsection{Plotting simulations}
 
-Probably the easiest and most effective way to communicate your \code{dynsim} simulation results is with the package's built-in plotting capabilities. These are accessed with the \code{dysnsimGG} function. Let's start by plotting the simulations from our basic model. In an earlier example we put these results into \code{Sim1}. Using \code{dynsimGG}'s default settings we create the left-panel in Figure~\ref{defaultPlot} with the following code:
+Probably the easiest and most effective way to communicate your \code{dynsim} simulation results is with the package's built-in plotting capabilities. These are accessed with the \code{dysnsimGG} function. Let's start by plotting the simulations from our basic model. In an earlier example we put these results into \code{Sim1}. Using \code{dynsimGG}'s default settings we create Figure~\ref{defaultPlot} with the following code:
 
 
 <<SimDefault, tidy=FALSE, eval=FALSE>>=
 dynsimGG(Sim1)
 @
 
-\noindent We can make a number of aesthetic changes. For example, we can re-title the legend using the \code{leg.name} argument and change the legend values by adding a vector of the desired label names in the order of our scenarios using the \code{leg.labels} argument. We can also change the color palette using the \code{color} argument. Let's use the `orange-red' palette denoted by \code{OrRd}. Finally, we can change the y-axis label with the \code{ylab} argument so that it is more descriptive. Adding these changes using the following code creates the right-panel in Figure~\ref{defaultPlot}.
+\noindent We can make a number of aesthetic changes. For example, we can re-title the legend using the \code{leg.name} argument and change the legend values by adding a vector of the desired label names in the order of our scenarios using the \code{leg.labels} argument. We can also change the color palette using the \code{color} argument. Let's use the `orange-red' palette denoted by \code{OrRd}. Finally, we can change the y-axis label with the \code{ylab} argument so that it is more descriptive. Adding these changes using the following code creates Figure~\ref{noShock}.
 
 
 <<Sim1Labels,tidy=FALSE, eval=FALSE>>=
@@ -262,23 +260,25 @@ dynsimGG(Sim1, leg.name = "Scenarios", leg.labels = Labels, color = "OrRd",
 
 \begin{figure}
     \begin{center}
-    \begin{subfigure}
-<<SimDefault-eval, tidy=FALSE, echo=FALSE, fig.height=4, fig.width=6>>=
+<<SimDefault-eval, tidy=FALSE, echo=FALSE, message=FALSE, fig.height=4, fig.width=6>>=
 dynsimGG(Sim1)
 @
+    \end{center}
+        \caption{Default Dynamic Simulation Plot with Three Scenarios}
+        \label{defaultPlot}
+\end{figure}
 
-    \end{subfigure}
-    \begin{subfigure}
-<<Sim1Labels-eval,tidy=FALSE, echo=FALSE, fig.height=4, fig.width=6>>=
+\begin{figure}
+    \begin{center}
+<<Sim1Labels-eval,tidy=FALSE, echo=FALSE, message=FALSE, fig.height=4, fig.width=6>>=
 Labels <- c("95th Percentile", "Mean", "5th Percentile")
 
 dynsimGG(Sim1, leg.name = "Scenarios", leg.labels = Labels, color = "OrRd",
          ylab = "Predicted Real Gross Investment\n")
 @
-    \end{subfigure}
     \end{center}
-        \caption{Plots of a Dynamic Simulation with Three Scenarios}
-        \label{defaultPlot}
+        \caption{Custom Scenario Labels and Color Palette}
+        \label{noShock}
 \end{figure}
 
 Plotting simulations with shock variables is very similar to what we have already seen. The one major change we can make is to include a plot of one shock variable's fitted values underneath the main plot. To do this simply use the \code{shockplot.var} argument to specify which variable to plot. Use the \code{shockplot.ylab} argument to change the y-axis label. For example, the following code will create Figure \ref{shockplot}:
