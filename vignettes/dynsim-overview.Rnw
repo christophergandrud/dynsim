@@ -17,7 +17,7 @@ library(dynsim)
 options(prompt = "R> ", continue = "+  ",
         width = 70, useFancyQuotes = FALSE)
 
-knitr::opts_chunk$set(fig.align='center', dev='png', prompt=TRUE,
+knitr::opts_chunk$set(fig.align='center', prompt=TRUE,
                 highlight=FALSE, background="white")
 @
 
@@ -157,7 +157,7 @@ I_{it} = \alpha + \beta_{1}I_{it-1} + \beta_{2}F_{it} + \beta_{3}C_{it} + \mu_{i
 
 In the \code{grunfeld} data set real gross investment is denoted \code{invest}, the firm's market value is \code{mvalue}, and the capital stock is \code{kstock}. There are 10 large US manufacturers from 1935-1954 in the data set \citep{Baltagi2001}. The variable identifying the individual companies is called \code{company}. We can easily create the investment one-year lag using the \code{slide} function from the \pkg{DataCombine} package \citep{R-DataCombine}. Here is the code:
 
-<<tidy=FALSE>>=
+<<tidy=FALSE, message=FALSE>>=
 library(DataCombine)
 
 grunfeld <- slide(grunfeld, Var = "invest", GroupVar = "company",
@@ -246,54 +246,78 @@ Sim3 <- dynsim(obj = M2, ldv = "InvestLag", scen = ScenComb, n = 15,
 Probably the easiest and most effective way to communicate your \code{dynsim} simulation results is with the package's built-in plotting capabilities. These are accessed with the \code{dysnsimGG} function. Let's start by plotting the simulations from our basic model. In an earlier example we put these results into \code{Sim1}. Using \code{dynsimGG}'s default settings we create the left-panel in Figure~\ref{defaultPlot} with the following code:
 
 
-<<tidy=FALSE, echo=TRUE, message=FALSE, warning=FALSE>>=
+<<SimDefault, tidy=FALSE, eval=FALSE>>=
 dynsimGG(Sim1)
 @
-
-\begin{figure}
-    \begin{center}
-    \begin{subfigure}[b]{0.45\textwidth}
-      \includegraphics[scale=0.35]{figures/Sim1Default.pdf}
-
-    \end{subfigure}
-    \begin{subfigure}[b]{0.45\textwidth}
-      \includegraphics[scale=0.35]{figures/Sim1Labels.pdf}
-    \end{subfigure}
-    \end{center}
-      \caption{An Example of a Dynamic Simulation of Three Scenarios}
-      \label{defaultPlot}
-\end{figure}
 
 \noindent We can make a number of aesthetic changes. For example, we can re-title the legend using the \code{leg.name} argument and change the legend values by adding a vector of the desired label names in the order of our scenarios using the \code{leg.labels} argument. We can also change the color palette using the \code{color} argument. Let's use the `orange-red' palette denoted by \code{OrRd}. Finally, we can change the y-axis label with the \code{ylab} argument so that it is more descriptive. Adding these changes using the following code creates the right-panel in Figure~\ref{defaultPlot}.
 
 
-<<tidy=FALSE, echo=TRUE, message=FALSE, warning=FALSE>>=
+<<Sim1Labels,tidy=FALSE, eval=FALSE>>=
 Labels <- c("95th Percentile", "Mean", "5th Percentile")
 
 dynsimGG(Sim1, leg.name = "Scenarios", leg.labels = Labels, color = "OrRd",
          ylab = "Predicted Real Gross Investment\n")
 @
 
+\begin{figure}
+    \begin{center}
+    \begin{subfigure}
+<<SimDefault-eval, tidy=FALSE, echo=FALSE, fig.height=4, fig.width=6>>=
+dynsimGG(Sim1)
+@
+
+    \end{subfigure}
+    \begin{subfigure}
+<<Sim1Labels-eval,tidy=FALSE, echo=FALSE, fig.height=4, fig.width=6>>=
+Labels <- c("95th Percentile", "Mean", "5th Percentile")
+
+dynsimGG(Sim1, leg.name = "Scenarios", leg.labels = Labels, color = "OrRd",
+         ylab = "Predicted Real Gross Investment\n")
+@
+    \end{subfigure}
+    \end{center}
+        \caption{Plots of a Dynamic Simulation with Three Scenarios}
+        \label{defaultPlot}
+\end{figure}
+
 Plotting simulations with shock variables is very similar to what we have already seen. The one major change we can make is to include a plot of one shock variable's fitted values underneath the main plot. To do this simply use the \code{shockplot.var} argument to specify which variable to plot. Use the \code{shockplot.ylab} argument to change the y-axis label. For example, the following code will create Figure \ref{shockplot}:
 
-\begin{figure}
-  \begin{center}
-<<tidy=FALSE, echo=TRUE, message=FALSE, warning=FALSE>>=
+<<Sim2Shock, tidy=FALSE, eval=FALSE>>=
 dynsimGG(Sim2, leg.name = "Scenarios", leg.labels = Labels, color = "OrRd",
        ylab = "Predicted Real Gross Investment\n", shockplot.var = "mvalue",
        shockplot.ylab = "Firm Value")
 @
-  \end{center}
+
+\begin{figure}
+    \begin{center}
+<<Sim2Shock-eval, tidy=FALSE, echo=FALSE, fig.height=5, fig.width=6>>=
+dynsimGG(Sim2, leg.name = "Scenarios", leg.labels = Labels, color = "OrRd",
+       ylab = "Predicted Real Gross Investment\n", shockplot.var = "mvalue",
+       shockplot.ylab = "Firm Value", shockplot.heights = c(8, 4))
+@
+    \end{center}
     \caption{An Example of a Dynamic Simulation with the Inclusion of a Shock Variable}
     \label{shockplot}
 \end{figure}
 
 \noindent Similarly, we can plot the simulations from scenarios where market value shocks were interacted with capital stock. This can be seen in Figure \ref{shockplotInteract}. The code is almost identical to the code chunk we just saw. The only difference is that we use the \code{Sim3} model object.
 
+<<Sim3Shock, tidy=FALSE, eval=FALSE>>=
+dynsimGG(Sim3, leg.name = "Scenarios", leg.labels = Labels, color = "OrRd",
+       ylab = "Predicted Real Gross Investment\n", shockplot.var = "mvalue",
+       shockplot.ylab = "Firm Value")
+@
+
 \begin{figure}
-  \begin{center}
-    \includegraphics[page=2,scale=0.55]{figures/Sim3Shockplot.pdf}
-  \end{center}
+    \begin{center}
+<<Sim3Shock-eval, tidy=FALSE, echo=FALSE, fig.height=5, fig.width=6>>=
+dynsimGG(Sim3, leg.name = "Scenarios", leg.labels = Labels, color = "OrRd",
+       ylab = "Predicted Real Gross Investment\n", shockplot.var = "mvalue",
+       shockplot.ylab = "Firm Value",
+       shockplot.heights = c(8, 4))
+@
+    \end{center}
     \caption{An Example of a Dynamic Simulation Where a Shock Variable Is Interacted with an Exogenous Variable}
     \label{shockplotInteract}
 \end{figure}
