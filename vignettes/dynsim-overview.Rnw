@@ -25,7 +25,7 @@ knitr::opts_chunk$set(fig.align='center', prompt=TRUE,
 
 %% almost as usual
 \author{Christopher Gandrud\\City University London \\ Hertie School of Governance \And Laron K. Williams\\University of Missouri \And Guy D. Whitten\\Texas A \& M University}
-\title{Dynamic Simulations of Autoregressive Relationships in \proglang{R} with dynsim}
+\title{Dynamic Simulations of Autoregressive Relationships in \proglang{R} with \pkg{dynsim}}
 
 %% for pretty printing and a nice hypersummary also set:
 \Plainauthor{Christopher Gandrud, Laron K. Williams, Guy D. Whitten} %% comma-separated
@@ -74,9 +74,9 @@ knitr::opts_chunk$set(fig.align='center', prompt=TRUE,
 
 \section[Introduction]{Intoduction}
 
-Two recent trends in the social sciences have drastically improved the interpretation of statistical models.  The first trend is researchers providing substantively meaningful quantities of interest when interpreting models rather than putting the burden on the reader to interpret tables of coefficients \cite{King2000}. With this goal in mind, Gary King and his co-authors have produced software, including the \proglang{R} \citep{CiteR} package \pkg{Zelig} \citep{R-Zelig}, that ease the calculation and presentation of substantive quantities of interest. The second trend is to completely interpret and present all of the inferences available from one's model.  This is seen most obviously in the case of time-series models with an autoregressive series, where the effects of an explanatory variable have both a short- and a long-term component. A more complete interpretation of these models therefore requires additional work ranging from the presentation of long-term multipliers \citep{deBoefKeele2008} to dynamic simulations \citep{WilliamsWhitten2012}.
+Two recent trends in the social sciences have drastically improved the interpretation of statistical models.  The first trend is researchers providing substantively meaningful quantities of interest when interpreting models rather than putting the burden on the reader to interpret tables of coefficients \cite{King2000}. With this goal in mind, Gary King and his co-authors have produced software, including the \proglang{R} \citep{CiteR} package \pkg{Zelig} \citep{R-Zelig}, that eases the calculation and presentation of substantive quantities of interest. The second trend is to completely interpret and present all of the inferences available from one's model.  This is seen most obviously in the case of time-series models with an autoregressive series, where the effects of an explanatory variable have both short- and a long-term components. A more complete interpretation of these models therefore requires additional work ranging from the presentation of long-term multipliers \citep{deBoefKeele2008} to dynamic simulations \citep{WilliamsWhitten2012}.
 
-We feel that these two trends can be naturally combined to allow scholars to easily depict long-term dynamic processes through simulations. Dynamic simulations depict long-run simulations of dynamic processes for a variety of substantively interesting scenarios, with and without the presence of exogenous shocks. In this code snippet we introduce the \pkg{dynsim} \citep{R-dynsim} which makes it easy for researchers to implement this approach in R.\footnote{There is also a \proglang{Stata} \citep{Stata} implementation documented in \cite{WilliamsWhitten2011}.}
+We feel that these two trends can be naturally combined to allow scholars to easily depict long-term dynamic processes through simulations. Dynamic simulations depict long-run simulations of dynamic processes for a variety of substantively interesting scenarios, with and without the presence of exogenous shocks. In this code snippet we introduce \pkg{dynsim} \citep{R-dynsim} which makes it easy for researchers to implement this approach in R.\footnote{There is also a \proglang{Stata} \citep{Stata} implementation documented in \cite{WilliamsWhitten2011}.}
 
 In the next section we briefly discuss the dynamic simulations with autoregressive time series approach. We then lay out the \pkg{dynsim} process and syntax for implementing this approach. Finally, we illustrate how to use the package with examples.
 
@@ -93,7 +93,7 @@ Dynamic simulations offer a number of inferences that one cannot make by simply 
 Use the following four step process to simulate and graph autoregressive relationships with \pkg{dynsim}:
 
 \begin{enumerate}
-  \item Estimate your linear model using the core \proglang{R} function \code{lm}.
+  \item Estimate the linear model using the core \proglang{R} function \code{lm}.
   \item Set up starting values for simulation scenarios and (optionally) shock values at particular iterations (e.g. points in forecasted time).
   \item Simulate these scenarios based on the estimated model using the \code{dynsim} function.
   \item Plot the simulation results with the \code{dynsimGG} function.
@@ -101,11 +101,11 @@ Use the following four step process to simulate and graph autoregressive relatio
 
 \noindent Before looking at examples of this process in action, let's look at the \code{dynsim} and \code{dynsimGG} syntax.
 
-The \code{dynsim} function currently has seven arguments. The first--\code{obj}--is used to specify the model object. You specify the lagged dependent variable with the \code{ldv} argument. The object containing the starting values for the simulation scenarios are set with \code{scen}. \code{n} allows you to specify the number of simulation iterations. These are equivalent to simulated `time periods'. \code{scen} sets the values of the variables in the model at `time' $n = 0$. To specify the level of statistical significance for the confidence intervals use the \code{sig} argument. By default it is set at \code{0.95} for 95 percent significance levels. You can adjust the number of simulations you draw for each point in time--i.e. each value of \code{n}--with the \code{num} argument. By default 1,000 simulations are drawn. Adjusting the number of simulations allows you to change the processing time. There is a trade-off however between the amount of time it takes to draw the simulations and the resulting information you have about about the simulations' probability distributions \cite[349]{King2000}. Finally you can identify the object that contains the shock values with the \code{shocks} argument.
+The \code{dynsim} function has seven arguments. The first--\code{obj}--is used to specify the model object. The lagged dependent variable is identified with the \code{ldv} argument. The object containing the starting values for the simulation scenarios is identified with \code{scen}. \code{n} allows you to specify the number of simulation iterations. These are equivalent to simulated `time periods'. \code{scen} sets the values of the variables in the model at `time' $n = 0$. To specify the level of statistical significance for the confidence intervals use the \code{sig} argument. By default it is set at \code{0.95} for 95 percent significance levels. The number of simulations drawn for each point in time--i.e. each value of \code{n}--is adjusted with the \code{num} argument. By default 1,000 simulations are drawn. Adjusting the number of simulations allows you to change the processing time. There is a trade-off however between the amount of time it takes to draw the simulations and the resulting information you have about about the simulations' probability distributions \cite[349]{King2000}. Finally the object containing the shock values is identified with the \code{shocks} argument.
 
 Objects for use with \code{scen} can be either a list of data frames--each data frame containing starting values for a different scenario--or a data frame where each row contains starting values for different scenarios. In both cases, the data frames have as many columns as there are independent variables in the estimated model. Each column should be given a name that matches the names of a variable in the estimation model. If you have entered an interaction using \code{*}\footnote{For example, an interaction between \code{Var1} and \code{Var2} entered into the model as \code{Var1*Var2}.} then you only need to specify starting values for the base variables not the interaction term. The simulated values for the interaction will be found automatically.
 
-\code{shocks} objects are simply data frames with the first column called \code{times} containing the iteration number (as in \code{n}) when a shock should occur. Note each shock must be at a unique time that cannot exceed \code{n}. The following columns are named after the shock variable(s), as they are labeled in the model. The values will correspond to the variable values at each shock time. You can include as many shock variables as there are variables in the estimation model. Again only values for the base variables, not the interaction terms need to be specified.
+\code{shocks} objects are data frames with the first column called \code{times} containing the iteration number (as in \code{n}) when a shock should occur. Note each shock must be at a unique time that cannot exceed \code{n}. The following columns are named after the shock variable(s), as they are labeled in the model. The values will correspond to the variable values at each shock time. You can include as many shock variables as there are variables in the estimation model. Again only values for the base variables, not the interaction terms need to be specified.
 
 Once the simulations have been run you will have a \code{dynsim} class object. These are also data frames that contain seven elements.
 
@@ -123,7 +123,7 @@ Once the simulations have been run you will have a \code{dynsim} class object. T
 
 \noindent Because \code{dynsim} objects are data frames you can plot them with any available method in \proglang{R}.
 
-\noindent A more convenient approach to plotting \code{dynsim} class objects is to use the \code{dynsimGG} function. This function draws on \pkg{ggplot2} \citep{R-ggplot2} to plot the simulation distributions across time. The distribution means are represented with a line. The range of the central 50 percent interval is represented with a dark ribbon. The range of the interval defined by the \code{sig} argument in \code{dynsim}, e.g. 95\%, is represented with a lighter ribbon.
+\noindent The \code{dynsimGG} function is the most convenient plotting approach. This function draws on \pkg{ggplot2} \citep{R-ggplot2} to plot the simulation distributions across time. The distribution means are represented with a line. The range of the central 50 percent interval is represented with a dark ribbon. The range of the interval defined by the \code{sig} argument in \code{dynsim}, e.g. 95\%, is represented with a lighter ribbon.
 
 The primary \code{dynsimGG} argument is \code{obj}. Use this to specify the output object from \code{dynsim} that you would like to plot. The remaining arguments control the plot's aesthetics. For instance, the size of the central line can be set with the \code{lsize} argument and the level of opacity for the lightest ribbon\footnote{The darker 50 percent central interval ribbon is created by essentially doubling the opacity set by \code{alpha}.} with the \code{alpha} argument. Please see the \pkg{ggplot2} documentation for more details on these arguments. You can change the color of the ribbons and central line with the \code{color} argument. If only one scenario is plotted then you can manually set the color using a variety of formats, including hexadecimal color codes. If more than one scenario is plotted, then select a color palette from those available in the \pkg{RColorBrewer} package \citep{R-RColorBrewer}.\footnote{To see the full list, after loading \pkg{RColorBrewer} in your \proglang{R} session, simply enter \code{brewer.pal.info} into your console.} The plot's title, y-axis and x-axis labels can be set with the \code{title}, \code{ylab}, and \code{xlab} arguments, respectively.
 
@@ -139,7 +139,7 @@ The \pkg{forecast} package \citep{forecast-jss,R-forecast} provides a variety of
 
 \section{Examples}
 
-To get a better sense of how \pkg{dynsim} works, let's go through a few examples. We will use the \cite{Grunfeld1958} data set. It is included with \pkg{dynsim}. To load the data use:
+The following examples demonstrate how \pkg{dynsim} works. They use the \cite{Grunfeld1958} data set. It is included with \pkg{dynsim}. To load the data use:
 
 <<tidy=FALSE, echo=TRUE, message=FALSE, warning=FALSE>>=
 data(grunfeld, package = "dynsim")
@@ -153,7 +153,7 @@ I_{it} = \alpha + \beta_{1}I_{it-1} + \beta_{2}F_{it} + \beta_{3}C_{it} + \mu_{i
 
 \noindent where $I_{it}$ is real gross investment for firm $i$ in year $t$. $I_{it-1}$ is the firm's investment in the previous year. $F_{it}$ is the real value of the firm and $C_{it}$ is the real value of the capital stock.
 
-In the \code{grunfeld} data set real gross investment is denoted \code{invest}, the firm's market value is \code{mvalue}, and the capital stock is \code{kstock}. There are 10 large US manufacturers from 1935-1954 in the data set \citep{Baltagi2001}. The variable identifying the individual companies is called \code{company}. We can easily create the investment one-year lag using the \code{slide} function from the \pkg{DataCombine} package \citep{R-DataCombine}. Here is the code:
+In the \code{grunfeld} data set, real gross investment is denoted \code{invest}, the firm's market value is \code{mvalue}, and the capital stock is \code{kstock}. There are 10 large US manufacturers from 1935-1954 in the data set \citep{Baltagi2001}. The variable identifying the individual companies is called \code{company}. We can easily create the investment one-year lag using the \code{slide} function from the \pkg{DataCombine} package \citep{R-DataCombine}. Here is the code:
 
 <<tidy=FALSE, message=FALSE>>=
 library(DataCombine)
@@ -198,17 +198,15 @@ detach(grunfeld)
 ScenComb <- list(Scen1, Scen2, Scen3)
 @
 
-\noindent In this example we won't introduce shocks, so now we run our simulations:
+\noindent To run the simulations without shocks use:
 
 <<tidy=FALSE, echo=TRUE, message=FALSE, warning=FALSE>>=
 Sim1 <- dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 20)
 @
 
-\noindent This took 1000 draws of the coefficients to produce 20 dynamic simulation iterations for each of the three scenarios. In the resulting \code{Sim1} object we have retained the middle 95\% and 50\%. We will return to presenting and exploring the contents of \code{Sim1} later in this section.
-
 \subsection{Dynamic simulation with shocks}
 
-Now let's include fitted shock values. In particular, let's see how a company with capital stock in the 5th percentile is predicted to change its gross investment when its market value experiences shocks compared to a company with capital stock in the 95th percentile. We will use market values for the first company in the \code{grunfeld} data set over the first 15 years as the shock values. To create the shock data use the following code:
+Now we include fitted shock values. In particular, we will examine how a company with capital stock in the 5th percentile is predicted to change its gross investment when its market value experiences shocks compared to a company with capital stock in the 95th percentile. We will use market values for the first company in the \code{grunfeld} data set over the first 15 years as the shock values. To create the shock data use the following code:
 
 <<tidy=FALSE, echo=TRUE, message=FALSE, warning=FALSE>>=
 # Keep only the mvalue for the first company for the first 15 years
@@ -219,14 +217,14 @@ grunfeldshock <- grunfeldsub[1:15, "mvalue"]
 grunfeldshock <- data.frame(times = 1:15, mvalue = grunfeldshock)
 @
 
-\noindent Now we can simply add \code{grunfeldshock} to the \code{dynsim} \code{shocks} argument.
+\noindent Now add \code{grunfeldshock} to the \code{dynsim} \code{shocks} argument.
 
 <<tidy=FALSE, echo=TRUE, message=FALSE, warning=FALSE>>=
 Sim2 <- dynsim(obj = M1, ldv = "InvestLag", scen = ScenComb, n = 15,
                shocks = grunfeldshock)
 @
 
-We can easily incorporate interactions between the shock variable and another exogenous variable. To include, for example, an interaction between the firm's market value (the shock variable) and the capital stock (another exogenous variable) we simply need to rerun the basic parametric model like so:
+Interactions between the shock variable and another exogenous variable can also be simulated for. To include, for example, an interaction between the firm's market value (the shock variable) and the capital stock (another exogenous variable) we need to rerun the parametric model like so:
 
 
 <<tidy=FALSE, echo=TRUE, message=FALSE, warning=FALSE>>=
@@ -239,16 +237,17 @@ M2 <- lm(invest ~ InvestLag + mvalue*kstock, data = grunfeld)
 Sim3 <- dynsim(obj = M2, ldv = "InvestLag", scen = ScenComb, n = 15,
                shocks = grunfeldshock)
 @
+
 \subsection{Plotting simulations}
 
-Probably the easiest and most effective way to communicate your \code{dynsim} simulation results is with the package's built-in plotting capabilities. These are accessed with the \code{dysnsimGG} function. Let's start by plotting the simulations from our basic model. In an earlier example we put these results into \code{Sim1}. Using \code{dynsimGG}'s default settings we create Figure~\ref{defaultPlot} with the following code:
+The easiest and most effective way to communicate \code{dynsim} simulation results is with the package's built-in plotting capabilities, e.g.:
 
 
 <<SimDefault, tidy=FALSE, eval=FALSE>>=
 dynsimGG(Sim1)
 @
 
-\noindent We can make a number of aesthetic changes. For example, we can re-title the legend using the \code{leg.name} argument and change the legend values by adding a vector of the desired label names in the order of our scenarios using the \code{leg.labels} argument. We can also change the color palette using the \code{color} argument. Let's use the `orange-red' palette denoted by \code{OrRd}. Finally, we can change the y-axis label with the \code{ylab} argument so that it is more descriptive. Adding these changes using the following code creates Figure~\ref{noShock}.
+\noindent We can make a number of aesthetic changes. The following code adds custom legend lables, the `orange-red` color pallette--denoted by \code{OrRd}--, and relabels the y-axis to create Figure~\ref{noShock}.
 
 
 <<Sim1Labels,tidy=FALSE, eval=FALSE>>=
@@ -260,28 +259,18 @@ dynsimGG(Sim1, leg.name = "Scenarios", leg.labels = Labels, color = "OrRd",
 
 \begin{figure}
     \begin{center}
-<<SimDefault-eval, tidy=FALSE, echo=FALSE, message=FALSE, fig.height=4, fig.width=6>>=
-dynsimGG(Sim1)
-@
-    \end{center}
-        \caption{Default Dynamic Simulation Plot with Three Scenarios}
-        \label{defaultPlot}
-\end{figure}
-
-\begin{figure}
-    \begin{center}
-<<Sim1Labels-eval,tidy=FALSE, echo=FALSE, message=FALSE, fig.height=4, fig.width=6>>=
+<<Sim1Labels-eval,tidy=FALSE, echo=FALSE, message=FALSE, fig.height=3.5, fig.width=5.5>>=
 Labels <- c("95th Percentile", "Mean", "5th Percentile")
 
 dynsimGG(Sim1, leg.name = "Scenarios", leg.labels = Labels, color = "OrRd",
          ylab = "Predicted Real Gross Investment\n")
 @
     \end{center}
-        \caption{Custom Scenario Labels and Color Palette}
+        \caption{Three Dynamic Simulationes Plotted with Custom Scenario Labels and Color Palette}
         \label{noShock}
 \end{figure}
 
-Plotting simulations with shock variables is very similar to what we have already seen. The one major change we can make is to include a plot of one shock variable's fitted values underneath the main plot. To do this simply use the \code{shockplot.var} argument to specify which variable to plot. Use the \code{shockplot.ylab} argument to change the y-axis label. For example, the following code will create Figure \ref{shockplot}:
+When plotting simulations with shock values another plot can be included underneath the main plot showing one shock variable's fitted values. To do this use the \code{shockplot.var} argument to specify which variable to plot. Use the \code{shockplot.ylab} argument to change the y-axis label. For example, the following code creates Figure \ref{shockplot}:
 
 <<Sim2Shock, tidy=FALSE, eval=FALSE>>=
 dynsimGG(Sim2, leg.name = "Scenarios", leg.labels = Labels, color = "OrRd",
@@ -301,30 +290,9 @@ dynsimGG(Sim2, leg.name = "Scenarios", leg.labels = Labels, color = "OrRd",
     \label{shockplot}
 \end{figure}
 
-\noindent Similarly, we can plot the simulations from scenarios where market value shocks were interacted with capital stock. This can be seen in Figure \ref{shockplotInteract}. The code is almost identical to the code chunk we just saw. The only difference is that we use the \code{Sim3} model object.
-
-<<Sim3Shock, tidy=FALSE, eval=FALSE>>=
-dynsimGG(Sim3, leg.name = "Scenarios", leg.labels = Labels, color = "OrRd",
-       ylab = "Predicted Real Gross Investment\n", shockplot.var = "mvalue",
-       shockplot.ylab = "Firm Value")
-@
-
-\begin{figure}
-    \begin{center}
-<<Sim3Shock-eval, tidy=FALSE, echo=FALSE, fig.height=5, fig.width=6>>=
-dynsimGG(Sim3, leg.name = "Scenarios", leg.labels = Labels, color = "OrRd",
-       ylab = "Predicted Real Gross Investment\n", shockplot.var = "mvalue",
-       shockplot.ylab = "Firm Value",
-       shockplot.heights = c(8, 4))
-@
-    \end{center}
-    \caption{An Example of a Dynamic Simulation Where a Shock Variable Is Interacted with an Exogenous Variable}
-    \label{shockplotInteract}
-\end{figure}
-
 \section{Summary}
 
-In this code snippet we have demonstrated how the \proglang{R} package \pkg{dynsim} makes it easy implement Williams and Whitten's \citeyearpar{WilliamsWhitten2012} approach to more completely interpreting results from autoregressive time-series models where the effects of explanatory variables have both short- and long-term components. Hopefully, this will lead to more meaningful investigations and more useful presentations of results estimated from these relationships.
+In this code snippet we have demonstrated how the \proglang{R} package \pkg{dynsim} makes it easy to implement Williams and Whitten's \citeyearpar{WilliamsWhitten2012} approach to more completely interpreting results from autoregressive time-series models where the effects of explanatory variables have both short- and long-term components. Hopefully, this will lead to more meaningful investigations and more useful presentations of results estimated from these relationships.
 
 \bibliography{Gandrud-Williams-Whitten}
 

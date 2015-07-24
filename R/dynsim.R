@@ -88,14 +88,19 @@
 #'                     company4 = 1)
 #' detach(grunfeld)
 #'
-#' ## Alternative data frame version of the scenario builder ##
 #' \dontrun{
-#' scen_df <- data.frame(InvestLag = rep(139.2307, 3),
-#'                      mvalue = c(500, 1000, 1500),
-#'                      kstock = c(500, 1000, 1500),
-#'                      company4 = rep(1, 3))
+#' ## Alternative data frame version of the scenario builder ##
+#' attach(grunfeld)
+#' ScenComb <- data.frame(InvestLag = rep(mean(InvestLag, na.rm = TRUE), 3),
+#'                       mvalue = c(quantile(mvalue, 0.95), mean(mvalue), 
+#'                                  quantile(mvalue, 0.05)),
+#'                       kstock = c(quantile(kstock, 0.95), mean(kstock),
+#'                                  quantile(kstock, 0.05)),
+#'                       company4 = rep(1, 3)
+#' )
+#' detach(grunfeld)
 #' }
-#'
+#' 
 #' # Combine into a single list
 #' ScenComb <- list(Scen1, Scen2, Scen3)
 #'
