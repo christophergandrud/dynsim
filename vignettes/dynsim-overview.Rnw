@@ -34,7 +34,7 @@ knitr::opts_chunk$set(fig.align='center', prompt=TRUE,
 
 %% an abstract and keywords
 \Abstract{
-    This code snippet is a short introduction the \pkg{dynsim} \proglang{R} package for calculating dynamic simulations with autoregressive time series using the approach laid out in \cite{WilliamsWhitten2012}. \code{dynsim} depicts long-run simulations of dynamic processes for a variety of substantively interesting scenarios, with and without the presence of exogenous shocks. The package includes the \code{dynsim} function for calculating the dynamic simulations and provides a function (\code{dynsimGG}) for graphically depicting the dynamic simulations via the \code{ggplot2} package.
+    This code snippet introduces the \pkg{dynsim} \proglang{R} package for calculating dynamic simulations with autoregressive time series using the approach laid out in \cite{WilliamsWhitten2012}. \code{dynsim} depicts long-run simulations of dynamic processes for a variety of substantively interesting scenarios, with and without the presence of exogenous shocks. The package includes the \code{dynsim} function for calculating the dynamic simulations and provides a function (\code{dynsimGG}) for graphically depicting the simulations
 }
 \Keywords{autoregressive relationships, dynamic simulations, \proglang{R}}
 \Keywords{autoregressive relationships, dynamic simulations, R} %% without formatting
@@ -74,7 +74,7 @@ knitr::opts_chunk$set(fig.align='center', prompt=TRUE,
 
 \section[Introduction]{Intoduction}
 
-Two recent trends in the social sciences have drastically improved the interpretation of statistical models.  The first trend is researchers providing substantively meaningful quantities of interest when interpreting models rather than putting the burden on the reader to interpret tables of coefficients \cite{King2000}. With this goal in mind, Gary King and his co-authors have produced software, including the \proglang{R} \citep{CiteR} package \pkg{Zelig} \citep{R-Zelig}, that eases the calculation and presentation of substantive quantities of interest. The second trend is to completely interpret and present all of the inferences available from one's model.  This is seen most obviously in the case of time-series models with an autoregressive series, where the effects of an explanatory variable have both short- and a long-term components. A more complete interpretation of these models therefore requires additional work ranging from the presentation of long-term multipliers \citep{deBoefKeele2008} to dynamic simulations \citep{WilliamsWhitten2012}.
+Two recent trends in the social sciences have drastically improved the interpretation of statistical models.  The first trend is researchers providing substantively meaningful quantities of interest when interpreting models rather than putting the burden on the reader to interpret tables of coefficients \citep{King2000}. With this goal in mind, Gary King and his co-authors have produced software, including the \proglang{R} \citep{CiteR} package \pkg{Zelig} \citep{R-Zelig}, that eases the calculation and presentation of substantive quantities of interest. The second trend is to completely interpret and present all of the inferences available from one's model.  This is seen most obviously in the case of time-series models with an autoregressive series, where the effects of an explanatory variable have both short- and a long-term components. A more complete interpretation of these models therefore requires additional work ranging from the presentation of long-term multipliers \citep{deBoefKeele2008} to dynamic simulations \citep{WilliamsWhitten2012}.
 
 We feel that these two trends can be naturally combined to allow scholars to easily depict long-term dynamic processes through simulations. Dynamic simulations depict long-run simulations of dynamic processes for a variety of substantively interesting scenarios, with and without the presence of exogenous shocks. In this code snippet we introduce \pkg{dynsim} \citep{R-dynsim} which makes it easy for researchers to implement this approach in R.\footnote{There is also a \proglang{Stata} \citep{Stata} implementation documented in \cite{WilliamsWhitten2011}.}
 
@@ -131,9 +131,9 @@ There are three arguments that allow you to adjust the look of the scenario lege
 
 Finally, if you included shocks in your simulations you can use the \code{shockplot.var} argument to specify \emph{one} shock variable's fitted values to include in a plot underneath the main plot. Use the \code{shockplot.ylab} argument to change the y-axis label.
 
-The output from \code{dynsimGG} is generally a \pkg{ggplot2} \code{gg} class object.\footnote{This is not true if you include a shock plot.} Because of this you can further change the aesthetic qualities of the plot using any relevant function from \pkg{ggplot2}.
+The output from \code{dynsimGG} is generally a \pkg{ggplot2} \code{gg} class object.\footnote{This is not true if you include a shock plot.} Because of this you can further change the aesthetic qualities of the plot using any relevant function from \pkg{ggplot2} using the \code{+} operator.
 
-\subsection{Alternative Packages in R}
+\subsection{Alternative package in R}
 
 The \pkg{forecast} package \citep{forecast-jss,R-forecast} provides a variety of automatic forecasting algorithms using both exponential smoothing and ARIMA models and includes plotting capabilities. While certainly impressive in its breadth of models available, our function differs in two important ways for the practical researcher.  First, \pkg{forecast} relies on an algorithm to find the appropriate time series specification, whereas our analysis assumes that scholars have already identified the appropriate model, most often through a combination of theory and model building steps.  Second, the focus of \pkg{forecast} is on developing an accurate forecast given the particular attributes of the time series.  \pkg{dynsim}, on the other hand, concentrates its efforts on exploring the causal effects of the explanatory variables. This is accomplished by establishing various theoretically-interesting scenarios, and allowing for exogenous shocks to the series.  Thus, we think that \pkg{dynsim} offers a number of distinct advantages for the practical researcher.
 
@@ -166,7 +166,7 @@ grunfeld <- slide(grunfeld, Var = "invest", GroupVar = "company",
 
 \subsection{Dynamic simulation without shocks}
 
-Now that we have created our lag variable we, can begin to create dynamic simulations with \pkg{dynsim} by estimating the underlying linear regression model using \code{lm}, i.e.:
+Now that we have created our lagged dependent variable, we can begin to create dynamic simulations with \pkg{dynsim} by estimating the underlying linear regression model using \code{lm}, i.e.:
 
 <<tidy=FALSE, echo=TRUE, message=FALSE, warning=FALSE>>=
 M1 <- lm(invest ~ InvestLag + mvalue + kstock, data = grunfeld)
@@ -247,7 +247,7 @@ The easiest and most effective way to communicate \code{dynsim} simulation resul
 dynsimGG(Sim1)
 @
 
-\noindent We can make a number of aesthetic changes. The following code adds custom legend lables, the `orange-red` color pallette--denoted by \code{OrRd}--, and relabels the y-axis to create Figure~\ref{noShock}.
+\noindent We can make a number of aesthetic changes. The following code adds custom legend lables, the `orange-red' color pallette--denoted by \code{OrRd}--, and relabels the y-axis to create Figure~\ref{noShock}.
 
 
 <<Sim1Labels,tidy=FALSE, eval=FALSE>>=

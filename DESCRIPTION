@@ -4,7 +4,9 @@ Version: 1.2
 Date: 2015-07-24
 Authors@R: c(
     person("Christopher", "Gandrud", email = "christopher.gandrud@gmail.com",
-    role = c("aut", "cre"))
+    role = c("aut", "cre")),
+    person("Laron K.", "Williams", role = "aut"),
+    person("Guy D.", "Whitten", role = "aut")
     )
 URL: http://cran.r-project.org/package=dynsim
 BugReports: https://github.com/christophergandrud/dynsim/issues
