@@ -25,7 +25,12 @@
 #' the legend.
 #' @param shockplot.var character string naming the one shock variable to plot
 #' fitted values of over time specified underneath the main plot.
-#' @param shockplot.ylab a label for the shockplot's y-axis.
+#' @param shockplot.ylab character string for the shockplot's y-axis label.
+#' @param shockplot.heights numeric vector with of length 2 with units of
+#' the main and shockplot height plots.
+#' @param shockplot.heights.units a character vector of length 2 with the
+#' unit types for the values in \code{shockplot.heights}.
+#' See \code{\link{unit}} for details.
 #'
 #' @details Plots dynamic simulations of autoregressive relationships from
 #' \code{\link{dynsim}}. The central line is the mean of the simulation
@@ -95,15 +100,17 @@
 #' dynsimGG(Sim2, leg.labels = Labels, shockplot.var = "kstock")
 #'
 #' @import ggplot2
-#' @importFrom gridExtra grid.arrange
-#' @importFrom gridExtra arrangeGrob
+#' @importFrom gridExtra grid.arrange arrangeGrob
+#' @importFrom grid unit
 #'
 #' @export
 
 dynsimGG <- function(obj, lsize = 1, color, alpha = 0.5, xlab = "\nTime",
                     ylab = "Predicted Value\n", title = "",
                     leg.name = "Scenario", leg.labels, legend = "legend",
-                    shockplot.var, shockplot.ylab)
+                    shockplot.var, shockplot.ylab,
+                    shockplot.heights = c(12, 4),
+                    shockplot.heights.units = c("cm", "cm"))
 {
     # CRAN requirements
     ldvMean <- ldvLower <- ldvUpper <- ldvLower50 <- ldvUpper50 <- scenNumber <-
@@ -207,6 +214,11 @@ dynsimGG <- function(obj, lsize = 1, color, alpha = 0.5, xlab = "\nTime",
             shockplot.df <- obj[, c(1:2, shockvar.pos)]
             names(shockplot.df) <- c("scenNumber", "time", "shockvar")
 
+            if (length(shockplot.heights) != 2) stop("shockplot.heights must be of length 2.",
+                                                     call. = FALSE)
+            if (length(shockplot.heights.units) != 2) stop("shockplot.heights.units must be of length 2.",
+                                                           call. = FALSE)
+
             ShockPlot <- ggplot(shockplot.df, aes(time, shockvar,
                                 colour = as.factor(scenNumber))) +
             geom_line() +
@@ -222,7 +234,9 @@ dynsimGG <- function(obj, lsize = 1, color, alpha = 0.5, xlab = "\nTime",
             gA$widths[2:5] <- as.list(maxWidth)
             gB$widths[2:5] <- as.list(maxWidth)
 
-            grid.arrange(arrangeGrob(gA, gB, ncol = 1, heights = c(4, 1)))
+            grid.arrange(arrangeGrob(gA, gB, ncol = 1,
+                         heights = unit(shockplot.heights,
+                                        shockplot.heights.units)))
         }
         else if (missing(shockplot.var)){
             MainPlot

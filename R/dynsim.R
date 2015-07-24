@@ -27,8 +27,6 @@
 #' non-\code{ldv} variable values will revert to those in \code{scen}. If
 #' \code{*} is used to create interactions, interaction terms will be fitted
 #' appropriately.
-#' @param forecast Reserved argument for future version. Any value given to
-#' \code{forecast} will be ignored.
 #' @param ... arguments to pass to methods.
 #'
 #' @details A post-estimation technique for producing dynamic simulations of
@@ -53,7 +51,6 @@
 #' }
 #' The output object is a data frame class object. Do with it as you like.
 #'
-#'
 #' @examples
 #' # Load package
 #' library(DataCombine)
@@ -75,6 +72,7 @@
 #' M2 <- lm(invest ~ InvestLag + mvalue*kstock + company, data = grunfeld)
 #'
 #' # Set up scenarios for company 4
+#' ## List version ##
 #' attach(grunfeld)
 #' Scen1 <- data.frame(InvestLag = mean(InvestLag, na.rm = TRUE),
 #'                     mvalue = quantile(mvalue, 0.05),
@@ -90,6 +88,19 @@
 #'                     company4 = 1)
 #' detach(grunfeld)
 #'
+#' \dontrun{
+#' ## Alternative data frame version of the scenario builder ##
+#' attach(grunfeld)
+#' ScenComb <- data.frame(InvestLag = rep(mean(InvestLag, na.rm = TRUE), 3),
+#'                       mvalue = c(quantile(mvalue, 0.95), mean(mvalue), 
+#'                                  quantile(mvalue, 0.05)),
+#'                       kstock = c(quantile(kstock, 0.95), mean(kstock),
+#'                                  quantile(kstock, 0.05)),
+#'                       company4 = rep(1, 3)
+#' )
+#' detach(grunfeld)
+#' }
+#' 
 #' # Combine into a single list
 #' ScenComb <- list(Scen1, Scen2, Scen3)
 #'
@@ -124,67 +135,83 @@
 #' @export
 
 dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000,
-                   shocks = NULL, forecast = NULL, ...){
+                   shocks = NULL, ...) {
     # Zelig no longer used
-    if ('zelig' %in% class(obj)){
+    if ('zelig' %in% class(obj)) {
         stop(paste0('dynsim no longer relies on Zelig.\n',
-            '----Please use `lm` or similar estimation functions.----'),
+            '---- Please use `lm`. ----'),
             call. = FALSE)
     }
-    # Dynsim forecast warning.
-    #### Remove when forecast capability added ####
-    if (!is.null(forecast)){
-        message("\nforecast capabilities not yet available. forecast argument is ignored.")
-        forecast <- NULL
-    }
-    # Make sure that the variables in scen are in the model
+
     ModCoefNames <- names(coef(obj))
+
+    # Create mean fitted values if scen is not specified
+    if (missing(scen)) {
+        stop('\nNo scen provided. Please specify scenario values.',
+            call. = FALSE)
+    }
+
+    # Make sure that the variables in scen are in the model
     VarMisError <- '\nAt least one variable name in scen was not found in the estimation model.'
-    if (class(scen) == 'data.frame'){
-        if (any(!(names(scen) %in% ModCoefNames))){
+    if (is.data.frame(scen)) {
+        if (any(!(names(scen) %in% ModCoefNames))) {
             stop(VarMisError, call. = FALSE)
         }
-    } else if (class(scen) == 'list'){
-        for (a in seq_along(scen)){
+    } else if (is.list(scen)) {
+        for (a in seq_along(scen)) {
             TempDF <- scen[[a]]
-            if (any(!(names(TempDF) %in% ModCoefNames))){
+            if (any(!(names(TempDF) %in% ModCoefNames))) {
                 stop(VarMisError, call. = FALSE)
             }
         }
     }
+
     # Make sure that both shocks is a data frame and the first column of shocks
-    # is a variable called times.
-    if (!is.null(shocks)){
-        if (class(shocks) != "data.frame"){
+    # is a variable called "times".
+    if (!is.null(shocks)) {
+        if (!is.data.frame(shocks)) {
             stop("\nShocks must be a data frame.", call. = FALSE)
         }
-        if (names(shocks)[1] != "times"){
+        if (names(shocks)[1] != "times") {
             stop("\nThe first variable of shocks must be called 'times' and contain the shock times.",
                call. = FALSE)
         }
     }
     # Error if number of iterations is <= 0.
-    if (n <= 0){
+    if (n <= 0) {
         stop("\nYou must specify at least 1 iteration with the n argument.",
              call. = FALSE)
     }
     # Make sure sig is between 0 and 1.
-    if (sig <= 0 | sig > 1){
+    if (sig <= 0 | sig > 1) {
         stop("\nsig must be greater than 0 and not greater than 1.",
              call. = FALSE)
     }
 
     # Determine if 1 or more scenarios are desired and simulate scenarios
-    if (class(scen) == "data.frame"){
-        SimOut <- OneScen(obj = obj, ldv = ldv, n = n, num = num, scen = scen,
-                            sig = sig, shocks = shocks, forecast = forecast)
+    if (is.data.frame(scen)) {
+        if (nrow(scen) == 1) {
+            SimOut <- OneScen(obj = obj, ldv = ldv, n = n, num = num,
+                                scen = scen, sig = sig, shocks = shocks)
+        }
+        else if (nrow(scen > 1)) {
+            results <- list()
+            for (u in 1:nrow(scen)) {
+                scen_sub <- scen[u, ]
+                SimTemp <- OneScen(obj = obj, ldv = ldv, n = n,
+                                    scen = scen_sub, sig = sig, num = num,
+                                    shocks = shocks)
+                results[[u]] <- cbind("scenNumber" = u, SimTemp)
+            }
+            SimOut <- do.call("rbind", results)
+        }
     }
-    else if (class(scen) == "list"){
+    else if (is.list(scen)) {
         results <- list()
-        for (u in seq_along(scen)){
+        for (u in seq_along(scen)) {
             SimTemp <- OneScen(obj = obj, ldv = ldv, n = n,
                                 scen = scen[[u]], sig = sig, num = num,
-                                shocks = shocks, forecast = forecast)
+                                shocks = shocks)
             results[[u]] <- cbind("scenNumber" = u, SimTemp)
         }
         SimOut <- do.call("rbind", results)
