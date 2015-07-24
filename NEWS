@@ -1,11 +1,9 @@
 ## Version 1.2
 
-- Closer integration with the plm panel data estimators package.
+- Demo and vignette added.
 
 - Cleaner scenario builder now allows users to specify fitted values in a
 multiple row data frame.
-
-- Demo and vignette added.
 
 ## Version 1.1
 

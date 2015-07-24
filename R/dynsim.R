@@ -139,7 +139,7 @@ dynsim <- function(obj, ldv, scen, n = 10, sig = 0.95, num = 1000,
     # Zelig no longer used
     if ('zelig' %in% class(obj)) {
         stop(paste0('dynsim no longer relies on Zelig.\n',
-            '---- Please use `lm` or `plm` estimation functions. ----'),
+            '---- Please use `lm`. ----'),
             call. = FALSE)
     }
 
