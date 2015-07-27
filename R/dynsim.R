@@ -131,6 +131,8 @@
 #' Williams, L. K., & Whitten, G. D. (2012). But Wait, There's More! Maximizing
 #' Substantive Inferences from TSCS Models. Journal of Politics, 74(03),
 #' 685-693.
+#' 
+#' @importFrom stats coef
 #'
 #' @export
 

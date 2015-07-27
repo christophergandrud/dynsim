@@ -114,20 +114,20 @@ dynsimGG <- function(obj, lsize = 1, color, alpha = 0.5, xlab = "\nTime",
 {
     # CRAN requirements
     ldvMean <- ldvLower <- ldvUpper <- ldvLower50 <- ldvUpper50 <- scenNumber <-
-    shockvar <- NULL
+    shockvar <- time <- NULL
 
     # Check if obj is of the dynsim class
-    if (!("dynsim" %in% class(obj))){
+    if (!("dynsim" %in% class(obj))) {
         stop("obj must be a dynsim class object.", call. = FALSE)
     }
     # Create legend values if none are specified
-    if (missing(leg.labels)){
+    if (missing(leg.labels)) {
         leg.labels <- as.character(unique(obj$scenNumber))
     }
 
     # Plot for one scenario
-    if (!isTRUE("scenNumber" %in% names(obj))){
-        if (missing(color)){
+    if (!isTRUE("scenNumber" %in% names(obj))) {
+        if (missing(color)) {
             color <- "#2B8CBE"
         }
         MainPlot <- ggplot(obj, aes(time, ldvMean)) +
@@ -140,17 +140,17 @@ dynsimGG <- function(obj, lsize = 1, color, alpha = 0.5, xlab = "\nTime",
                     ggtitle(title) +
                     theme_bw(base_size = 15)
         # Add shock fitted value plot
-        if (!missing(shockplot.var)){
-            if (length(shockplot.var) > 1){
+        if (!missing(shockplot.var)) {
+            if (length(shockplot.var) > 1) {
                 stop("You must specify ONE shock variable to plot with the shockplot.var argument.",
                     call. = FALSE)
             }
-            if (missing(shockplot.ylab)){
+            if (missing(shockplot.ylab)) {
                 shockplot.ylab <- paste0(shockplot.var, "\n")
             }
             shockvar.pos <- paste0("shock.", shockplot.var)
             shockvar.pos <- match(shockvar.pos, names(obj))
-            if(missing(shockvar.pos)){
+            if (missing(shockvar.pos)) {
                 stop(paste(shockplot.var, "was not used as a shock variable."),
                     call. = FALSE)
             }
@@ -172,13 +172,13 @@ dynsimGG <- function(obj, lsize = 1, color, alpha = 0.5, xlab = "\nTime",
 
             grid.arrange(arrangeGrob(gA, gB, ncol = 1, heights = c(4, 1)))
         }
-        else if (missing(shockplot.var)){
+        else if (missing(shockplot.var)) {
             MainPlot
         }
     }
     # Plot multiple scenarios
-    else if (isTRUE("scenNumber" %in% names(obj))){
-        if (missing(color)){
+    else if (isTRUE("scenNumber" %in% names(obj))) {
+        if (missing(color)) {
             color <- "Set1"
         }
         MainPlot <- ggplot(obj, aes(time, ldvMean, colour = factor(scenNumber),
@@ -197,17 +197,17 @@ dynsimGG <- function(obj, lsize = 1, color, alpha = 0.5, xlab = "\nTime",
                     theme_bw(base_size = 15)
 
         # Add shock fitted value plot
-        if (!missing(shockplot.var)){
-            if (length(shockplot.var) > 1){
+        if (!missing(shockplot.var)) {
+            if (length(shockplot.var) > 1) {
                 stop("You must specify ONE shock variable to plot with the shockplot.var argument.",
                     call. = FALSE)
                 }
-            if (missing(shockplot.ylab)){
+            if (missing(shockplot.ylab)) {
                 shockplot.ylab <- paste0(shockplot.var, "\n")
             }
             shockvar.pos <- paste0("shock.", shockplot.var)
             shockvar.pos <- match(shockvar.pos, names(obj))
-            if(missing(shockvar.pos)){
+            if (missing(shockvar.pos)) {
             stop(paste(shockplot.var, "was not used as a shock variable."),
                  call. = FALSE)
             } else
@@ -238,7 +238,7 @@ dynsimGG <- function(obj, lsize = 1, color, alpha = 0.5, xlab = "\nTime",
                          heights = unit(shockplot.heights,
                                         shockplot.heights.units)))
         }
-        else if (missing(shockplot.var)){
+        else if (missing(shockplot.var)) {
             MainPlot
         }
     }

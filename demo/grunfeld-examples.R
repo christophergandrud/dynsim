@@ -13,8 +13,8 @@ library(DataCombine)
 data(grunfeld, package = "dynsim")
 
 # Create lagged dependent variable
-grunfeld <- slide(grunfeld, Var = "invest", GroupVar = "company",
-                  NewVar = "InvestLag")
+grunfeld <- slide(grunfeld, Var = "invest", GroupVar = "company", 
+                  TimeVar = "year", NewVar = "InvestLag")
 
 # ----------------------------- Estimate and Simulate ------------------------ #
 # Estimate linear regression model

@@ -3,6 +3,7 @@
 #' \code{OneScen} is an internal function to dynamically simulate one scenario.
 #'
 #' @importFrom MASS mvrnorm
+#' @importFrom stats coef quantile vcov
 #'
 #' @keywords internals
 #' @noRd
@@ -20,14 +21,14 @@ OneScen <- function(obj, ldv, n, scen, sig, num, shocks){
     ShockVals <- data.frame()
 
     # Change data frame for shock values
-    for (i in 1:n){
-        if (is.null(shocks)){
+    for (i in 1:n) {
+        if (is.null(shocks))  {
             scenTemp <- scen
         }
-        else if (!is.null(shocks)){
-            if (i %in% shocks[, "times"]){
+        else if (!is.null(shocks)) {
+            if (i %in% shocks[, "times"]) {
                 scenTemp <- scen
-                for (x in names(shocks)[-1]){
+                for (x in names(shocks)[-1]) {
                     shocksTemp <- subset(shocks, times == i)
                     scenTemp[, x] <- shocksTemp[1, x]
                 }
@@ -65,7 +66,7 @@ OneScen <- function(obj, ldv, n, scen, sig, num, shocks){
         ldvUpper50 <- quantile(PV, prob = 0.75, names = FALSE)
 
         # Shock variable values
-        if (!is.null(shocks)){
+        if (!is.null(shocks)) {
             ShockNames <- names(shocks)[-1]
             TempShock <- scenTemp[, ShockNames]
             ShockVals <- rbind(ShockVals, TempShock)
@@ -79,7 +80,7 @@ OneScen <- function(obj, ldv, n, scen, sig, num, shocks){
             scen[, ldv] <- ldvMean
     }
     # Clean up shocks
-    if (!is.null(shocks)){
+    if (!is.null(shocks)) {
         CleanNames <- paste0("shock.", ShockNames)
         names(ShockVals) <- CleanNames
         SimSum <- cbind(ShockVals, SimSum)
