@@ -1,19 +1,19 @@
 #' Plot dynamic simulation results from \code{dynsim}
 #'
-#' \code{dynsimGG} uses \code{\link{ggplot2}} to plot dynamic simulation results
+#' \code{dynsimGG} uses ggplot2 to plot dynamic simulation results
 #' created by \code{\link{dynsim}}.
 #'
 #' @param obj a \code{dynsim} class object.
 #' @param lsize size of the smoothing line. Default is 1. See
-#' \code{\link{ggplot2}}.
+#' ggplot2.
 #' @param color character string. Specifies the color of the lines and ribbons.
 #' If only one scenario is to be plotted then it can either be a single color
-#' value using any color value allowed by \code{\link{ggplot2}}. The default is
+#' value using any color value allowed by ggplot2. The default is
 #' the hexadecimal color \code{"#2B8CBE"}. If more than one scenario is to be
 #' plotted then a color brewer palette is set. The default is\code{"Set1"}. See
 #' \code{\link{scale_colour_brewer}}.
 #' @param alpha numeric. Alpha (e.g. transparency) for the ribbons. Default is
-#' \code{alpha = 0.1}. See \code{\link{ggplot2}}.
+#' \code{alpha = 0.1}. See ggplot2.
 #' @param xlab a label for the plot's x-axis.
 #' @param ylab a label of the plot's y-axis.
 #' @param title the plot's main title.
@@ -101,7 +101,6 @@
 #'
 #' @import ggplot2
 #' @importFrom gridExtra grid.arrange arrangeGrob
-#' @importFrom grid unit
 #'
 #' @export
 

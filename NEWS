@@ -1,3 +1,7 @@
+## Version 1.2.1
+
+- Minor internal changes to work with ggplot2 1.0.1.
+
 ## Version 1.2
 
 - Demo and vignette added.

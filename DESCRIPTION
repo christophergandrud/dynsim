@@ -1,7 +1,7 @@
 Package: dynsim
 Title: Dynamic Simulations of Autoregressive Relationships
-Version: 1.2
-Date: 2015-07-24
+Version: 1.2.1
+Date: 2015-11-12
 Authors@R: c(
     person("Christopher", "Gandrud", email = "christopher.gandrud@gmail.com",
     role = c("aut", "cre")),
@@ -10,7 +10,8 @@ Authors@R: c(
     )
 URL: http://cran.r-project.org/package=dynsim
 BugReports: https://github.com/christophergandrud/dynsim/issues
-Description: Dynamic simulations and graphical depictions of autoregressive relationships.
+Description: Dynamic simulations and graphical depictions of autoregressive
+    relationships.
 License: GPL-3
 Depends:
     R (>= 3.0.0)
@@ -25,3 +26,4 @@ Suggests:
 VignetteBuilder: knitr
 BuildVignettes: true
 LazyData: true
+RoxygenNote: 5.0.1
