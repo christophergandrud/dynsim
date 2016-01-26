@@ -8,8 +8,7 @@ dynsim
 ![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/dynsim)
 [![Build Status](https://travis-ci.org/christophergandrud/dynsim.png)](https://travis-ci.org/christophergandrud/dynsim)
 
-##### [Christopher Gandrud](http://christophergandrud.blogspot.com/p/biocontact.html),
-Laron K Williams, and Guy D Whitten
+##### [Christopher Gandrud](http://christophergandrud.blogspot.com/p/biocontact.html), Laron K Williams, and Guy D Whitten
 
 ## About
 
