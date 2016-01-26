@@ -4,7 +4,9 @@ dynsim
 ### Dynamic Simulations of Autoregressive Relationships
 
 **Version 1.2.1**
-[![CRAN Version](http://www.r-pkg.org/badges/version/dynsim)](http://cran.r-project.org/package=dynsim) ![CRAN Downloads](http://cranlogs.r-pkg.org/badges/last-month/dynsim) [![Build Status](https://travis-ci.org/christophergandrud/dynsim.png)](https://travis-ci.org/christophergandrud/dynsim)
+[![CRAN Version](http://www.r-pkg.org/badges/version/dynsim)](http://cran.r-project.org/package=dynsim) ![CRAN Downloads](http://cranlogs.r-pkg.org/badges/last-month/dynsim)
+![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/dynsim)
+[![Build Status](https://travis-ci.org/christophergandrud/dynsim.png)](https://travis-ci.org/christophergandrud/dynsim)
 
 ##### [Christopher Gandrud](http://christophergandrud.blogspot.com/p/biocontact.html),
 Laron K Williams, and Guy D Whitten
