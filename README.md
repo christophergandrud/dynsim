@@ -13,9 +13,7 @@ dynsim
 ## About
 
 The **dynsim** package implements Williams and Whitten's
-([2011](http://www.stata-journal.com/article.html?article=st0242), [2012](http://web.missouri.edu/~williamslaro/Williams%20and%20Whitten%202012.pdf))
-
-method for dynamic simulations of autoregressive relationships in R.
+([2011](http://www.stata-journal.com/article.html?article=st0242), [2012](http://web.missouri.edu/~williamslaro/Williams%20and%20Whitten%202012.pdf)) method for dynamic simulations of autoregressive relationships in R.
 
 ## Process
 
