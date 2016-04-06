@@ -159,7 +159,7 @@ dynsimGG <- function(obj, lsize = 1, color, alpha = 0.5, xlab = "\nTime",
             ShockPlot <- ggplot(shockplot.df, aes(time, shockvar)) +
             geom_line(colour = color) +
             ylab(shockplot.ylab) + xlab("") +
-            theme_bw(base_size = 10)
+            theme_bw()
 
             gA <- ggplotGrob(MainPlot)
             gB <- ggplotGrob(ShockPlot)
@@ -223,7 +223,7 @@ dynsimGG <- function(obj, lsize = 1, color, alpha = 0.5, xlab = "\nTime",
             geom_line() +
             scale_colour_brewer(palette = color, guide = FALSE) +
             ylab(shockplot.ylab) + xlab("") +
-            theme_bw(base_size = 10)
+            theme_bw()
 
             gA <- ggplotGrob(MainPlot)
             gB <- ggplotGrob(ShockPlot)
