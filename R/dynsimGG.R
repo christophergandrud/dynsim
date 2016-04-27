@@ -52,7 +52,7 @@
 #'
 #' # Convert company to factor for fixed-effects specification
 #' grunfeld$company <- as.factor(grunfeld$company)
-
+#'
 #' # Estimate basic model
 #' M1 <- lm(invest ~ InvestLag + mvalue + kstock + company, data = grunfeld)
 #'
@@ -137,7 +137,7 @@ dynsimGG <- function(obj, lsize = 1, color, alpha = 0.5, xlab = "\nTime",
                                 alpha = alpha, fill = color, linetype = 0) +
                     xlab(xlab) + ylab(ylab) +
                     ggtitle(title) +
-                    theme_bw(base_size = 15)
+                    theme_bw()
         # Add shock fitted value plot
         if (!missing(shockplot.var)) {
             if (length(shockplot.var) > 1) {
@@ -193,7 +193,7 @@ dynsimGG <- function(obj, lsize = 1, color, alpha = 0.5, xlab = "\nTime",
                                 guide = legend, labels = leg.labels) +
                     xlab(xlab) + ylab(ylab) +
                     ggtitle(title) +
-                    theme_bw(base_size = 15)
+                    theme_bw()
 
         # Add shock fitted value plot
         if (!missing(shockplot.var)) {
