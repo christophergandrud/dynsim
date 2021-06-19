@@ -4,10 +4,22 @@
 \alias{dynsimGG}
 \title{Plot dynamic simulation results from \code{dynsim}}
 \usage{
-dynsimGG(obj, lsize = 1, color, alpha = 0.5, xlab = "\\nTime",
-  ylab = "Predicted Value\\n", title = "", leg.name = "Scenario",
-  leg.labels, legend = "legend", shockplot.var, shockplot.ylab,
-  shockplot.heights = c(12, 4), shockplot.heights.units = c("cm", "cm"))
+dynsimGG(
+  obj,
+  lsize = 1,
+  color,
+  alpha = 0.5,
+  xlab = "\\nTime",
+  ylab = "Predicted Value\\n",
+  title = "",
+  leg.name = "Scenario",
+  leg.labels,
+  legend = "legend",
+  shockplot.var,
+  shockplot.ylab,
+  shockplot.heights = c(12, 4),
+  shockplot.heights.units = c("cm", "cm")
+)
 }
 \arguments{
 \item{obj}{a \code{dynsim} class object.}
@@ -125,4 +137,3 @@ dynsimGG(Sim2, leg.labels = Labels)
 dynsimGG(Sim2, leg.labels = Labels, shockplot.var = "kstock")
 
 }
-

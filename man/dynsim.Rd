@@ -4,8 +4,7 @@
 \alias{dynsim}
 \title{Dynamic simulations of autoregressive relationships}
 \usage{
-dynsim(obj, ldv, scen, n = 10, sig = 0.95, num = 1000, shocks = NULL,
-  ...)
+dynsim(obj, ldv, scen, n = 10, sig = 0.95, num = 1000, shocks = NULL, ...)
 }
 \arguments{
 \item{obj}{the output object the estimation model.}
@@ -151,4 +150,3 @@ Williams, L. K., & Whitten, G. D. (2012). But Wait, There's More! Maximizing
 Substantive Inferences from TSCS Models. Journal of Politics, 74(03),
 685-693.
 }
-
