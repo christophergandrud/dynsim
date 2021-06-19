@@ -3,7 +3,7 @@ dynsim
 
 ### Dynamic Simulations of Autoregressive Relationships
 
-**Version 1.2.2**
+**Version 1.2.3**
 [![CRAN Version](http://www.r-pkg.org/badges/version/dynsim)](http://cran.r-project.org/package=dynsim) ![CRAN Downloads](http://cranlogs.r-pkg.org/badges/last-month/dynsim)
 ![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/dynsim)
 [![R-CMD-check](https://github.com/christophergandrud/dynsim/workflows/R-CMD-check/badge.svg)](https://github.com/christophergandrud/dynsim/actions)
@@ -38,10 +38,10 @@ For examples please visit
 ## Install
 
 **dynsim** is available on
-[CRAN](http://cran.r-project.org/package=dynsim)
+[CRAN](https://cran.r-project.org/package=dynsim)
 
 You can also easily install the latest development version with the
-[devtools](http://cran.r-project.org/package=devtools) package:
+*devtools* package:
 
 ```{S}
 devtools::install_github("christophergandrud/dynsim")

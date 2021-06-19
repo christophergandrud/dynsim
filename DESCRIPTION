@@ -1,14 +1,14 @@
 Package: dynsim
 Title: Dynamic Simulations of Autoregressive Relationships
-Version: 1.2.2
-Date: 2016-04-27
+Version: 1.2.3
+Date: 2021-06-19
 Authors@R: c(
     person("Christopher", "Gandrud", email = "christopher.gandrud@gmail.com",
     role = c("aut", "cre")),
     person("Laron K.", "Williams", role = "aut"),
     person("Guy D.", "Whitten", role = "aut")
     )
-URL: http://cran.r-project.org/package=dynsim
+URL: https://cran.r-project.org/package=dynsim
 BugReports: https://github.com/christophergandrud/dynsim/issues
 Description: Dynamic simulations and graphical depictions of autoregressive
     relationships.
@@ -21,9 +21,7 @@ Imports:
     gridExtra (>= 2.0.0),
     MASS
 Suggests:
-    DataCombine,
-    knitr
-VignetteBuilder: knitr
+    DataCombine
 BuildVignettes: true
 LazyData: true
 RoxygenNote: 5.0.1
