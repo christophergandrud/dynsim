@@ -6,3 +6,6 @@
 # Git related
 ./.git*
 ^\.github$
+
+# Ignore vignettes
+^vignettes*
