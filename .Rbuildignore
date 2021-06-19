@@ -5,6 +5,4 @@
 
 # Git related
 ./.git*
-
-# Travis scripts
-.travis.yml
+^\.github$

@@ -6,9 +6,9 @@ dynsim
 **Version 1.2.2**
 [![CRAN Version](http://www.r-pkg.org/badges/version/dynsim)](http://cran.r-project.org/package=dynsim) ![CRAN Downloads](http://cranlogs.r-pkg.org/badges/last-month/dynsim)
 ![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/dynsim)
-[![Build Status](https://travis-ci.org/christophergandrud/dynsim.png)](https://travis-ci.org/christophergandrud/dynsim)
+[![R-CMD-check](https://github.com/christophergandrud/dynsim/workflows/R-CMD-check/badge.svg)](https://github.com/christophergandrud/dynsim/actions)
 
-##### [Christopher Gandrud](http://christophergandrud.blogspot.com/p/biocontact.html), Laron K Williams, and Guy D Whitten
+**Christopher Gandrud, Laron K Williams, and Guy D Whitten**
 
 ## About
 
