@@ -1,7 +1,7 @@
 Package: dynsim
 Title: Dynamic Simulations of Autoregressive Relationships
 Version: 1.2.3
-Date: 2021-06-19
+Date: 2021-06-20
 Authors@R: c(
     person("Christopher", "Gandrud", email = "christopher.gandrud@gmail.com",
     role = c("aut", "cre")),
@@ -22,6 +22,7 @@ Imports:
     MASS
 Suggests:
     DataCombine
+Encoding: UTF-8
 BuildVignettes: true
 LazyData: true
 RoxygenNote: 7.1.1
