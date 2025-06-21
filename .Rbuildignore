@@ -9,3 +9,8 @@
 
 # Ignore vignettes
 ^vignettes*
+
+# Claude assistant files
+^CLAUDE\.md$
+^cran-check-logs$
+^\.claude$
